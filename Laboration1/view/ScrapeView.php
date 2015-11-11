@@ -2,12 +2,16 @@
 
 namespace view;
 
+use model\MovieModel;
+
 class ScrapeView{
     private static $urlLocation = "ScrapeView::url";
     private static $submitLocation = "ScrapeView::submit";
     private static $getMovie = "movie";
     private static $getTime = "time";
     private static $getDay = "day";
+    private static $getStart = "start";
+    private static $tableValue = "tableValue";
 
     public function getStartForm(){
         return "<form method='post'>
@@ -21,12 +25,12 @@ class ScrapeView{
         return isset($_POST[self::$submitLocation]);
     }
 
-    public function userWantsToBookTable(){
-        return isset($_POST[self::$getMovie]);
+    public function userWantsToViewMovie(){
+        return isset($_GET[self::$getMovie]);
     }
 
     public function getMovieToView(){
-        return false;
+        return new \model\MovieModel($_GET[self::$getMovie], $_GET[self::$getTime], $_GET[self::$getDay]);
     }
 
     public function getUrlToScrape(){
@@ -34,6 +38,37 @@ class ScrapeView{
             return $_POST[self::$urlLocation];
         }
         return null;
+    }
+
+    public function displayMovieAndRestaurant($movie, $restaurantTimes, $url){
+
+        if(!empty($restaurantTimes)){
+            $dayTranslation = array("Friday" => "fredag", "Saturday" => "lordag", "Sunday" => "sondag");
+
+            $ret = '<div class="jumbotron">';
+            $ret .= '<h3>Följande tider är lediga att boka på zekes restaurang:</h3>';
+            $ret .= '<table class="table table-striped table-hover">';
+            foreach($restaurantTimes as $time){
+                $startTime = substr($time, 3,2);
+                $endTime = substr($time, 5,2);
+                $translateDayToSwedish = $dayTranslation[$movie->getDay()];
+
+                $ret .= '<tr>';
+                $ret .= '<td>Det finns ett ledigt bord mellan klockan '. $startTime .' och '. $endTime .' efter att ha sett filmen '. $movie->getName() .' klockan '. $movie->getTime().'</td>';
+                $ret .= '<td><a href="'.$url.'/book?' . self::$getDay .'='. $translateDayToSwedish .'&' . self::$getStart . '='. $startTime .'&' . self::$tableValue. '='. $time .'">Boka detta bord</a></td>';
+                $ret .= '</tr>';
+            }
+            $ret .= '</table>';
+            $ret .= '</div>';
+        }
+        else{
+
+            $ret = '<div class="jumbotron">';
+            $ret .= '<h3>Det finns tyvärr inga lediga tider på restaurangen för det här tillfället :(</h3>';
+            $ret .= '<p><a href="?">Gå tillbaka</a></p>';
+            $ret .= '</div>';
+        }
+        return $ret;
     }
 
     public function getNoDaysAvailable(){

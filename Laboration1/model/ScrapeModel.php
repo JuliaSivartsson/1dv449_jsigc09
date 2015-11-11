@@ -20,15 +20,12 @@ class ScrapeModel{
                 return $urls;
             }
             else{
-                throw new \ErrorException();
+                die();
             }
         }
         else{
-            throw new \ErrorException();
+            die();
         }
-
-
-
     }
 
     /**
@@ -40,6 +37,7 @@ class ScrapeModel{
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 
         $data = curl_exec($ch);
         curl_close($ch);
@@ -87,11 +85,12 @@ class ScrapeModel{
             return $availableDays;
         }
         else{
-            die("Fel vid inl‰sning av HTML");
+            die("Fel vid inl√§sning av HTML");
         }
     }
 
     public function getAvailableMovies($url, $availableDays){
+
         $availableMovies = array();
         $data = $this->makeRequest($url);
 
@@ -143,7 +142,7 @@ class ScrapeModel{
             }
         }
         else{
-            die("Fel vid inl‰sning av HTML");
+            die("Fel vid inl√§sning av HTML");
         }
 
         $this->addMoviesToCollection($firstMovie, $availableMovies);
@@ -178,6 +177,46 @@ class ScrapeModel{
             }
         }
         $this->movieNames[] = $name;
+    }
+
+    public function getRestaurantTimes($movie, $url){
+        $tables = array();
+        $restaurantPage = $this->makeRequest($url);
+
+        $dom = new \DOMDocument();
+
+        if($dom->loadHTML($restaurantPage)) {
+
+            $xpath = new \DOMXPath($dom);
+            $freeTables = $xpath->query("//input[@type='radio']");
+
+            foreach ($freeTables as $tab) {
+
+                $value = $tab->getAttribute('value');
+
+                if(substr($value, 0,3) === "fre" && $movie->getDay() === "Friday"){
+                    if(intval(substr($value, 3, 2)) > intval($movie->getTime())){
+                        $tables[] = $value;
+                    }
+                }
+                if(substr($value, 0,3) === "lor" && $movie->getDay() === "Saturday"){
+                    if(intval(substr($value, 3, 2)) > intval($movie->getTime())){
+                        $tables[] = $value;
+                    }
+                }
+                if(substr($value, 0,3) === "son" && $movie->getDay() === "Sunday"){
+                    if(intval(substr($value, 3, 2)) > intval($movie->getTime())){
+                        $tables[] = $value;
+                    }
+                }
+            }
+
+        }
+        else{
+            die("Fel vid inl√§sning av HTML");
+        }
+
+            return $tables;
     }
 
 }
