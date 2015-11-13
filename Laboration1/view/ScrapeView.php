@@ -22,6 +22,11 @@ class ScrapeView{
     }
 
     public function userWantsToStartScrape(){
+        if (isset($_POST[self::$submitLocation])) {
+            //Set cookie to match user input
+            setcookie(\controller\ScrapeController::$baseUrlLocation, $_POST[self::$urlLocation], time() + (60 * 60 * 24 * 30));
+            $_COOKIE[\controller\ScrapeController::$baseUrlLocation] = $_POST[self::$urlLocation];
+        }
         return isset($_POST[self::$submitLocation]);
     }
 
@@ -33,15 +38,7 @@ class ScrapeView{
         return new \model\MovieModel($_GET[self::$getMovie], $_GET[self::$getTime], $_GET[self::$getDay]);
     }
 
-    public function getUrlToScrape(){
-        if(isset($_POST[self::$urlLocation])) {
-            return $_POST[self::$urlLocation];
-        }
-        return null;
-    }
-
-    public function displayMovieAndRestaurant($movie, $restaurantTimes, $url){
-
+    public function displayMovieAndRestaurant($movie, $restaurantTimes){
         if(!empty($restaurantTimes)){
             $dayTranslation = array("Friday" => "fredag", "Saturday" => "lordag", "Sunday" => "sondag");
 
@@ -55,7 +52,7 @@ class ScrapeView{
 
                 $ret .= '<tr>';
                 $ret .= '<td>Det finns ett ledigt bord mellan klockan '. $startTime .' och '. $endTime .' efter att ha sett filmen '. $movie->getName() .' klockan '. $movie->getTime().'</td>';
-                $ret .= '<td><a href="'.$url.'/book?' . self::$getDay .'='. $translateDayToSwedish .'&' . self::$getStart . '='. $startTime .'&' . self::$tableValue. '='. $time .'">Boka detta bord</a></td>';
+                $ret .= '<td><a href="?' . self::$getDay .'='. $translateDayToSwedish .'&' . self::$getStart . '='. $startTime .'&' . self::$tableValue. '='. $time .'">Boka detta bord</a></td>';
                 $ret .= '</tr>';
             }
             $ret .= '</table>';
@@ -65,9 +62,27 @@ class ScrapeView{
 
             $ret = '<div class="jumbotron">';
             $ret .= '<h3>Det finns tyvärr inga lediga tider på restaurangen för det här tillfället :(</h3>';
-            $ret .= '<p><a href="?">Gå tillbaka</a></p>';
             $ret .= '</div>';
         }
+        return $ret;
+    }
+
+    public function userWantsToBookTable(){
+        return isset($_GET[self::$tableValue]);
+    }
+
+    public function getTableValue(){
+        if(isset($_GET[self::$tableValue])) {
+            return $_GET[self::$tableValue];
+        }
+        return null;
+    }
+
+    public function displayBookingResult($message){
+        $ret = '<div class="jumbotron">';
+        $ret .= '<h3>'. $message .'</h3>';
+        $ret .= '</div>';
+
         return $ret;
     }
 
