@@ -216,6 +216,7 @@ class ScrapeModel{
     }
 
     public function getRestaurantTimes($movie, $url){
+
         $tables = array();
         $restaurantPage = $this->makeRequest($url);
         $dom = new \DOMDocument();
@@ -225,9 +226,8 @@ class ScrapeModel{
             $xpath = new \DOMXPath($dom);
             $freeTables = $xpath->query("//input[@type='radio']");
 
-            foreach ($freeTables as $tab) {
-
-                $value = $tab->getAttribute('value');
+            foreach ($freeTables as $table) {
+                $value = $table->getAttribute('value');
 
                 //Insert value of table into array $tables[] if day is right and time is later than movie
                 if(substr($value, 0,3) === "fre" && $movie->getDay() === "Friday"){

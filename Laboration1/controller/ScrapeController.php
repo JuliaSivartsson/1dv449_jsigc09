@@ -7,33 +7,33 @@ class ScrapeController{
     private $HTMLView;
     private $scrapeView;
     private $scrapeModel;
-    private $dom;
 
     public static $baseUrlLocation = "ScrapeController::baseURL";
-    public static $startURLlocation = "ScrapeController::startURLS";
+    public static $urlExtension = "ScrapeController::urlExtension";
 
     public function __construct(){
         $this->HTMLView = new \view\HTMLView();
         $this->scrapeView = new \view\ScrapeView();
         $this->scrapeModel = new \model\ScrapeModel();
-
-        $this->dom = new \DOMDocument();
     }
 
     public function doScrape(){
 
         //If user enters an URL
         if($this->scrapeView->userWantsToStartScrape()) {
+
+            setcookie(self::$urlExtension, serialize($this->scrapeModel->getStartPageURL($_COOKIE[self::$baseUrlLocation])), time() + (60 * 60 * 24 * 30));
+            $_COOKIE[self::$urlExtension] = serialize($this->scrapeModel->getStartPageURL($_COOKIE[self::$baseUrlLocation]));
+
             try{
                 //Check Calendar page
-                $availableDays = $this->scrapeModel->getAvailableDays(rtrim($_COOKIE[self::$baseUrlLocation], "/") .  unserialize($_COOKIE[self::$startURLlocation])[0]);
+                $availableDays = $this->scrapeModel->getAvailableDays(rtrim($_COOKIE[self::$baseUrlLocation], "/") .  unserialize($_COOKIE[self::$urlExtension])[0]);
 
                 if (empty($availableDays)) {
                     $content = $this->scrapeView->getNoDaysAvailable();
                 } else {
-
                     //Check Cinema page
-                    $availableMovies = $this->scrapeModel->getAvailableMovies(rtrim($_COOKIE[self::$baseUrlLocation], "/").  unserialize($_COOKIE[self::$startURLlocation])[1], $availableDays);
+                    $availableMovies = $this->scrapeModel->getAvailableMovies(rtrim($_COOKIE[self::$baseUrlLocation], "/").  unserialize($_COOKIE[self::$urlExtension])[1], $availableDays);
                     $content = $this->scrapeView->getAvailableOptions($availableMovies);
                 }
 
@@ -49,7 +49,7 @@ class ScrapeController{
                 $movie = $this->scrapeView->getMovieToView();
 
                 //Check Dinner page
-                $restaurant = $this->scrapeModel->getRestaurantTimes($movie, rtrim($_COOKIE[self::$baseUrlLocation], "/") . unserialize($_COOKIE[self::$startURLlocation])[2]);
+                $restaurant = $this->scrapeModel->getRestaurantTimes($movie, rtrim($_COOKIE[self::$baseUrlLocation], "/") . unserialize($_COOKIE[self::$urlExtension])[2]);
                 $content = $this->scrapeView->displayMovieAndRestaurant($movie, $restaurant);
             }
             else{
@@ -59,7 +59,7 @@ class ScrapeController{
             //If user pressed link to book table
             if($this->scrapeView->userWantsToBookTable()){
                 $tableValue = $this->scrapeView->getTableValue();
-                $bookTable = $this->scrapeModel->bookTable($tableValue, rtrim($_COOKIE[self::$baseUrlLocation], "/") . unserialize($_COOKIE[self::$startURLlocation])[2]);
+                $bookTable = $this->scrapeModel->bookTable($tableValue, rtrim($_COOKIE[self::$baseUrlLocation], "/") . unserialize($_COOKIE[self::$urlExtension])[2]);
 
                 //Check if HTTP_HEADER is OK
                 if($bookTable === 200){
