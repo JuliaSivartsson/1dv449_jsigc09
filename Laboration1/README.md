@@ -24,10 +24,12 @@ Min bokning av bord kan även göras mer generell då den nu kollar om jag får 
 ##Vad kan robots.txt spela för roll?
 Robots.txt kan fungera bra som riktlinjer för vad en programmerare får och inte får göra. Det är dock inga definitiva regler eller lagar utan mer riktlinjer.
 
-#Vad är social machines?
+##Vad är social machines?
+Social machines innefattar produkter som är uppkopplade till internet men dessutom blir en del av ditt sociala nätverk och håller koll på information om dig och vad du tycker om. De behöver inte direkt påverka själva maskineriet eller individen, t.ex. Twitter har blivit definerad som en "social machine". Wikipedia är ett annat exempel på en social machine, utan folks engagemang och hjälpsamhet skulle wikipedia inte kunnat bli så stor som den har blivit, och det är en del av det sociala.
 
-#Vad är skillnaden på "web of things" och "internet of things"?
+##Vad är skillnaden på "web of things" och "internet of things"?
 Web of things är en del av Internet av things, WoT är ett koncept som förklarar en verklighet där närmast alla vardagliga objekt är integrerade i webben. Det fokuserar på standarder och framworks (t.ex. HTTP och URI:s) som gör att vi kan skapa applikationer för att interagera med olika föremål. 
 Internet of things innehåller mer "det stora hela", HUR saker och ting kommunicerar.
 
-#Vad är net neutrality?
+##Vad är net neutrality?
+Net neutrality handlar om att myndigheter och de som tillhandahåller internet inte ska diskriminera någon utan behandla all data på internet likadant. Så att inte vissa länder begränsar åtkomst till vissa sidor och censurerar internet så att säga. Eller att alla sidor som spelar upp videor går mycket långsammare än t.ex. Youtube, vilket kommer att leda till att majoriteten väljer just Youtube. Net neutrality handlar helt enkelt om ett öppet internet där man har rätt att tycka olika och säga olika. 
