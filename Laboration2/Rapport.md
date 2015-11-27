@@ -1,6 +1,5 @@
-Julia Sivartsson | jsigc09 | Webbteknik 2
-
-#Dokumentation
+#Dokumentation över säkerhet och prestanda aspekter, Webbteknik || - Laboration 2
+Julia Sivartsson - jsigc09
 
 ##Säkerhetsproblem
 
