@@ -9,7 +9,7 @@ påverka applikationen på förödande sätt. T.ex. kan ";DROP TALBLE tabellnamn
 Vad som istället borde ske är att användarens input bör separeras från queries.
 
 ###SQL-injection i inloggnings-formulär
-Vid test upptäcktes att vilken mail som helst kan skrivas in om lösenord fylls i som: ' OR 1=1/* . Görs detta så loggas användaren in då ' OR 1=1/* returnerar true oavsett vad som skrivs in som mail.
+Vid test upptäcktes att vilken mail som helst kan skrivas in om lösenord fylls i som: ' OR 1=1/* . Görs detta så loggas användaren in då `' OR 1=1/*` returnerar true oavsett vad som skrivs in som mail.
 Detta medför stora säkerhetsrisker då det lämnar applikationen öppen för olika typer av SQL-injections som kan användas för att t.ex. förstöra data eller kringå autentisering [2].
 
 ###Session förstörs ej vid utloggning
