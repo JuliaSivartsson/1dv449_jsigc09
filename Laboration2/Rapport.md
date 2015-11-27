@@ -24,13 +24,18 @@ Genom att analysera databasen efter nedladdning framkom även att lösenorden i 
 
 ##Prestandaproblem
 
-##Egna övergripande reflektioner
+###Expiration header? kap. 3
 
-##Expiration header? kap. 3
-
-##JS filer verkar ligga i headern, borde vara precis innan </body> i en footer ? kap. 6
+###JS filer verkar ligga i headern, borde vara precis innan </body> i en footer ? kap. 6
 JavaScript filer bör ligga i slutet av sidan, helst precis innan </body>, detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in.
 
+##Egna övergripande reflektioner
 
-##Alla css länkar verkar vara i headrn, vilket är bra. kap. 5
 
+##Referenser
+
+[1] Steve Sounders, O’Reilly, High Performance Web Sites. September 2007. [PDF]
+
+[2] "The Ten Most Critical Web Application Security Risks" Open Web Application Security Project, 12 Juni 2013. [Online] Tillgänglig: (https://www.owasp.org/index.php/Top10#OWASP_Top_10_for_2013)). [Hämtad: 24 november 2015]
+
+[3] John Häggerud, "Laboration 2" Linnéuniversitetet, November 2015 [Online] Tillgänglig: https://coursepress.lnu.se/kurs/webbteknik-ii/laborationer/laboration-02/ [Hämtad: 27 november 2015]
