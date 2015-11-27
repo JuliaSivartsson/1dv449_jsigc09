@@ -1,4 +1,4 @@
-#Dokumentation över säkerhet och prestanda aspekter, Webbteknik || - Laboration 2
+#Dokumentation över säkerhet och prestanda, Webbteknik || - Laboration 2
 Julia Sivartsson - jsigc09
 
 ##Säkerhetsproblem
