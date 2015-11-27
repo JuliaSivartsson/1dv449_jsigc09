@@ -35,6 +35,11 @@ min rekommendation är att göra databasen privat.
 HTTPOnly används för att skydda cookies, även om en XSS-attack går igenom så skyddar webbläsaren cookien från att läcka ut [4]. I applikationen är HTTPOnly satt till false vilket innebär att det här skyddet inte används.
 Det fungerar så att om den är satt till true så kan inte cookien kommas åt av JavaScript på klienten, så även om vår validering släpper igenom JavaScript som kan vara skadlig så kommer inte sessionsvariabeln att kommas åt och på
  så sätt går inte session hijacking att utföra på det sättet [5].
+ 
+ ###Validering av meddelande
+ Den text användaren skriver in som meddelande under URL:en /message valideras inte på något sätt. Detta gör att XSS attacker blir möjliga att genomföra [2]. Test genomfördes där koden "<button onclick="document.write(document.cookie)">Try it</button>
+ skrevs in som meddelande, detta skapar en länk och om användaren trycker på denna länk så visas användarens cookie. Detta kan en elak användare ta nytta av och få fram en länk som gör att när användaren trycker på den så
+ skickas användarens cookie till den elaka användarens site. Detta leder till att konton kan kapas.
 
 ##Prestandaproblem
 
@@ -50,7 +55,8 @@ Detta leder till att användaren upplever en blank sida fram tills att skriptet 
 ###Inline kod
 Både JavaScript och CCS kod bör länkas in externt. Även om responstiden kan bli något kortare med inline-kod så innebär det även att den specifika koden inte sparas i cachen [1]. Så vid många requests så måste informationen laddas
 in varje gång. JavaScript och CSS filer sparas nämligen automatiskt i cachen utan att utvecklaren behöver tänka på det, detta gör att de resurserna inte behöver hämtas på nytt vid varje request. 
-I default.html ligger CSS-kod för .logout button vilket borde flyttas till en extern CSS-fil.
+I default.html ligger CSS-kod för .logout button vilket borde flyttas till en extern CSS-fil. Det hittades även en hel del CSS kod i både index.html och admin.html som är identiskt, även denna kod bör flyttas ut till en 
+extern CSS-fil.
 
 Gällande skriptet i default.html som renderar ut meddelanden så är jag osäker på om den koden går att flytta ut till en extern JavaScript-fil men om det är möjligt så borde det ses över.
 
@@ -62,7 +68,7 @@ tomt, men det hade varit tydligare för mig om jag fick upp varför valideringen
 
 Vid inloggning får jag dock upp information om vad som är fel med min input, t.ex. att e-postadressen ej innehåller ett @-tecken.
 
-###Log out knapp
+###Logout knapp
 Knappen för utloggning syns hela tiden, även när man inte är inloggad. Denna borde renderas endast när användaren är inloggad.
 
 
