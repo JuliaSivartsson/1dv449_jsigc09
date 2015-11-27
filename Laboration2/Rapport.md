@@ -4,12 +4,12 @@ Julia Sivartsson - jsigc09
 ##Säkerhetsproblem
 
 ###Parametriserade frågor
-Variablerna för "username" och "password" i login.js konkatineras in i SQL-frågan i funktionen checkLogin. Detta gör applikationen sårbar för SQL-injections vilket innebär att en användare kan förändra SQL-satsen som körs och på så sätt
+Variablerna för "username" och "password" i login.js konkateneras in i SQL-frågan i funktionen checkLogin. Detta gör applikationen sårbar för SQL-injections vilket innebär att en användare kan förändra SQL-satsen som körs och på så sätt
 påverka applikationen på förödande sätt. T.ex. kan ";DROP TALBLE tabellnamn" (tabellnamnet kan utan större ansträngning gissas fram) skrivas in som lösenord vilket innebär att hela tabellen raderas och värdefull data går förlorad.
 Vad som istället borde ske är att användarens input bör separeras från queries.
 
 ###SQL-injection i inloggnings-formulär
-Vid test upptäcktes att vilken mail som helst kan skrivas in om lösenord fylls i som: ' OR 1=1/*. Görs detta så loggas användaren in då ' OR 1=1/* returnerar true oavsett vad som skrivs in som mail.
+Vid test upptäcktes att vilken mail som helst kan skrivas in om lösenord fylls i som: ' OR 1=1/* . Görs detta så loggas användaren in då ' OR 1=1/* returnerar true oavsett vad som skrivs in som mail.
 Detta medför stora säkerhetsrisker då det lämnar applikationen öppen för olika typer av SQL-injections som kan användas för att t.ex. förstöra data eller kringå autentisering [2].
 
 ###Session förstörs ej vid utloggning
