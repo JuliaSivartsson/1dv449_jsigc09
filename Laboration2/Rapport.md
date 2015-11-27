@@ -9,7 +9,7 @@ påverka applikationen på förödande sätt. T.ex. kan ";DROP TALBLE tabellnamn
 Vad som istället borde ske är att användarens input bör separeras från queries.
 
 ###SQL-injection i inloggnings-formulär
-Vid test upptäcktes att vilken mail som helst kan skrivas in om lösenord fylls i som: ' OR 1=1/* . Görs detta så loggas användaren in då `' OR 1=1/*` returnerar true oavsett vad som skrivs in som mail.
+Vid test upptäcktes att vilken mail som helst kan skrivas in om lösenord fylls i som: `' OR 1=1/*` . Görs detta så loggas användaren in då `' OR 1=1/*` returnerar true oavsett vad som skrivs in som mail.
 Detta medför stora säkerhetsrisker då det lämnar applikationen öppen för olika typer av SQL-injections som kan användas för att t.ex. förstöra data eller kringå autentisering [2].
 
 ###Session förstörs ej vid utloggning
@@ -37,7 +37,7 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
  så sätt går inte session hijacking att utföra på det sättet [5].
  
 ###Validering av meddelande
- Den text användaren skriver in som meddelande under URL:en /message valideras inte på något sätt. Detta gör att XSS attacker blir möjliga att genomföra [2]. Test genomfördes där koden "<button onclick="document.write(document.cookie)">Try it</button>
+ Den text användaren skriver in som meddelande under URL:en /message valideras inte på något sätt. Detta gör att XSS attacker blir möjliga att genomföra [2]. Test genomfördes där koden `<button onclick="document.write(document.cookie)">Try it</button>`
  skrevs in som meddelande, detta skapar en länk och om användaren trycker på denna länk så visas användarens cookie. Detta kan en elak användare ta nytta av och få fram en länk som gör att när användaren trycker på den så
  skickas användarens cookie till den elaka användarens site. Detta leder till att konton kan kapas.
 
