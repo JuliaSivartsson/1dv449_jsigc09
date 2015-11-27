@@ -36,7 +36,7 @@ HTTPOnly används för att skydda cookies, även om en XSS-attack går igenom s�
 Det fungerar så att om den är satt till true så kan inte cookien kommas åt av JavaScript på klienten, så även om vår validering släpper igenom JavaScript som kan vara skadlig så kommer inte sessionsvariabeln att kommas åt och på
  så sätt går inte session hijacking att utföra på det sättet [5].
  
- ###Validering av meddelande
+###Validering av meddelande
  Den text användaren skriver in som meddelande under URL:en /message valideras inte på något sätt. Detta gör att XSS attacker blir möjliga att genomföra [2]. Test genomfördes där koden "<button onclick="document.write(document.cookie)">Try it</button>
  skrevs in som meddelande, detta skapar en länk och om användaren trycker på denna länk så visas användarens cookie. Detta kan en elak användare ta nytta av och få fram en länk som gör att när användaren trycker på den så
  skickas användarens cookie till den elaka användarens site. Detta leder till att konton kan kapas.
