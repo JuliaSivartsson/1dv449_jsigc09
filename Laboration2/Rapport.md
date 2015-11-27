@@ -24,10 +24,14 @@ Genom att analysera databasen efter nedladdning framkom även att lösenorden i 
 
 ##Prestandaproblem
 
-###Expiration header? kap. 3
+###Expiration header
+Genom att fastställa hur länge applikationen ska hålla kvar informationen i minnet (cache) så kan man reducera antalet HTTP förfrågningar och på så sätt öka prestandan [1]. För tillfället är Expiration headern satt till '-1' vilket
+innebär att ingenting sparas tillfälligt utan varje gång sidan läses in måste allting hämtas på nytt. Detta är något som är värt att tänkas på då applikationen växer och prestandan får en tydlig roll.
 
-###JS filer verkar ligga i headern, borde vara precis innan </body> i en footer ? kap. 6
-JavaScript filer bör ligga i slutet av sidan, helst precis innan </body>, detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in.
+###JS filer felplacerade
+JavaScript filer bör ligga i slutet av sidan, helst precis innan </body>, förslagsvis i en <footer>. Detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in [1].
+Komponenter läses in uppifrån och ner i ett dokument, vissa skript kan ta ett par sekunder (eller mer) att läsas in och om skriptet då länkas in i headern kommer den att börja läsas in innan något av sidans <body> hunnit renderas ut.
+Detta leder till att användaren upplever en blank sida fram tills att skriptet är helt inläst. Det kan upplevas mer användarvänligt om sidan presenteras och att JS-skript läses in under tiden.
 
 ##Egna övergripande reflektioner
 
