@@ -57,6 +57,8 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
 Genom att fastställa hur länge applikationen ska hålla kvar informationen i minnet (cache) så kan man reducera antalet HTTP förfrågningar och på så sätt öka prestandan [1]. För tillfället är Expiration headern satt till '-1' vilket
 innebär att ingenting sparas tillfälligt utan varje gång sidan läses in måste allting hämtas på nytt. Detta är något som är värt att tänkas på då applikationen växer och prestandan får en tydlig roll.
 
+Det kan vara en bra idé att sätta antingen en "Expiration header" eller "Cache-Control: max-age" []
+
 ###JS filer felplacerade
 JavaScript filer bör ligga i slutet av sidan, helst precis innan </body>, förslagsvis i en <footer>. Detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in [1].
 Komponenter läses in uppifrån och ner i ett dokument, vissa skript kan ta ett par sekunder (eller mer) att läsas in och om skriptet då länkas in i headern kommer den att börja läsas in innan något av sidans <body> hunnit renderas ut.
@@ -99,3 +101,5 @@ Knappen för utloggning syns hela tiden, även när man inte är inloggad. Denna
 [7] "Authentication Cheat Sheet" Open Web Application Security Project, November 2015. [Online] Tillgänglig: (https://www.owasp.org/index.php/Authentication_Cheat_Sheet). [Hämtad: 2 december 2015]
 
 [8] "Session Management Cheat Sheet" Open Web Application Security Project, Oktober 2015. [Online] Tillgänglig: (https://www.owasp.org/index.php/Session_Management_Cheat_Sheet). [Hämtad: 2 december 2015]
+
+[9] "Caching Tutorial" Mark Nottingham, Maj 2013. [Online] Tillgänglig: (https://www.mnot.net/cache_docs/). [Hämtad: 2 december 2015]
