@@ -49,7 +49,7 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
  skrevs in som meddelande, detta skapar en länk och om användaren trycker på denna länk så visas användarens cookie. Detta kan en elak användare ta nytta av och få fram en länk som gör att när användaren trycker på den så skickas användarens cookie till den elaka användarens site. Detta leder till att konton kan kapas.
  
  
- Min rekommendation följer de tips som "Owasp Top Ten" [2, s.9] och "XSS Cheat Sheet" [5] nämner, t.ex. att specialtecken bör ersättas så att JavaScript inte kan exekveras då koden i databasen har sparats med HTML specialtecken och potentiellt farlig kod visas då upp på ett ofarligt sätt. Det kan även vara bra att införa validering för taggar, så om användaren skriver in ett meddelande som innehåller t.ex. '<script>' så kommer detta inte sparas utan användaren får upp ett felmeddelande att olämpliga tecken har använts och får skriva in ett nytt meddelande. 
+ Min rekommendation följer de tips som "Owasp Top Ten" [2, s.9] och "XSS Cheat Sheet" [5] nämner, t.ex. att specialtecken bör ersättas så att JavaScript inte kan exekveras då koden i databasen har sparats med HTML specialtecken och potentiellt farlig kod visas då upp på ett ofarligt sätt. Det kan även vara bra att införa validering för taggar, så om användaren skriver in ett meddelande som innehåller t.ex. `<script>` så kommer detta inte sparas utan användaren får upp ett felmeddelande att olämpliga tecken har använts och får skriva in ett nytt meddelande. 
 
 ##Prestandaproblem
 
