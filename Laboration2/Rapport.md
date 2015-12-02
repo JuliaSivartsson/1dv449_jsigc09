@@ -48,7 +48,6 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
  Den text användaren skriver in som meddelande under URL:en /message valideras inte på något sätt. Detta gör att XSS attacker blir möjliga att genomföra [2, s.9]. Test genomfördes där koden `<button onclick="document.write(document.cookie)">Try it</button>`
  skrevs in som meddelande, detta skapar en länk och om användaren trycker på denna länk så visas användarens cookie. Detta kan en elak användare ta nytta av och få fram en länk som gör att när användaren trycker på den så skickas användarens cookie till den elaka användarens site. Detta leder till att konton kan kapas.
  
- 
  Min rekommendation följer de tips som "Owasp Top Ten" [2, s.9] och "XSS Cheat Sheet" [5] nämner, t.ex. att specialtecken bör ersättas så att JavaScript inte kan exekveras då koden i databasen har sparats med HTML specialtecken och potentiellt farlig kod visas då upp på ett ofarligt sätt. Det kan även vara bra att införa validering för taggar, så om användaren skriver in ett meddelande som innehåller t.ex. `<script>` så kommer detta inte sparas utan användaren får upp ett felmeddelande att olämpliga tecken har använts och får skriva in ett nytt meddelande. 
 
 ##Prestandaproblem
@@ -57,26 +56,24 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
 Genom att fastställa hur länge applikationen ska hålla kvar informationen i minnet (cache) så kan man reducera antalet HTTP förfrågningar och på så sätt öka prestandan [1]. För tillfället är Expiration headern satt till '-1' vilket
 innebär att ingenting sparas tillfälligt utan varje gång sidan läses in måste allting hämtas på nytt. Detta är något som är värt att tänkas på då applikationen växer och prestandan får en tydlig roll.
 
-Det kan vara en bra idé att sätta antingen en "Expiration header" eller "Cache-Control: max-age" []
+Det kan vara en bra idé att sätta antingen en "Expiration header" eller "Cache-Control: max-age" [9] för att cacha sådana saker som kanske inte uppdateras ofta (t.ex. logos) och på så sätt slippa hämta dessa saker från servern vid varje förfrågan.
 
 ###JS filer felplacerade
-JavaScript filer bör ligga i slutet av sidan, helst precis innan </body>, förslagsvis i en <footer>. Detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in [1].
 Komponenter läses in uppifrån och ner i ett dokument, vissa skript kan ta ett par sekunder (eller mer) att läsas in och om skriptet då länkas in i headern kommer den att börja läsas in innan något av sidans <body> hunnit renderas ut.
 Detta leder till att användaren upplever en blank sida fram tills att skriptet är helt inläst. Det kan upplevas mer användarvänligt om sidan presenteras och att JS-skript läses in under tiden.
 
+JavaScript filer bör därför ligga i slutet av sidan, helst precis innan </body>, förslagsvis i en <footer>. Detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in [1].
+
 ###Inline kod
-Både JavaScript och CCS kod bör länkas in externt. Även om responstiden kan bli något kortare med inline-kod så innebär det även att den specifika koden inte sparas i cachen [1]. Så vid många requests så måste informationen laddas
-in varje gång. JavaScript och CSS filer sparas nämligen automatiskt i cachen utan att utvecklaren behöver tänka på det, detta gör att de resurserna inte behöver hämtas på nytt vid varje request. 
-I default.html ligger CSS-kod för .logout button vilket borde flyttas till en extern CSS-fil. Det hittades även en hel del CSS kod i både index.html och admin.html som är identiskt, även denna kod bör flyttas ut till en 
-extern CSS-fil.
+Både JavaScript och CSS kod bör länkas in externt. Även om responstiden kan bli något kortare med inline-kod så innebär det även att den specifika koden inte sparas i cachen [1]. Så vid många requests så måste informationen laddas in varje gång. JavaScript och CSS filer sparas nämligen automatiskt i cachen utan att utvecklaren behöver tänka på det, detta gör att de resurserna inte behöver hämtas på nytt vid varje request. 
+I default.html ligger CSS-kod för .logout button vilket borde flyttas till en extern CSS-fil. Det hittades även en hel del CSS kod i både index.html och admin.html som är identiskt, även denna kod bör flyttas ut till en extern CSS-fil.
 
 Gällande skriptet i default.html som renderar ut meddelanden så är jag osäker på om den koden går att flytta ut till en extern JavaScript-fil men om det är möjligt så borde det ses över.
 
 ##Egna övergripande reflektioner
 
 ###Rätt- och felmeddelanden
-För att applikationen ska bli mer användarvänlig anser jag att fler rätt- och felmeddelanden borde presenteras för användaren. Vid försök att skapa ett nytt meddelande märker jag att ingenting händer om jag lämnar meddelandet
-tomt, men det hade varit tydligare för mig om jag fick upp varför valideringen ej gick igenom. Detsamma när ett meddelande faktiskt skapas.
+För att applikationen ska bli mer användarvänlig anser jag att fler rätt- och felmeddelanden borde presenteras för användaren. Vid försök att skapa ett nytt meddelande märker jag att ingenting händer om jag lämnar meddelandet tomt, men det hade varit tydligare för mig om jag fick upp varför valideringen ej gick igenom. Detsamma när ett meddelande faktiskt skapas.
 
 Vid inloggning får jag dock upp information om vad som är fel med min input, t.ex. att e-postadressen ej innehåller ett @-tecken.
 
