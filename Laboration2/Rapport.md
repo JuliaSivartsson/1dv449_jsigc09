@@ -5,7 +5,7 @@ Julia Sivartsson - jsigc09
 
 ###Parametriserade frågor
 Variablerna för "username" och "password" i login.js konkateneras in i SQL-frågan i funktionen checkLogin. Detta gör applikationen sårbar för SQL-injections vilket innebär att en användare kan förändra SQL-satsen som körs och på så sätt
-påverka applikationen på förödande sätt *[1 s.7]*. T.ex. kan ";DROP TALBLE tabellnamn" (tabellnamnet kan utan större ansträngning gissas fram) skrivas in som lösenord vilket innebär att hela tabellen raderas och värdefull data går förlorad.
+påverka applikationen på förödande sätt **[1 s.7]**. T.ex. kan ";DROP TALBLE tabellnamn" (tabellnamnet kan utan större ansträngning gissas fram) skrivas in som lösenord vilket innebär att hela tabellen raderas och värdefull data går förlorad.
 
 Vad som istället borde ske är att användarens input bör separeras från queries.
 
