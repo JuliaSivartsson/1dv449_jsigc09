@@ -17,7 +17,7 @@ Vad som istället borde ske är att användarens input bör separeras från quer
 Vid utloggning via "Log out"-knappen förstörs inte sessionen. Detta innebär att jag efter utloggning manuellt kan navigera mig till adressen /message och få fulla rättigheter då sessionen autentiserar användaren igen.
 Här uppnås inte kraven för applikation som säger att enbart användare med konton ska kunna läsa meddelanden [3].
 
-Rekommenderad lösning är att se över autentisering och sessionshantering. Ta en titt på "Authentication Cheat Sheet" [7] and "Session Management Cheat Sheet" [8] för mer information om problemet.
+Rekommenderad lösning är att se över autentisering och sessionshantering. Ta en titt på "Authentication Cheat Sheet" [7] och "Session Management Cheat Sheet" [8] för mer information om problemet.
 
 ###Filer skyddas inte
 Efter några tester framkom det att genom att gå till sidan http://localhost:3000/static/message.db så laddas hela databasen ner till hårddisken. Detta utgör en enorm säkerhetsrisk då all data nu går att läsa ut från databasen
