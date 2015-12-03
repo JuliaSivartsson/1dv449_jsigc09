@@ -62,7 +62,7 @@ Det kan vara en bra idé att sätta antingen en "Expiration header" eller "Cache
 Komponenter läses in uppifrån och ner i ett dokument, vissa skript kan ta ett par sekunder (eller mer) att läsas in och om skriptet då länkas in i headern kommer den att börja läsas in innan något av sidans <body> hunnit renderas ut.
 Detta leder till att användaren upplever en blank sida fram tills att skriptet är helt inläst. Det kan upplevas mer användarvänligt om sidan presenteras och att JS-skript läses in under tiden.
 
-JavaScript filer bör därför ligga i slutet av sidan, helst precis innan </body>, förslagsvis i en <footer>. Detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in [1].
+JavaScript filer bör därför ligga i slutet av sidan, helst precis innan `</body>`, förslagsvis i en `<footer>`. Detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in [1].
 
 ###Inline kod
 Både JavaScript och CSS kod bör länkas in externt. Även om responstiden kan bli något kortare med inline-kod så innebär det även att den specifika koden inte sparas i cachen [1]. Så vid många requests så måste informationen laddas in varje gång. JavaScript och CSS filer sparas nämligen automatiskt i cachen utan att utvecklaren behöver tänka på det, detta gör att de resurserna inte behöver hämtas på nytt vid varje request. 
