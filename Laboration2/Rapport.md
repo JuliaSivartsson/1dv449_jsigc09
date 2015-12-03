@@ -49,18 +49,19 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
  
  Min rekommendation är att ändra värdet i express.js så att HttpOnly blir satt till true.
  
+###HTTPS
+ Det är en bra idé att kryptera trafiken mellan klient och server med hjälp av HTTPS. Görs inte detta, vilket är läget just nu, så kan attackerare bevaka trafiken och på så sätt komma över cookies m.m [3].
+ 
+ Ett exempel är om en vänlig användare använder sig av applikationen via ett publikt, okrypterat, trådlöst nätverk. Här skulle en attackerare kunna åstadkomma en attack som hämtar ut t.ex. sessionsvariabler.
+ 
+ En lösning på problemet skulle vara att köpa ett bra SSL-certifikat och se till att man använder sig av HSTS [11] som ser till att även om användaren skriver in HTTP i URL:en så skickas användaren till HTTPS-sidan.
+ 
 ###Validering av meddelande
  Den text användaren skriver in som meddelande under URL:en /message valideras inte på något sätt. Detta gör att XSS attacker blir möjliga att genomföra [2, s.9]. Test genomfördes där koden `<button onclick="document.write(document.cookie)">Try it</button>`
  skrevs in som meddelande, detta skapar en länk och om användaren trycker på denna länk så visas användarens cookie. Detta kan en elak användare ta nytta av och få fram en länk som gör att när användaren trycker på den så skickas användarens cookie till den elaka användarens site. Detta leder till att konton kan kapas.
  
  Min rekommendation följer de tips som "Owasp Top Ten" [2, s.9] och "XSS Cheat Sheet" [5] nämner, t.ex. att specialtecken bör ersättas så att JavaScript inte kan exekveras då koden i databasen har sparats med HTML specialtecken och potentiellt farlig kod visas då upp på ett ofarligt sätt. Det kan även vara bra att införa validering för taggar, så om användaren skriver in ett meddelande som innehåller t.ex. `<script>` så kommer detta inte sparas utan användaren får upp ett felmeddelande att olämpliga tecken har använts och får skriva in ett nytt meddelande. 
  
- ###HTTPS
- Det är en bra idé att kryptera trafiken mellan klient och server med hjälp av HTTPS. Görs inte detta, vilket är läget just nu, så kan attackerare bevaka trafiken och på så sätt komma över cookies m.m [3].
- 
- Ett exempel är om en vänlig användare använder sig av applikationen via ett publikt, okrypterat, trådlöst nätverk. Här skulle en attackerare kunna åstadkomma en attack som hämtar ut t.ex. sessionsvariabler.
- 
- En lösning på problemet skulle vara att köpa ett bra SSL-certifikat och se till att man använder sig av HSTS [11] som ser till att även om användaren skriver in HTTP i URL:en så skickas användaren till HTTPS-sidan.
 
 ##Prestandaproblem
 
