@@ -86,6 +86,7 @@ Gällande skriptet i default.html som renderar ut meddelanden så är jag osäke
 ###Gzip används ej korrekt
 I boken 'High Performance Web Sites' [1] nämner Steve Sounders att Gzip inte bör användas för bilder och PDF-filer:
 > " Image and PDF files should not be gzipped because they are already compressed. Trying to gzip them not only wastes CPU resources, it can also potentially increase file sizes."
+
 Gzip används för i princip allt i applikationen när man kollar under 'Accept-Encoding' i headern. Det är bra att CSS-, JavaScript- och HTML-filer använder Gzip men det borde tas bort för bilderna.
 
 ##Egna övergripande reflektioner
