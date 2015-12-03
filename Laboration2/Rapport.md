@@ -100,7 +100,7 @@ Vid inloggning får jag dock upp information om vad som är fel med min input, t
 Knappen för utloggning syns hela tiden, även när man inte är inloggad. Denna borde renderas endast när användaren är inloggad.
 
 ###Övrigt
-Det finns en hel del brister i applikationen både gällande säkerhet och optimering. Jag har inga erfarenheter av node personligen så att ändra i koden kändes inte som jag borde ge mig på, däremot har jag försökt ge förslag på lösningar på varje problem.
+Det finns en hel del brister i applikationen både gällande säkerhet och optimering. Jag har inga erfarenheter av node personligen så att ändra i koden kändes inte som jag borde ge mig på, däremot har jag försökt ge förslag på lösningar för varje problem.
 Applikationen känns alldeles för öppen för attacker på flera möjliga sätt och dessa borde åtgärdas snarast. Är applikationen tänkt att växa i storlek borde även optimerings-delen tas på allvar för att ge användaren ett bra resultat.
 
 De krav som ställts på applikationen [3] är inte uppfyllda då det enkelt går att läsa ut de meddelanden som finns även om man inte har ett konto.
