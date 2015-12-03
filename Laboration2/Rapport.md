@@ -52,7 +52,7 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
 ###HTTPS
  Det är en bra idé att kryptera trafiken mellan klient och server med hjälp av HTTPS. Görs inte detta, vilket är läget just nu, så kan attackerare bevaka trafiken och på så sätt komma över cookies m.m [3].
  
- Ett exempel är om en vänlig användare använder sig av applikationen via ett publikt, okrypterat, trådlöst nätverk. Här skulle en attackerare kunna åstadkomma en attack som hämtar ut t.ex. sessionsvariabler.
+ Ett exempel är om en vänlig användare använder sig av applikationen via ett publikt, okrypterat, trådlöst nätverk. Här skulle en attackerare kunna åstadkomma en attack som hämtar ut bland annat sessionsvariabler.
  
  En lösning på problemet skulle vara att köpa ett bra SSL-certifikat och se till att man använder sig av HSTS [11] som ser till att även om användaren skriver in HTTP i URL:en så skickas användaren till HTTPS-sidan.
  
