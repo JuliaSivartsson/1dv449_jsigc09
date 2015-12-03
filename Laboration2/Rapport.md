@@ -104,7 +104,7 @@ Det finns en hel del brister i applikationen både gällande säkerhet och optim
 Applikationen känns alldeles för öppen för attacker på flera möjliga sätt och dessa borde åtgärdas snarast. Är applikationen tänkt att växa i storlek borde även optimerings-delen tas på allvar för att ge användaren ett bra resultat.
 
 De krav som ställts på applikationen [3] är inte uppfyllda då det enkelt går att läsa ut de meddelanden som finns även om man inte har ett konto.
-Autentiseringen borde absolut ses över då sessioner inte tas bort korrekt vid utloggning och dessutomför det faktum att SQL-injection är möjligt.
+Autentiseringen borde absolut ses över då sessioner inte tas bort korrekt vid utloggning och dessutom för det faktum att SQL-injection är möjligt.
 
 Det har varit oerhört lärorikt att få göra en sådan här analys då man nu ser alla de brister som kan finnas i en applikation. Man får mer konkreta exempel på säkerhetsbrister och sådant som man själv bör tänka på när man skapar applikationer på webben.
 
