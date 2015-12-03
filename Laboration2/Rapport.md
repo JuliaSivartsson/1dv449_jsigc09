@@ -83,6 +83,11 @@ I default.html ligger CSS-kod för .logout button vilket borde flyttas till en e
 
 Gällande skriptet i default.html som renderar ut meddelanden så är jag osäker på om den koden går att flytta ut till en extern JavaScript-fil men om det är möjligt så borde det ses över.
 
+###Resurser cachas ej
+Vid undersökning av HTTP headers så fann jag att ingenting cashas, det kan vara bra att använda sig av cashning för att optimera svarstiden för användaren [9].
+
+Detta kan göras genom att lägga till en Expiration i HTTP headern, men ett nyare och mer optimalt sätt är att använda sig av Cache-control. Den gör att istället för att sätta ett specifikt datum då cachen ska bli 'stale' så sätter du antal sekunder. Detta gör att icke synkade klockor ej blir ett problem [9].
+
 ##Egna övergripande reflektioner
 
 ###Rätt- och felmeddelanden
