@@ -50,7 +50,7 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
  Min rekommendation är att ändra värdet i express.js så att HttpOnly blir satt till true.
  
 ###HTTPS
- Det är en bra idé att kryptera trafiken mellan klient och server med hjälp av HTTPS. Görs inte detta, vilket är läget just nu, så kan attackerare bevaka trafiken och på så sätt komma över cookies m.m [3].
+ Det är en bra idé att kryptera trafiken mellan klient och server med hjälp av HTTPS. Görs inte detta, i nuläget görs inte detta vilket resulterar i att attackerare kan bevaka trafiken och på så sätt komma över cookies m.m [3].
  
  Ett exempel är om en vänlig användare använder sig av applikationen via ett publikt, okrypterat, trådlöst nätverk. Här skulle en attackerare kunna åstadkomma en attack som hämtar ut bland annat sessionsvariabler.
  
