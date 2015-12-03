@@ -37,7 +37,7 @@ I samband med att jag undersökte lösenorden i den nerladdade databasen insåg 
 
 Den bästa lösningen för detta problem vore att precis som under problem **"Filer skyddas inte"**, flytta databasen till en säkrare plats som ej går att komma åt via URL:en. Ett första steg kan även vara att kryptera meddelanden, men allt som krypteras kan även dekrypteras så min rekommendation är att göra databasen privat.
 
- ###JSON-data tillgänglig
+###JSON-data tillgänglig
  Det upptäcktes att om man går till inloggningssidan (oavsett om man är inloggad eller utloggad) så kan man där högerklicka och få upp Chrome konsollen. Därefter om man går till Network och öppnar filen 'data' så får man upp alla meddelanden som finns. Dessa ligger i klartext och kan då läsas av vem som helst. Detta bryter mot de krav som applikationen har [3] och det är även en stor säkerhetsrisk [1, s.13].
  
  Autentisering borde ses över för att kontrollera att ingen information skickas om användaren inte är inloggad.
