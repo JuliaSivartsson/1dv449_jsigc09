@@ -88,6 +88,11 @@ Vid undersökning av HTTP headers så fann jag att ingenting cashas, det kan var
 
 Detta kan göras genom att lägga till en Expiration i HTTP headern, men ett nyare och mer optimalt sätt är att använda sig av Cache-control. Den gör att istället för att sätta ett specifikt datum då cachen ska bli 'stale' så sätter du antal sekunder. Detta gör att icke synkade klockor ej blir ett problem [9].
 
+###Gzip används ej korrekt
+I boken 'High Performance Web Sites' [1] nämner Steve Sounders att Gzip inte bör användas för bilder och PDF-filer:
+" Image and PDF files should not be gzipped because they are already compressed. Trying to gzip them not only wastes CPU resources, it can also potentially increase file sizes."
+Gzip används för i princip allt i applikationen när man kollar under 'Accept-Encoding' i headern. Det är bra att CSS-, JavaScript- och HTML-filer använder Gzip men det borde tas bort för bilderna.
+
 ##Egna övergripande reflektioner
 
 ###Rätt- och felmeddelanden
@@ -97,6 +102,15 @@ Vid inloggning får jag dock upp information om vad som är fel med min input, t
 
 ###Logout knapp
 Knappen för utloggning syns hela tiden, även när man inte är inloggad. Denna borde renderas endast när användaren är inloggad.
+
+###Övrigt
+Det finns en hel del brister i applikationen både gällande säkerhet och optimering. Jag har inga erfarenheter av node personligen så att ändra i koden kändes inte som jag borde ge mig på, däremot har jag försökt ge förslag på lösningar på varje problem.
+Applikationen känns alldeles för öppen för attacker på flera möjliga sätt och dessa borde åtgärdas snarast. Är applikationen tänkt att växa i storlek borde även optimerings-delen tas på allvar för att ge användaren ett bra resultat.
+
+De krav som ställts på applikationen [3] är inte uppfyllda då det enkelt går att läsa ut de meddelanden som finns även om man inte har ett konto.
+Autentiseringen borde absolut ses över då sessioner inte tas bort korrekt vid utloggning och dessutom att SQL-injection är möjligt.
+
+Det har varit oerhört lärorikt att få göra en sådan här analys då man nu ser alla de brister som kan finnas i en applikation. Man får mer konkreta exempel på säkerhetsbrister och sådant som man själv bör tänka på när man skapar applikationer på webben.
 
 
 ##Referenser
