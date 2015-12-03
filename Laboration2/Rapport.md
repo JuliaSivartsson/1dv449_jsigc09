@@ -37,6 +37,11 @@ I samband med att jag undersökte lösenorden i den nerladdade databasen insåg 
 
 Den bästa lösningen för detta problem vore att precis som under problem **"Filer skyddas inte"**, flytta databasen till en säkrare plats som ej går att komma åt via URL:en. Ett första steg kan även vara att kryptera meddelanden, men allt som krypteras kan även dekrypteras så min rekommendation är att göra databasen privat.
 
+ ###JSON-data tillgänglig
+ Det upptäcktes att om man går till inloggningssidan (oavsett om man är inloggad eller utloggad) så kan man där högerklicka och få upp Chrome konsollen. Därefter om man går till Network och öppnar filen 'data' så får man upp alla meddelanden som finns. Dessa ligger i klartext och kan då läsas av vem som helst. Detta bryter mot de krav som applikationen har [3] och det är även en stor säkerhetsrisk [1, s.13].
+ 
+ Autentisering borde ses över för att kontrollera att ingen information skickas om användaren inte är inloggad.
+ 
 ###HttpOnly är satt till false
 HTTPOnly används för att skydda cookies, även om en XSS-attack går igenom så skyddar webbläsaren cookien från att läcka ut [4]. I applikationen är HTTPOnly satt till false vilket innebär att det här skyddet inte används.
 Det fungerar så att om den är satt till true så kan inte cookien kommas åt av JavaScript på klienten, så även om vår validering släpper igenom JavaScript som kan vara skadlig så kommer inte sessionsvariabeln att kommas åt och på
@@ -49,6 +54,13 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
  skrevs in som meddelande, detta skapar en länk och om användaren trycker på denna länk så visas användarens cookie. Detta kan en elak användare ta nytta av och få fram en länk som gör att när användaren trycker på den så skickas användarens cookie till den elaka användarens site. Detta leder till att konton kan kapas.
  
  Min rekommendation följer de tips som "Owasp Top Ten" [2, s.9] och "XSS Cheat Sheet" [5] nämner, t.ex. att specialtecken bör ersättas så att JavaScript inte kan exekveras då koden i databasen har sparats med HTML specialtecken och potentiellt farlig kod visas då upp på ett ofarligt sätt. Det kan även vara bra att införa validering för taggar, så om användaren skriver in ett meddelande som innehåller t.ex. `<script>` så kommer detta inte sparas utan användaren får upp ett felmeddelande att olämpliga tecken har använts och får skriva in ett nytt meddelande. 
+ 
+ ###HTTPS
+ Det är en bra idé att kryptera trafiken mellan klient och server med hjälp av HTTPS. Görs inte detta, vilket är läget just nu, så kan attackerare bevaka trafiken och på så sätt komma över cookies m.m [3].
+ 
+ Ett exempel är om en vänlig användare använder sig av applikationen via ett publikt, okrypterat, trådlöst nätverk. Här skulle en attackerare kunna åstadkomma en attack som hämtar ut t.ex. sessionsvariabler.
+ 
+ En lösning på problemet skulle vara att köpa ett bra SSL-certifikat och se till att man använder sig av HSTS [11] som ser till att även om användaren skriver in HTTP i URL:en så skickas användaren till HTTPS-sidan.
 
 ##Prestandaproblem
 
@@ -100,3 +112,8 @@ Knappen för utloggning syns hela tiden, även när man inte är inloggad. Denna
 [8] "Session Management Cheat Sheet" Open Web Application Security Project, Oktober 2015. [Online] Tillgänglig: (https://www.owasp.org/index.php/Session_Management_Cheat_Sheet). [Hämtad: 2 december 2015]
 
 [9] "Caching Tutorial" Mark Nottingham, Maj 2013. [Online] Tillgänglig: (https://www.mnot.net/cache_docs/). [Hämtad: 2 december 2015]
+
+[10] "Man-in-the-middle attack" Open Web Application Security Project, Augusti 2015. [Online] Tillgänglig: (https://www.owasp.org/index.php/Man-in-the-middle_attack). [Hämtad: 3 december 2015]
+
+[11] "HTTP Strict Transport Security" Open Web Application Security Project, September 2015. [Online] Tillgänglig: (https://www.owasp.org/index.php/HTTP_Strict_Transport_Security). [Hämtad: 3 december 2015]
+
