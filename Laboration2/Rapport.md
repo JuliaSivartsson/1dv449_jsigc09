@@ -11,7 +11,7 @@ Som exempel kan ";DROP TABLE tabellnamn" (tabellnamnet kan utan större ansträn
 Det framkom även vid tester att vilken e-postadress som helst kan skrivas in om lösenord fylls i som: `' OR 1=1/*` . Görs detta så loggas användaren in då `' OR 1=1/*` returnerar true oavsett vad som skrivs in som mail.
 Detta medför stora säkerhetsrisker då det lämnar applikationen öppen för olika typer av SQL-injections som kan användas för att bland annat förstöra data eller kringå autentisering [2].
 
-Vad som istället borde ske är att användarens input bör separeras från queries. Detta kan t.ex. åstadkommas med hjälp av parametiserade förfrågningar eller lagrade procedurer [6].
+Vad som istället borde ske är att användarens input bör separeras från queries. Detta kan till exempel åstadkommas med hjälp av parametiserade förfrågningar eller lagrade procedurer [6].
 
 ###Session förstörs ej vid utloggning
 Vid utloggning via "Log out"-knappen förstörs inte sessionen. Detta innebär att jag efter utloggning manuellt kan navigera mig till adressen /message och få fulla rättigheter då sessionen autentiserar användaren igen.
