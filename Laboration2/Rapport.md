@@ -73,7 +73,7 @@ Det kan vara en bra idé att sätta antingen en "Expiration header" eller "Cache
 
 ###JS filer felplacerade
 Komponenter läses in uppifrån och ner i ett dokument, vissa skript kan ta ett par sekunder (eller mer) att läsa in och om skriptet då länkas in i headern kommer den att börja läsas in innan något av sidans <body> hunnit renderas ut.
-Detta leder till att användaren upplever en blank sida fram tills att skriptet är helt inläst. Det kan upplevas mer användarvänligt om sidan presenteras och att JS-skript läses in under tiden.
+Detta leder till att användaren ser en blank sida fram tills att skriptet är helt inläst. Det kan upplevas mer användarvänligt om sidan presenteras och att JS-skript läses in under tiden.
 
 JavaScript filer bör därför ligga i slutet av sidan, helst precis innan `</body>`, förslagsvis i en `<footer>`. Detta för att förhindra att en vit sida presenteras för användaren medan scripten läses in [1].
 
