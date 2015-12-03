@@ -23,7 +23,7 @@ Rekommenderad lösning är att se över autentisering och sessionshantering. Ta 
 Efter några tester framkom det att genom att gå till sidan http://localhost:3000/static/message.db så laddas hela databasen ner till hårddisken. Detta utgör en enorm säkerhetsrisk då all data nu går att läsa ut från databasen
 med hjälp av en databashanterare (t.ex. [DB Browser for SQLite](http://sqlitebrowser.org/)).
 
-En lösning på till detta problem kan vara att kryptera meddelanden i databasen [2, s.12]. Den mest optimala lösning jag kan hitta vore dock att flytta till en mapp på servern som inte går att komma åt via URL:en. Detta skyddar från att användare ens kan ladda ner databasen.
+En lösning på till detta problem kan vara att kryptera meddelanden i databasen [2, s.12]. Den mest optimala lösning jag kan hitta vore dock att flytta databasen till en mapp på servern som inte går att komma åt via URL:en. Detta skyddar från att användare ens kan ladda ner databasen.
 
 ###Lösenord är sparade i klartext
 Genom att analysera databasen efter nedladdning framkom även att lösenorden i user tabellen är sparade i klartext. Detta är mycket känslig information som bör hashas för att förhindra eventuella kapningar av konton.
