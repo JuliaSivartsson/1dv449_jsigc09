@@ -79,7 +79,7 @@ JavaScript filer bör därför ligga i slutet av sidan, helst precis innan `</bo
 
 ###Inline kod
 Både JavaScript och CSS kod bör länkas in externt. Även om responstiden kan bli något kortare med inline-kod så innebär det även att den specifika koden inte sparas i cachen [1]. Så vid många requests så måste informationen laddas in varje gång. JavaScript och CSS filer sparas nämligen automatiskt i cachen utan att utvecklaren behöver tänka på det, detta gör att de resurserna inte behöver hämtas på nytt vid varje request. 
-I default.html ligger CSS-kod för .logout button vilket borde flyttas till en extern CSS-fil. Det hittades även en hel del CSS kod i både index.html och admin.html som är identiskt, även denna kod bör flyttas ut till en extern CSS-fil.
+I default.html ligger CSS-kod för .logout button vilket borde flyttas till en extern CSS-fil. Det hittades även en hel del CSS kod i både index.html och admin.html som är identiskt, även denna kod bör flyttas ut till en extern CSS-fil för att öka prestandan och även för att få bort upprepad kod.
 
 Gällande skriptet i default.html som renderar ut meddelanden så är jag osäker på om den koden går att flytta ut till en extern JavaScript-fil men om det är möjligt så borde det ses över.
 
