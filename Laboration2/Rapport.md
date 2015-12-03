@@ -15,7 +15,7 @@ Vad som istället borde ske är att användarens input bör separeras från quer
 
 ###Session förstörs ej vid utloggning
 Vid utloggning via "Log out"-knappen förstörs inte sessionen. Detta innebär att jag efter utloggning manuellt kan navigera mig till adressen /message och få fulla rättigheter då sessionen autentiserar användaren igen.
-Här uppnås inte kraven för applikation som säger att enbart användare med konton ska kunna läsa meddelanden [3].
+Här uppnås inte kraven för applikation som säger att enbart användare med konton ska kunna eläsa meddelanden [3].
 
 Rekommenderad lösning är att se över autentisering och sessionshantering. Ta en titt på "Authentication Cheat Sheet" [7] och "Session Management Cheat Sheet" [8] för mer information om problemet.
 
@@ -60,7 +60,7 @@ Det fungerar så att om den är satt till true så kan inte cookien kommas åt a
  Den text användaren skriver in som meddelande under URL:en /message valideras inte på något sätt. Detta gör att XSS attacker blir möjliga att genomföra [2, s.9]. Test genomfördes där koden `<button onclick="document.write(document.cookie)">Try it</button>`
  skrevs in som meddelande, detta skapar en länk och om användaren trycker på denna länk så visas användarens cookie. Detta kan en elak användare ta nytta av och få fram en länk som gör att när användaren trycker på den så skickas användarens cookie till den elaka användarens sida. Detta leder till att konton kan kapas.
  
- Min rekommendation följer de tips som "Owasp Top Ten" [2, s.9] och "XSS Cheat Sheet" [5] nämner, vilket bland annat är att specialtecken bör ersättas så att JavaScript inte kan exekveras då koden i databasen har sparats med HTML specialtecken och potentiellt farlig kod visas då upp på ett ofarligt sätt. Det kan även vara bra att införa validering för taggar, så om användaren skriver in ett meddelande som innehåller exempelvis `<script>` så kommer detta inte sparas utan användaren får upp ett felmeddelande att olämpliga tecken har använts och får skriva in ett nytt meddelande. 
+ Min rekommendation följer de tips som "Owasp Top Ten" [2, s.9] och "XSS Cheat Sheet" [5] nämner, vilket bland annat är att specialtecken bör ersättas så att JavaScript inte kan exekveras då koden i databasen har sparats med HTML specialtecken och potentiellt farlig kod visas då upp på ett ofarligt sätt. Det kan även vara bra att införa validering för taggar, så om användaren skriver in ett meddelande som förslagsvis innehåller `<script>` så kommer detta inte sparas utan användaren får upp ett felmeddelande att olämpliga tecken har använts och får skriva in ett nytt meddelande. 
  
 
 ##Prestandaproblem
