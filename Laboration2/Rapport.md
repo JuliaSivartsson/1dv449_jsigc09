@@ -94,7 +94,7 @@ Gzip används för i princip allt i applikationen när man kollar under 'Accept-
 ###Rätt- och felmeddelanden
 För att applikationen ska bli mer användarvänlig anser jag att fler rätt- och felmeddelanden borde presenteras för användaren. Vid försök att skapa ett nytt meddelande märker jag att ingenting händer om jag lämnar meddelandet tomt, men det hade varit tydligare för mig om jag fick upp varför valideringen ej gick igenom. Detsamma när ett meddelande faktiskt skapas.
 
-Vid inloggning får jag dock upp information om vad som är fel med min input, t.ex. att e-postadressen ej innehåller ett @-tecken.
+Vid inloggning får jag dock upp information om vad som är fel med min input, tillexempel att e-postadressen ej innehåller ett @-tecken.
 
 ###Logout knapp
 Knappen för utloggning syns hela tiden, även när man inte är inloggad. Denna borde renderas endast när användaren är inloggad.
