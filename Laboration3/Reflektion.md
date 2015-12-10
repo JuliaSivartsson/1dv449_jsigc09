@@ -16,3 +16,6 @@ Jag cachar min data i en fil i 15min, har filen inte uppdaterats de senaste 15 m
 
 
 ###Hur har du tänkt kring optimeringen i din applikation?
+Vad jag har märkt så går min applikation relativt snabbt att ladda även om det är en stor karta som ska laddas in.
+Jag har tänkt på en del saker gällande optimeringen och det är att CSS-filer länkas in i headern och JavaScript-filer precis innan `</body>`.
+Kanske skulle komprimering av mina filer göra applikationen något snabbare men det är inget jag hann ge mig in på.
