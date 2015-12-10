@@ -21,13 +21,29 @@ class HtmlView
                         <div id="map"></div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="selectList">Välj kategori:</label>
-                                <select id="selectList" class="form-control"></select>
+                                <label for="filter">Välj kategori:</label>
+                                <select id="filter" class="form-control"></select>
                             </div>
-                                <ul class="form-group" id="incidentList"></ul>
+                                <ul class="form-group" id="list"></ul>
                             <div>
                                 <button class="btn btn-primary form-control" id="reset">Återställ</button>
                             </div>
+
+                            <div class="incident-level margin-top">
+                                <img src="src/img/1.jpg"><p class="small">1 = Mycket allvarlig händelse</p>
+                            </div>
+                            <div class="incident-level">
+                                 <img src="src/img/2.jpg"><p class="small">2 = Stor händelse</p>
+                            </div>
+                            <div class="incident-level">
+                                 <img src="src/img/3.jpg"><p class="small">3 = Störning</p>
+                             </div>
+                             <div class="incident-level">
+                                 <img src="src/img/4.jpg"><p class="small">4 = Information</p>
+                             </div>
+                             <div class="incident-level">
+                                 <img src="src/img/5.jpg"><p class="small">5 = Mindre störning</p>
+                             </div>
                         </div>
 
                     </div>

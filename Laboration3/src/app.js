@@ -29,17 +29,17 @@ $(document).ready(function() {
     function renderTraffic(filter){
         $.ajax('response.json')
             .done(function(data){
-            renderMarkers(filterArray(data.messages, filter));
-            renderList(filterArray(data.messages, filter));
-        })
-        .fail(function(){
-           console.log("Ajax failed loading");
-        });
+                renderMarkers(filterArray(data.messages, filter));
+                renderList(filterArray(data.messages, filter));
+            })
+            .fail(function(){
+                console.log("Ajax failed loading");
+            });
     }
 
     //If  select tag i changed, render new list
-    $('#selectList').on('change', function(){
-       var filteredList = filterArray(incidentArray, $(this).val());
+    $('#filter').on('change', function(){
+        var filteredList = filterArray(incidentArray, $(this).val());
         renderTraffic($(this).val());
     });
 
@@ -56,21 +56,23 @@ $(document).ready(function() {
 
     //Show values in select list
     function renderValuesInSelect(){
-        $('#selectList').append('<option value="Alla kategorier">Alla kategorier</option>');
+        $('#filter').append('<option value="Alla kategorier">Alla kategorier</option>');
         $.each(categories, function(index, category) {
-            $('#selectList').append("<option value=\"" + category + "\">" + category + "</option>");
+            $('#filter').append("<option value=\"" + category + "\">" + category + "</option>");
         });
     }
 
     function renderMarkers(messages){
         //If markers exists, remove them
         markers.forEach(function(marker){
-           map.removeLayer(marker);
+            map.removeLayer(marker);
         });
+        markers = [];
+        incidentArray = [];
 
         //Draw new markers
         messages.forEach(function(incident){
-           incidentArray.push(incident);
+            incidentArray.push(incident);
 
             //Based on incident lever change color on marker
             var markerColor = "";
@@ -98,26 +100,42 @@ $(document).ready(function() {
             //Create the marker
             var marker = L.marker([incident.latitude, incident.longitude], { icon: icon}).addTo(map);
             markers.push(marker);
+            //When user click on marker, zoom to it
+            marker.on('click', function(e) {
+                map.setView([e.latlng.lat, e.latlng.lng], 14);
+
+                //And view incident in list
+                var popupTitle = e.target._popup._content.split("<br />")[0];
+                $('.incident').each(function(index, incident) {
+                    if (incident.text === popupTitle) {
+                        $(this).next().slideDown('fast');
+                    }
+                });
+            });
+
+            var parsedDate = formatDate(incident.createddate);
+            var popupText = incident.title + "<br />" + incident.exactlocation +
+                "<br />" + parsedDate + "<br />" + incident.description +
+                "<br />" + incident.subcategory;
+
+            marker.bindPopup(popupText);
         });
     }
 
     function renderList(incidentList){
-
-        console.log(incidentList);
-
         //Sort the list based on date
         incidentList.sort(sortIncidentsByDate);
         incidentList.reverse();
 
         //If list is already rendered, clear it
-        $("ul#incidentList").empty();
+        $("ul#list").empty();
 
         incidentList.forEach(function(incident){
-           var title = incident.title;
+            var title = incident.title;
             var incidentText = incident.exactlocation +
-                    "<br />" + formatDate(incident.createddate) + "<br />" + incident.description + "<br />" + incident.subcategory;
+                "<br />" + formatDate(incident.createddate) + "<br />" + incident.description + "<br />" + incident.subcategory;
 
-            $("ul#incidentList").append("<li><a class='incident priority" + incident.priority + "' href='#'>" + incident.title + "</a><p class='incidentdetails'>" + incidentText + "</p></li>");
+            $("ul#list").append("<li><a class='incident priority" + incident.priority + "' href='#'>" + incident.title + "</a><p class='incidentdetails'>" + incidentText + "</p></li>");
 
             //Don't show details until user clicks incident
             $('.incidentdetails').hide();
@@ -129,18 +147,25 @@ $(document).ready(function() {
                 details.slideDown('fast');
 
                 // Also zoom map on clicked incident
-                var lat;
-                var long;
+                var latitude;
+                var longitude;
                 var title = $(this).html();
 
                 incidentArray.forEach(function(incident) {
                     if (incident.title === title) {
-                        lat = incident.latitude;
-                        long = incident.longitude;
+                        latitude = incident.latitude;
+                        longitude = incident.longitude;
                     }
                 });
 
-                map.setView([lat, long], 14);
+                map.setView([latitude, longitude], 14);
+
+                //Open popup when user clicks incident
+                markers.forEach(function(marker){
+                    if(marker._popup._content.split("<br />")[0] === title){
+                        marker.openPopup();
+                    }
+                });
             });
         });
     }
@@ -176,7 +201,6 @@ $(document).ready(function() {
             return 1;
         }
         return 0;
-
     }
 
     //Reset map to default view
@@ -185,10 +209,11 @@ $(document).ready(function() {
     }
 
     //Resets application
-    $('#reset').on('click', function(){
+    $('#reset').on('click', function() {
         resetMap();
-        $('#selectList').val('Alla kategorier');
-        renderList(incidentArray);
+        $('#filter').val('Alla kategorier');
+        renderTraffic();
+
         $(".leaflet-popup-close-button")[0].click();
     });
 });

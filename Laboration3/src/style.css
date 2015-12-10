@@ -30,3 +30,22 @@ ul {
 .leaflet-google-layer {
     z-index: 1 !important;
 }
+
+.margin-top{
+    margin-top: 20px;
+}
+
+.incident-level{
+    width: 400px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.incident-level img {
+    margin-right: 15px;
+    float: left;
+}
+
+.incident-level p {
+    padding-top: 5px;
+}
