@@ -21,10 +21,10 @@ class HtmlView
                         <div id="map"></div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="filter">Välj kategori:</label>
-                                <select id="filter" class="form-control"></select>
+                                <label for="selectList">Välj kategori:</label>
+                                <select id="selectList" class="form-control"></select>
                             </div>
-                                <ul class="form-group" id="list"></ul>
+                                <ul class="form-group" id="incidentList"></ul>
                             <div>
                                 <button class="btn btn-primary form-control" id="reset">Återställ</button>
                             </div>

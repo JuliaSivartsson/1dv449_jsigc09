@@ -23,14 +23,14 @@ $(document).ready(function() {
     map.addLayer(googleLayer);
 
     renderTraffic();
-    renderValueInSelect();
+    renderValuesInSelect();
 
-    
+
     function renderTraffic(filter){
         $.ajax('response.json')
             .done(function(data){
             renderMarkers(filterArray(data.messages, filter));
-            renderList(filterarray(data.messages, filter));
+            renderList(filterArray(data.messages, filter));
         })
         .fail(function(){
            console.log("Ajax failed loading");
@@ -38,16 +38,27 @@ $(document).ready(function() {
     }
 
     //If  select tag i changed, render new list
-    $('#filter').on('change', function(){
+    $('#selectList').on('change', function(){
        var filteredList = filterArray(incidentArray, $(this).val());
         renderTraffic($(this).val());
     });
 
+    function filterArray(list, filter){
+        if(filter !== undefined && filter !== 'Alla kategorier'){
+            list = jQuery.grep(list, function(incident){
+                var catNium = incident.category;
+                return categories[catNum] === filter;
+            });
+        }
+
+        return list;
+    }
+
     //Show values in select list
-    function renderValueInSelect(){
-        $('#filter').append('<option value="Alla kategorier">Alla kategorier</option>');
+    function renderValuesInSelect(){
+        $('#selectList').append('<option value="Alla kategorier">Alla kategorier</option>');
         $.each(categories, function(index, category) {
-            $('#filter').append("<option value=\"" + category + "\">" + category + "</option>");
+            $('#selectList').append("<option value=\"" + category + "\">" + category + "</option>");
         });
     }
 
@@ -89,4 +100,84 @@ $(document).ready(function() {
             markers.push(marker);
         });
     }
+
+    function renderList(incidentList){
+
+        console.log(incidentList);
+
+        //Sort the list based on date
+        incidentList.sort(sortIncidentsByDate);
+        incidentList.reverse();
+
+        //If list is already rendered, clear it
+        $("ul#incidentList").empty();
+
+        incidentList.forEach(function(incident){
+           var title = incident.title;
+            var incidentText = incident.exaktlocation +
+                    "<br />" + incident.createddate + "<br />" + incident.description + "<br />" + incident.subcategory;
+
+            $("ul#incidentList").append("<li><a class='incident priority" + incident.priority + "' href='#'>" + incident.title + "</a><p class='incidentdetails'>" + incidentText + "</p></li>");
+
+            //Don't show details until user clicks incident
+            $('.incidentdetails').hide();
+
+            $('.incident').on('click', function(event) {
+                event.preventDefault();
+                $('.incidentdetails').hide();
+                var details = $(this).next();
+                details.slideDown('fast');
+
+                // Also zoom map on clicked incident
+                var lat;
+                var long;
+                var title = $(this).html();
+
+                incidentArray.forEach(function(incident) {
+                    if (incident.title === title) {
+                        lat = incident.latitude;
+                        long = incident.longitude;
+                    }
+                });
+
+                map.setView([lat, long], 14);
+            });
+        });
+    }
+
+    function parseDate(date){
+        var months = [
+            "Januari", "Februari", "Mars", "April", "Mars", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"
+        ]
+    }
+
+    function sortIncidentsByDate(incident1, incident2){
+        var date1 = incident1.createddate.replace("/Date(", "");
+        var date1 = date1.replace(")/", "");
+
+        var date2 = incident2.createddate.replace("/Date(", "");
+        var date2 = date2.replace(")/", "");
+
+        if(date1 < date2){
+            return -1;
+        }
+        if(date1 > date2){
+            return 1;
+        }
+        return 0;
+
+    }
+
+    //Reset map to default view
+    function resetMap(){
+        map.setView([defaultLat, defaultLong], defaultZoom);
+    }
+
+    //Resets application
+    $('#reset').on('click', function(){
+        resetMap();
+        $('#selectList').val('Alla kategorier');
+        renderList(incidentArray);
+        $(".leaflet-popup-close-button")[0].click();
+    });
 });
