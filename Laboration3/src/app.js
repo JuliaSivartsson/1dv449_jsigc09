@@ -43,14 +43,14 @@ $(document).ready(function() {
         renderTraffic($(this).val());
     });
 
+    //Render list based on which category is active
     function filterArray(list, filter){
         if(filter !== undefined && filter !== 'Alla kategorier'){
             list = jQuery.grep(list, function(incident){
-                var catNium = incident.category;
-                return categories[catNum] === filter;
+                var categoryNumber = incident.category;
+                return categories[categoryNumber] === filter;
             });
         }
-
         return list;
     }
 
@@ -114,8 +114,8 @@ $(document).ready(function() {
 
         incidentList.forEach(function(incident){
            var title = incident.title;
-            var incidentText = incident.exaktlocation +
-                    "<br />" + incident.createddate + "<br />" + incident.description + "<br />" + incident.subcategory;
+            var incidentText = incident.exactlocation +
+                    "<br />" + formatDate(incident.createddate) + "<br />" + incident.description + "<br />" + incident.subcategory;
 
             $("ul#incidentList").append("<li><a class='incident priority" + incident.priority + "' href='#'>" + incident.title + "</a><p class='incidentdetails'>" + incidentText + "</p></li>");
 
@@ -145,18 +145,29 @@ $(document).ready(function() {
         });
     }
 
-    function parseDate(date){
+    function formatDate(date){
         var months = [
             "Januari", "Februari", "Mars", "April", "Mars", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"
-        ]
+        ];
+
+        //Remove /Date
+        date = date.replace("/Date(", "");
+        date = date.replace(")/", "");
+
+        //Make it into an integer and format it nicely
+        date = parseInt(date, 10);
+        date = new Date(date);
+        date = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+
+        return date;
     }
 
     function sortIncidentsByDate(incident1, incident2){
         var date1 = incident1.createddate.replace("/Date(", "");
-        var date1 = date1.replace(")/", "");
+        date1 = date1.replace(")/", "");
 
         var date2 = incident2.createddate.replace("/Date(", "");
-        var date2 = date2.replace(")/", "");
+        date2 = date2.replace(")/", "");
 
         if(date1 < date2){
             return -1;
