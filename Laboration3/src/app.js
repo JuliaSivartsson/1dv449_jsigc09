@@ -11,7 +11,7 @@ $(document).ready(function() {
         "1" : "Kollektivtrafik",
         "3" : "Planerad störning",
         "4" : "Övrigt"
-    }
+    };
 
     //Create map
     var map = new L.Map('map', {
@@ -25,7 +25,6 @@ $(document).ready(function() {
     renderTraffic();
     renderValuesInSelect();
 
-
     function renderTraffic(filter){
         $.ajax('response.json')
             .done(function(data){
@@ -37,8 +36,8 @@ $(document).ready(function() {
             });
     }
 
-    //If  select tag i changed, render new list
-    $('#filter').on('change', function(){
+    //If  select tag is changed, render new list
+    $('#selectList').on('change', function(){
         var filteredList = filterArray(incidentArray, $(this).val());
         renderTraffic($(this).val());
     });
@@ -56,9 +55,9 @@ $(document).ready(function() {
 
     //Show values in select list
     function renderValuesInSelect(){
-        $('#filter').append('<option value="Alla kategorier">Alla kategorier</option>');
+        $('#selectList').append('<option value="Alla kategorier">Alla kategorier</option>');
         $.each(categories, function(index, category) {
-            $('#filter').append("<option value=\"" + category + "\">" + category + "</option>");
+            $('#selectList').append("<option value=\"" + category + "\">" + category + "</option>");
         });
     }
 
@@ -128,14 +127,14 @@ $(document).ready(function() {
         incidentList.reverse();
 
         //If list is already rendered, clear it
-        $("ul#list").empty();
+        $("ul#incidentList").empty();
 
         incidentList.forEach(function(incident){
             var title = incident.title;
             var incidentText = incident.exactlocation +
                 "<br />" + formatDate(incident.createddate) + "<br />" + incident.description + "<br />" + incident.subcategory;
 
-            $("ul#list").append("<li><a class='incident priority" + incident.priority + "' href='#'>" + incident.title + "</a><p class='incidentdetails'>" + incidentText + "</p></li>");
+            $("ul#incidentList").append("<li><a class='incident priority" + incident.priority + "' href='#'>" + incident.title + "</a><p class='incidentdetails'>" + incidentText + "</p></li>");
 
             //Don't show details until user clicks incident
             $('.incidentdetails').hide();
@@ -211,7 +210,7 @@ $(document).ready(function() {
     //Resets application
     $('#reset').on('click', function() {
         resetMap();
-        $('#filter').val('Alla kategorier');
+        $('#selectList').val('Alla kategorier');
         renderTraffic();
 
         $(".leaflet-popup-close-button")[0].click();

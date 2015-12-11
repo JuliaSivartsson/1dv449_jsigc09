@@ -8,8 +8,10 @@ class HtmlView
             <html>
                 <head>
                     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+                    <!-- Latest compiled and minified CSS -->
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
+                        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
                     <link rel="stylesheet" href="lib/leaflet.css" />
-                    <link rel="stylesheet" href="lib/bootstrap.min.css" />
                     <link rel="stylesheet" href="src/style.css" />
                     <title>Mashup</title>
                 </head>
@@ -21,10 +23,10 @@ class HtmlView
                         <div id="map"></div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="filter">Välj kategori:</label>
-                                <select id="filter" class="form-control"></select>
+                                <label for="selectList">Välj kategori:</label>
+                                <select id="selectList" class="form-control"></select>
                             </div>
-                                <ul class="form-group" id="list"></ul>
+                                <ul class="form-group" id="incidentList"></ul>
                             <div>
                                 <button class="btn btn-primary form-control" id="reset">Återställ</button>
                             </div>
