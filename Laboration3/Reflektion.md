@@ -10,7 +10,8 @@ För att använda Google maps behvöer man en API-nyckel för att få tillgång 
 Jag cachar min data i en fil i 15min, har filen inte uppdaterats de senaste 15 minuterna när jag uppdaterar sidan så hämtas informationen på servern på nytt. Jag använder mig av filemtime() för att kolla hur länge sedan en fil uppdaterades.
 
 ###Vad finns det för risker kring säkerhet och stabilitet i din applikation?
-
+En risk kan vara att man skickar för många anrop till Sveriges Radio och på så sätt sänker dem på grund av överbelastning. Det är detta jag hoppas att min cachning kommer att lösa.
+I och med att det inte finns någon inloggning i min applikation så försvinner många säkerhetsaspekter som annars skulle ha funnits.
 
 ###Hur har du tänkt kring säkerheten i din applikation?
 
