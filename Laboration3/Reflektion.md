@@ -14,6 +14,7 @@ En risk kan vara att man skickar för många anrop till Sveriges Radio och på s
 I och med att det inte finns någon inloggning i min applikation så försvinner många säkerhetsaspekter som annars skulle ha funnits.
 
 ###Hur har du tänkt kring säkerheten i din applikation?
+Då jag varken har input-fält eller inloggning känner jag att säkerheten ökar något.
 
 
 ###Hur har du tänkt kring optimeringen i din applikation?
