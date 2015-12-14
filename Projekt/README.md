@@ -7,7 +7,7 @@ Namn: **enterTAGment**
 Mitt projekt kommer att gå ut på att presentera statistik för mina top fem taggar inom fandoms från Instagram. Målet är att kunna presentera statistik för senaste 24 timmarna för att hålla koll på om något
 nytt hänt i fandom-världen (t.ex. nytt avsnitt har släppts) men även statistik för senaste 3 månaderna.
 
-![Img1](/example-img/PROJEKTIDE.jpg)
+![Img1](example-img/PROJEKTIDE.jpg)
 
 Man ska då även kunna klicka på en viss tagg och få upp en snygg sida med de senaste bilderna från Instagram med den här taggen.
 
