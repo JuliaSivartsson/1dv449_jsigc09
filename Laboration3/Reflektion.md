@@ -13,6 +13,8 @@ Jag cachar min data i en fil i 15min, har filen inte uppdaterats de senaste 15 m
 En risk kan vara att man skickar för många anrop till Sveriges Radio och på så sätt sänker dem på grund av överbelastning. Det är detta jag hoppas att min cachning kommer att lösa.
 I och med att det inte finns någon inloggning i min applikation så försvinner många säkerhetsaspekter som annars skulle ha funnits.
 
+Något som sänker säkerheten i applikationen är att jag inte validerar någon av den data som kommer ifrån Sveriges Radio, detta kan göra applikationen öppen för attacker om skadlig kod skickas in.
+
 ###Hur har du tänkt kring säkerheten i din applikation?
 Då jag varken har input-fält eller inloggning känner jag att säkerheten ökar något.
 
