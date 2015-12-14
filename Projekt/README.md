@@ -11,7 +11,7 @@ nytt hänt i fandom-världen (t.ex. nytt avsnitt har släppts) men även statist
 
 Man ska då även kunna klicka på en viss tagg och få upp en snygg sida med de senaste bilderna från Instagram med den här taggen.
 
-![Img1](/example-img/PROJEKTIDE1.jpg)
+![Img1](example-img/PROJEKTIDE1.jpg)
 
 Det här projektet går att utveckla i all oändlighet för mig så om tid finns kommer jag försöka kolla taggarna mot Twitter också för att sammanställa statistik därifrån även. Dessutom skulle det gå att få till att användaren själv
 får välja vilka taggar hen vill sammanställa information om.
