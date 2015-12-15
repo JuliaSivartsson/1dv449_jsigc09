@@ -23,35 +23,35 @@ class HtmlView
                         <div id="map"></div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="selectList">V‰lj kategori:</label>
+                                <label for="selectList">V√§lj kategori:</label>
                                 <select id="selectList" class="form-control"></select>
                             </div>
                                 <ul class="form-group" id="incidentList"></ul>
                             <div>
-                                <button class="btn btn-primary form-control" id="reset">≈terst‰ll</button>
+                                <button class="btn btn-primary form-control" id="reset">√Öterst√§ll</button>
                             </div>
 
                             <div class="incident-level margin-top">
-                                <img src="src/img/1.jpg"><p class="small">1 = Mycket allvarlig h‰ndelse</p>
+                                <img src="src/img/1.jpg"><p class="small">1 = Mycket allvarlig h√§ndelse</p>
                             </div>
                             <div class="incident-level">
-                                 <img src="src/img/2.jpg"><p class="small">2 = Stor h‰ndelse</p>
+                                 <img src="src/img/2.jpg"><p class="small">2 = Stor h√§ndelse</p>
                             </div>
                             <div class="incident-level">
-                                 <img src="src/img/3.jpg"><p class="small">3 = Stˆrning</p>
+                                 <img src="src/img/3.jpg"><p class="small">3 = St√∂rning</p>
                              </div>
                              <div class="incident-level">
                                  <img src="src/img/4.jpg"><p class="small">4 = Information</p>
                              </div>
                              <div class="incident-level">
-                                 <img src="src/img/5.jpg"><p class="small">5 = Mindre stˆrning</p>
+                                 <img src="src/img/5.jpg"><p class="small">5 = Mindre st√∂rning</p>
                              </div>
                         </div>
 
                     </div>
 
                 <script src="lib/leaflet.js"></script>
-                <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false&key=AIzaSyCZDfZaBKd7QqOSgt_OU3G0OS3OB0TaJmI"></script>
+                <script src="http://maps.google.com/maps/api/js?v=3.2&sensor=false&key=[my_api_key]"></script>
                 <script src="lib/leaflet-google.js"></script>
                 <script src="lib/Leaflet.MakiMarkers.js"></script>
                 <script src="lib/jquery-1.11.3.min.js"></script>
