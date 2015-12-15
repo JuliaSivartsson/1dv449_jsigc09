@@ -7,16 +7,17 @@
 class SverigesRadio
 {
 
+    private static $cacheLife = 5; //Minutes that cache should live
     private static $fileName = 'response.json';
     private $cache;
 
     public function getTrafficInfo(){
         $traffic = null;
 
-        //Create a new request if file is older than 15 minute
-        if(file_exists(self::$fileName) && time() - filemtime(self::$fileName) > 60 * 1){
+        //Create a new request if file is older than 5 minute
+        if(file_exists(self::$fileName) && time() - filemtime(self::$fileName) > 60 * self::$cacheLife){
             echo "new info is presented";
-            $traffic = $this->getnewTraffic();
+            $traffic = $this->getNewTraffic();
 
             if($traffic !== null){
                 $this->cache = fopen('response.json', 'w');
@@ -34,7 +35,7 @@ class SverigesRadio
         return "";
     }
 
-    public function getnewTraffic(){
+    public function getNewTraffic(){
         $ch = curl_init();
         $url = "http://api.sr.se/api/v2/traffic/messages?format=json";
         curl_setopt($ch, CURLOPT_URL, $url);
