@@ -23,3 +23,4 @@ Då jag varken har input-fält eller inloggning känner jag att säkerheten öka
 Vad jag har märkt så går min applikation relativt snabbt att ladda även om det är en stor karta som ska laddas in.
 Jag har tänkt på en del saker gällande optimeringen och det är att CSS-filer länkas in i headern och JavaScript-filer precis innan `</body>`.
 Kanske skulle komprimering av mina filer göra applikationen något snabbare men det är inget jag hann ge mig in på.
+Dessutom optimerar min cachning då onödiga anrop undviks.
