@@ -6,7 +6,6 @@
  */
 class SverigesRadio
 {
-
     private static $cacheLife = 5; //Minutes that cache should live
     private static $fileName = 'response.json';
     private $cache;
@@ -15,7 +14,7 @@ class SverigesRadio
         $traffic = null;
 
         //Create a new request if file is older than 5 minute
-        if(file_exists(self::$fileName) && time() - filemtime(self::$fileName) > 60 * self::$cacheLife){
+        if(file_exists(self::$fileName) && time() - filemtime(self::$fileName) > 60){
             echo "new info is presented";
             $traffic = $this->getNewTraffic();
 

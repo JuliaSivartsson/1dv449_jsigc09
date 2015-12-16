@@ -1,0 +1,13 @@
+#map{
+    width: 800px;
+    height: 700px;
+    margin: 20px;
+}
+
+.margin-right{
+    margin-right: 50px;
+}
+
+.margin-top{
+    margin-top: 20px;
+}
