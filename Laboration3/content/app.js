@@ -73,26 +73,28 @@ var Traffic = {
     },
 
     renderMarkers: function(messages){
+        //Remove existing markers
         Traffic.markers.forEach(function(marker){
             Traffic.map.removeLayer(marker);
         });
 
         messages.forEach(function(incident){
-
             //Based on incident lever change color on marker
             var markerColor = Traffic.getMarkerColorBasedOnIncidentLevel(incident.priority);
 
+            //Create icon from https://github.com/jseppi/Leaflet.MakiMarkers
             var icon = L.MakiMarkers.icon({icon: "circle", color: markerColor, size: "m"});
             var marker = L.marker([incident.latitude, incident.longitude], { icon: icon}).addTo(Traffic.map);
             Traffic.markers.push(marker);
 
-            marker.on('click', function(e){
-                Traffic.map.setView([e.latlng.lat, e.latlng.lng], 14);
+            //If user clicks marker
+            marker.addEventListener('click', function(mark){
+                Traffic.map.setView([mark.latlng.lat, mark.latlng.lng], 14);
             });
 
             var getFormatDate = Traffic.formatDate(incident.createddate);
             var popupText = incident.title + "<br />" + incident.exactlocation +
-                "<br /><b>Händelse inlagt den " + getFormatDate + "</b><br />" + incident.description +
+                "<br /><b>Händelse inlagt " + getFormatDate + "</b><br />" + incident.description +
                 "<br /><b>Kategori:</b> " + incident.subcategory;
 
             marker.bindPopup(popupText);
@@ -133,7 +135,7 @@ var Traffic = {
         incidentList.forEach(function(incident){
             var title = incident.title;
             var incidentText = incident.exactlocation +
-                "<br /><b>Händelse inlad den " + Traffic.formatDate(incident.createddate) + "</b><br />" + incident.description + "<br />Kategori: " + incident.subcategory;
+                "<br /><b>Händelse inlad " + Traffic.formatDate(incident.createddate) + "</b><br />" + incident.description + "<br />Kategori: " + incident.subcategory;
 
             var messageLink = document.createElement("div");
             messageLink.innerHTML = "<a href='#'>" + incident.title + "</a>";
@@ -149,6 +151,7 @@ var Traffic = {
             //Don't show details until user clicks incident
             $('.incidentDetails').hide();
 
+            //If user clicks on incident link then show details, zoom in and open popup
             messageLink.addEventListener("click", function(){
                 $('.incidentDetails').hide(this);
                 $(this).children().show();
@@ -176,18 +179,40 @@ var Traffic = {
     },
 
     formatDate: function(date){
-        //Remove /Date
+        //Remove /Date(
         date = date.replace("/Date(", "");
+        //Remove /
         date = date.replace(")/", "");
 
+        //For some reason it comes one day ahead if I don't add "" before the other days
+        var days = [
+            "", "mån", "tis", "ons", "tors", "fre", "lör", "sön"
+        ];
+
+        //Same problem here as above
         var months = [
-            "Januari", "Februari", "Mars", "April", "Mars", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"
+            "", "Januari", "februari", "mars", "april", "juni", "juli", "augusti", "september", "oktober", "november", "december"
         ];
 
         //Make it into an integer and format it nicely
         date = parseInt(date, 10);
         date = new Date(date);
-        date = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
+
+        var hours;
+        var minutes;
+        if (date.getHours() < 10) {
+            hours = "0"+ date.getHours();
+        }
+        else{
+            hours = date.getHours();
+        }
+        if (date.getMinutes() < 10) {
+            minutes = "0"+ date.getMinutes();
+        }
+        else{
+            minutes = date.getMinutes();
+        }
+        date = hours + ":" + minutes + " " + days[date.getDay()] + " " + date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
 
         return date;
     },
