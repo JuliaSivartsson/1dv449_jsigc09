@@ -11,18 +11,18 @@ var Traffic = {
     markers: [],
     map: {},
     openStreetMapUrl: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+    jsonUrl: 'response.json',
 
     init: function(){
+
         //Create map
-// set up the map
         Traffic.map = new L.Map('map', {
             center: [Traffic.defaultLat, Traffic.defaultLong], zoom: Traffic.defaultZoom
         });
 
-        // create the tile layer with correct attribution
-
-        var osmAttrib = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors';
-        var openStreetMap = new L.TileLayer(Traffic.openStreetMapUrl, {attribution: osmAttrib});
+        //Create the tile layer with correct attribution
+        var osmAttribute = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | <a href="http://www.openstreetmap.org/copyright/en">CC BY-SA</a>';
+        var openStreetMap = new L.TileLayer(Traffic.openStreetMapUrl, {attribution: osmAttribute});
 
         //Set the map at Sweden
         Traffic.map.setView(new L.LatLng(Traffic.defaultLat, Traffic.defaultLong),Traffic.defaultZoom);
@@ -31,21 +31,23 @@ var Traffic = {
         Traffic.getTraffic();
         Traffic.renderValuesInSelect();
 
+        //If value in selectList changes redo traffic
         $('#selectList').on('change', function(){
             Traffic.getTraffic($(this).val());
         });
 
+        //Resets application
         $('#reset').on('click', function(){
             Traffic.resetMap();
             $("#selectList").val("Alla kategorier");
             Traffic.getTraffic();
             $(".leaflet-popup-close-button")[0].click();
-            $('.incidentdetails').hide();
+            $('.incidentDetails').hide();
         });
     },
 
     getTraffic: function(option){
-        $.ajax('response.json')
+        $.ajax(Traffic.jsonUrl)
             .done(function(data){
                 Traffic.renderMarkers(Traffic.ifSelectValueChanges(data.messages, option));
                 Traffic.renderMessages(Traffic.ifSelectValueChanges(data.messages, option));
@@ -106,7 +108,7 @@ var Traffic = {
 
         switch(incidentLevel){
             case 1:
-                color = "hej";
+                color = "FF0808";
                 break;
             case 2:
                 color = "FF8C08";
@@ -137,29 +139,29 @@ var Traffic = {
             var incidentText = incident.exactlocation +
                 "<br />" + Traffic.formatDate(incident.createddate) + "<br />" + incident.description + "<br />" + incident.subcategory;
 
-            $("ul#incidentList").append("<li><a class='incident priority" + incident.priority + "' href='#'>" + incident.title + "</a><p class='incidentdetails'>" + incidentText + "</p></li>");
+
+            var messageLink = document.createElement("div");
+            messageLink.innerHTML = "<a href='#'>" + incident.title + "</a>";
+
+            var messageText = document.createElement("p");
+            messageText.setAttribute("class", "incidentDetails");
+            messageText.innerHTML = incidentText;
+
+            var incidentList= document.getElementById("incidentList");
+            messageLink.appendChild(messageText);
+            incidentList.appendChild(messageLink);
 
             //Don't show details until user clicks incident
-            $('.incidentdetails').hide();
+            $('.incidentDetails').hide();
 
-            $('.incident').on('click', function(event) {
-                event.preventDefault();
-                $('.incidentdetails').hide();
+            messageLink.addEventListener("click", function(){
+                $('.incidentDetails').hide(this);
+                console.log(this);
+                $(this).children().show();
                 var details = $(this).next();
                 details.slideDown('fast');
 
-                // Also zoom map on clicked incident
-                var latitude;
-                var longitude;
-                var title = $(this).html();
-
-                Traffic.incidentArray.forEach(function(incident) {
-                    if (incident.title === title) {
-                        latitude = incident.latitude;
-                        longitude = incident.longitude;
-                    }
-                });
-                Traffic.map.setView([latitude, longitude], 14);
+                Traffic.map.setView([incident.latitude, incident.longitude], 14);
 
                 //Open popup when user clicks incident
                 Traffic.markers.forEach(function(marker){
