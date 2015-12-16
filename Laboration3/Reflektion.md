@@ -6,7 +6,7 @@ Julia Sivartsson, jsigc09
 ###Vad finns det för krav du måste anpassa dig efter i de olika API:erna?
 OpenStreetMaps är ett öppet API som endast kräver att man talar om i sin applikation att man använder sig av dem, detta gör jag med hjälp av en länk till dem. 
 
-Sveriges Radio var relativt enkelt och öppet för användning.
+Sveriges Radio är helt öppet för användning utan några restriktioner som jag kunde hitta i alla fall.
 
 ###Hur och hur länga cachar du ditt data för att slippa anropa API:erna i onödan?
 Jag cachar min data i en fil, har filen inte uppdaterats de senaste 5 minuterna när jag uppdaterar sidan så hämtas informationen på servern på nytt. Jag använder mig av filemtime() för att kolla hur länge sedan en fil uppdaterades.
