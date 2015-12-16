@@ -14,7 +14,7 @@ class SverigesRadio
         $traffic = null;
 
         //Create a new request if file is older than 5 minute
-        if(file_exists(self::$fileName) && time() - filemtime(self::$fileName) > 10){
+        if(file_exists(self::$fileName) && time() - filemtime(self::$fileName) > 10 * self::$cacheLife){
             echo "new info is presented";
             $traffic = $this->getNewTraffic();
 
