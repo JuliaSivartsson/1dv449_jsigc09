@@ -10,7 +10,11 @@ class MashupController
 
     public function doMashup()
     {
-        $this->webService->getTrafficInfo();
+        $result = $this->webService->getTrafficInfo();
+
+        if($result !== null){
+            return $result;
+        }
     }
 
 }

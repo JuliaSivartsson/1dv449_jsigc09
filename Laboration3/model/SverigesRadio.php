@@ -14,16 +14,18 @@ class SverigesRadio
         $traffic = null;
 
         //Create a new request if file is older than 5 minute
-        if(file_exists(self::$fileName) && time() - filemtime(self::$fileName) > 60){
+        if(file_exists(self::$fileName) && time() - filemtime(self::$fileName) > 10){
             echo "new info is presented";
             $traffic = $this->getNewTraffic();
 
-            if($traffic !== null){
+            //If connection worked then we cache the information
+            if($traffic !== null && $traffic !== false){
                 $this->cache = fopen('response.json', 'w');
                 fwrite($this->cache, $traffic);
                 fclose($this->cache);
             }
-            else{
+            //Otherwise we print send an error message to back
+            if($traffic === false){
                 $fileTime = date("j M Y H:i:s", filemtime(self::$fileName));
                 return "Just nu går det inte hämta trafikmeddelanden från Sveriges Radio. Hämtad {$fileTime}";
             }

@@ -2,12 +2,10 @@
 
 var Traffic = {
 
-
     options: ["Vägtrafik", "Kollektivtrafik", "Planerad störning", "Övrigt"],
     defaultLat: 63.0,
     defaultLong: 13.0,
     defaultZoom: 5,
-    incidentArray: [],
     markers: [],
     map: {},
     openStreetMapUrl: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -80,7 +78,6 @@ var Traffic = {
         });
 
         messages.forEach(function(incident){
-            Traffic.incidentArray.push(incident);
 
             //Based on incident lever change color on marker
             var markerColor = Traffic.getMarkerColorBasedOnIncidentLevel(incident.priority);
@@ -99,7 +96,6 @@ var Traffic = {
                 "<br /><b>Kategori:</b> " + incident.subcategory;
 
             marker.bindPopup(popupText);
-
         });
     },
 
@@ -137,8 +133,7 @@ var Traffic = {
         incidentList.forEach(function(incident){
             var title = incident.title;
             var incidentText = incident.exactlocation +
-                "<br />" + Traffic.formatDate(incident.createddate) + "<br />" + incident.description + "<br />" + incident.subcategory;
-
+                "<br /><b>Händelse inlad den " + Traffic.formatDate(incident.createddate) + "</b><br />" + incident.description + "<br />Kategori: " + incident.subcategory;
 
             var messageLink = document.createElement("div");
             messageLink.innerHTML = "<a href='#'>" + incident.title + "</a>";
@@ -156,10 +151,7 @@ var Traffic = {
 
             messageLink.addEventListener("click", function(){
                 $('.incidentDetails').hide(this);
-                console.log(this);
                 $(this).children().show();
-                var details = $(this).next();
-                details.slideDown('fast');
 
                 Traffic.map.setView([incident.latitude, incident.longitude], 14);
 
@@ -184,13 +176,13 @@ var Traffic = {
     },
 
     formatDate: function(date){
-        var months = [
-            "Januari", "Februari", "Mars", "April", "Mars", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"
-        ];
-
         //Remove /Date
         date = date.replace("/Date(", "");
         date = date.replace(")/", "");
+
+        var months = [
+            "Januari", "Februari", "Mars", "April", "Mars", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"
+        ];
 
         //Make it into an integer and format it nicely
         date = parseInt(date, 10);

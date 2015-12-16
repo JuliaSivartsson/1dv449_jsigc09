@@ -11,3 +11,16 @@
 .margin-top{
     margin-top: 20px;
 }
+
+.custom-error{
+    margin: 0 auto;
+    width: 700px;
+    padding: 20px;
+    color: #fff;
+    font-size: 15px;
+}
+
+.custom-error a:link, .custom-error a:visited{
+    color: #fff;
+    text-decoration: underline;
+}

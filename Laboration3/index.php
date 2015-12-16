@@ -7,5 +7,9 @@ require_once("model/SverigesRadio.php");
 $controller = new MashupController();
 $view = new HtmlView();
 
-$controller->doMashup();
-$view->render();
+$resultFromController = $controller->doMashup();
+$resultToView = "";
+if($resultFromController != null){
+    $resultToView = $resultFromController;
+}
+$view->render($resultToView);

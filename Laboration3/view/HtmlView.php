@@ -3,7 +3,13 @@
 class HtmlView
 {
 
-    public function render(){
+    public function render($result){
+
+        $resultLabel = "";
+        if($result !== ""){
+            $resultLabel = '<p class="label-danger custom-error">'.$result.'</p>';
+        }
+
         echo '<!DOCTYPE html>
             <html>
                 <head>
@@ -18,6 +24,17 @@ class HtmlView
                 <body>
                     <div class="page-header text-center">
                         <h1>Trafikkarta</h1>
+                         '. $resultLabel .'
+                        <noscript>
+                            <div class="label-danger custom-error">
+                                <p>
+                                    JavaScript verkar inte vara aktiverat i din webbläsare, slå på för att ta del av sidans innehåll.
+                                </p>
+                                <p>
+                                    <a href="http://www.enable-javascript.com" target="_blank">Här finns instruktioner om hur du aktiverar JavaScript</a>
+                                </p>
+                            </div>
+                        </noscript>
                     </div>
                     <div id="content">
                         <div id="map" class="pull-left"></div>
