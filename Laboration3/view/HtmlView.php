@@ -31,6 +31,10 @@ class HtmlView
                                 <button class="btn btn-primary form-control" id="reset">Återställ</button>
                             </div>
 
+                            <div id="messages">
+
+                            </div>
+
                             <div class="incident-level margin-top">
                                 <img src="src/img/1.jpg"><p class="small">1 = Mycket allvarlig händelse</p>
                             </div>

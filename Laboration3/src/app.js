@@ -1,77 +1,78 @@
-$(document).ready(function() {
-    var defaultLat = 62.456514;
-    var defaultLong = 15.024573;
-    var defaultZoom = 5;
+"use strict";
 
-    var markers = [];
-    var incidentArray = [];
+var Traffic = {
 
-    var categories = {
-        "0" : "Vägtrafik",
-        "1" : "Kollektivtrafik",
-        "3" : "Planerad störning",
-        "4" : "Övrigt"
-    };
 
-    //Create map
-    var map = new L.Map('map', {
-        center: new L.LatLng(defaultLat, defaultLong), zoom: defaultZoom
-    });
+    options: ["Vägtrafik", "Kollektivtrafik", "Planerad störning", "Övrigt"],
+    defaultLat: 60.2,
+    defaultLong: 12.0,
+    defaultZoom: 5,
+    incidentArray: [],
+    markers: [],
+    map: {},
 
-    //Render Google map
-    var googleLayer = new L.Google('ROADMAP');
-    map.addLayer(googleLayer);
+    init: function(){
+        //Create map
+        Traffic.map = new L.Map('map', {
+           center: [Traffic.defaultLat, Traffic.defaultLong], zoom: Traffic.defaultZoom
+        });
 
-    renderTraffic();
-    renderValuesInSelect();
+        //Render map
+        var googleMap = new L.Google('ROADMAP');
+        Traffic.map.addLayer(googleMap);
 
-    function renderTraffic(filter){
+        Traffic.getTraffic();
+        Traffic.renderValuesInSelect();
+
+        $('#selectList').on('change', function(){
+            Traffic.getTraffic($(this).val());
+        });
+
+        $('#reset').on('click', function(){
+            Traffic.resetMap();
+            $("#selectList").val("Alla kategorier");
+            Traffic.getTraffic();
+            $(".leaflet-popup-close-button")[0].click();
+            $('.incidentdetails').hide();
+        });
+    },
+
+    getTraffic: function(option){
         $.ajax('response.json')
             .done(function(data){
-                renderMarkers(filterArray(data.messages, filter));
-                renderList(filterArray(data.messages, filter));
+                Traffic.renderMarkers(Traffic.ifSelectValueChanges(data.messages, option));
+                Traffic.renderMessages(Traffic.ifSelectValueChanges(data.messages, option));
             })
             .fail(function(){
                 console.log("Ajax failed loading");
             });
-    }
+    },
 
-    //If  select tag is changed, render new list
-    $('#selectList').on('change', function(){
-        var filteredList = filterArray(incidentArray, $(this).val());
-        renderTraffic($(this).val());
-    });
-
-    //Render list based on which category is active
-    function filterArray(list, filter){
-        if(filter !== undefined && filter !== 'Alla kategorier'){
-            list = jQuery.grep(list, function(incident){
+    ifSelectValueChanges: function(messages, option){
+        if(option !== undefined && option !== 'Alla kategorier'){
+            messages = jQuery.grep(messages, function(incident){
                 var categoryNumber = incident.category;
-                return categories[categoryNumber] === filter;
+                return Traffic.options[categoryNumber] === option;
             });
         }
-        return list;
-    }
+        return messages;
+    },
 
-    //Show values in select list
-    function renderValuesInSelect(){
+    renderValuesInSelect: function(){
         $('#selectList').append('<option value="Alla kategorier">Alla kategorier</option>');
-        $.each(categories, function(index, category) {
+        $.each(Traffic.options, function(index, category) {
             $('#selectList').append("<option value=\"" + category + "\">" + category + "</option>");
         });
-    }
+    },
 
-    function renderMarkers(messages){
-        //If markers exists, remove them
-        markers.forEach(function(marker){
-            map.removeLayer(marker);
+    renderMarkers: function(messages){
+        Traffic.markers.forEach(function(marker){
+            Traffic.map.removeLayer(marker);
         });
-        markers = [];
-        incidentArray = [];
 
-        //Draw new markers
+
         messages.forEach(function(incident){
-            incidentArray.push(incident);
+            Traffic.incidentArray.push(incident);
 
             //Based on incident lever change color on marker
             var markerColor = "";
@@ -93,15 +94,12 @@ $(document).ready(function() {
                     break;
             }
 
-            //Create icon from MakiMarkers
-            var icon = L.MakiMarkers.icon({ icon: "circle", color: markerColor, size: "m"});
+            var icon = L.MakiMarkers.icon({icon: "circle", color: markerColor, size: "m"});
+            var marker = L.marker([incident.latitude, incident.longitude], { icon: icon}).addTo(Traffic.map);
+            Traffic.markers.push(marker);
 
-            //Create the marker
-            var marker = L.marker([incident.latitude, incident.longitude], { icon: icon}).addTo(map);
-            markers.push(marker);
-            //When user click on marker, zoom to it
-            marker.on('click', function(e) {
-                map.setView([e.latlng.lat, e.latlng.lng], 14);
+            marker.on('click', function(e){
+                Traffic.map.setView([e.latlng.lat, e.latlng.lng], 14);
 
                 //And view incident in list
                 var popupTitle = e.target._popup._content.split("<br />")[0];
@@ -112,18 +110,19 @@ $(document).ready(function() {
                 });
             });
 
-            var parsedDate = formatDate(incident.createddate);
+            var parsedDate = Traffic.formatDate(incident.createddate);
             var popupText = incident.title + "<br />" + incident.exactlocation +
                 "<br />" + parsedDate + "<br />" + incident.description +
                 "<br />" + incident.subcategory;
 
             marker.bindPopup(popupText);
-        });
-    }
 
-    function renderList(incidentList){
+        });
+    },
+
+    renderMessages: function(incidentList){
         //Sort the list based on date
-        incidentList.sort(sortIncidentsByDate);
+        incidentList.sort(Traffic.sortIncidentsByDate);
         incidentList.reverse();
 
         //If list is already rendered, clear it
@@ -132,7 +131,7 @@ $(document).ready(function() {
         incidentList.forEach(function(incident){
             var title = incident.title;
             var incidentText = incident.exactlocation +
-                "<br />" + formatDate(incident.createddate) + "<br />" + incident.description + "<br />" + incident.subcategory;
+                "<br />" + Traffic.formatDate(incident.createddate) + "<br />" + incident.description + "<br />" + incident.subcategory;
 
             $("ul#incidentList").append("<li><a class='incident priority" + incident.priority + "' href='#'>" + incident.title + "</a><p class='incidentdetails'>" + incidentText + "</p></li>");
 
@@ -150,26 +149,41 @@ $(document).ready(function() {
                 var longitude;
                 var title = $(this).html();
 
-                incidentArray.forEach(function(incident) {
+                Traffic.incidentArray.forEach(function(incident) {
                     if (incident.title === title) {
                         latitude = incident.latitude;
                         longitude = incident.longitude;
                     }
                 });
-
-                map.setView([latitude, longitude], 14);
+                Traffic.map.setView([latitude, longitude], 14);
 
                 //Open popup when user clicks incident
-                markers.forEach(function(marker){
+                Traffic.markers.forEach(function(marker){
                     if(marker._popup._content.split("<br />")[0] === title){
                         marker.openPopup();
                     }
                 });
             });
         });
-    }
+    },
 
-    function formatDate(date){
+    sortIncidentsByDate: function(incident1, incident2){
+        var date1 = incident1.createddate.replace("/Date(", "");
+        date1 = date1.replace(")/", "");
+
+        var date2 = incident2.createddate.replace("/Date(", "");
+        date2 = date2.replace(")/", "");
+
+        if(date1 < date2){
+            return -1;
+        }
+        if(date1 > date2){
+            return 1;
+        }
+        return 0;
+    },
+
+    formatDate: function(date){
         var months = [
             "Januari", "Februari", "Mars", "April", "Mars", "Juni", "Juli", "Augusti", "September", "Oktober", "November", "December"
         ];
@@ -184,35 +198,11 @@ $(document).ready(function() {
         date = date.getDate() + " " + months[date.getMonth()] + " " + date.getFullYear();
 
         return date;
+    },
+
+    resetMap: function(){
+        Traffic.map.setView([Traffic.defaultLat, Traffic.defaultLong], Traffic.defaultZoom);
     }
+};
 
-    function sortIncidentsByDate(incident1, incident2){
-        var date1 = incident1.createddate.replace("/Date(", "");
-        date1 = date1.replace(")/", "");
-
-        var date2 = incident2.createddate.replace("/Date(", "");
-        date2 = date2.replace(")/", "");
-
-        if(date1 < date2){
-            return -1;
-        }
-        if(date1 > date2){
-            return 1;
-        }
-        return 0;
-    }
-
-    //Reset map to default view
-    function resetMap(){
-        map.setView([defaultLat, defaultLong], defaultZoom);
-    }
-
-    //Resets application
-    $('#reset').on('click', function() {
-        resetMap();
-        $('#selectList').val('Alla kategorier');
-        renderTraffic();
-
-        $(".leaflet-popup-close-button")[0].click();
-    });
-});
+window.onload = Traffic.init;
