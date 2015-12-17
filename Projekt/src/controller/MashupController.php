@@ -5,6 +5,9 @@ use model;
 
 class MashupController
 {
+
+    private $tags = array("supernatural", "doctorwho", "sherlock");
+
     private $instagram;
     private static $authenticationUrl = "https://api.instagram.com/oauth/authorize/?client_id=a5a0e5b2d28147fcbc5c95fc6fdf54fc&redirect_uri=http://project1dv449.node365.se/authenticated.php&response_type=token&scope=basic+public_content";
 
@@ -17,7 +20,9 @@ class MashupController
     }
 
     public function doMashup(){
-        $this->instagram->getNumberOfTimesTagIsUsed();
+        foreach($this->tags as $tag){
+            $this->instagram->getNumberOfTimesTagIsUsed($tag);
+        }
     }
 
 }

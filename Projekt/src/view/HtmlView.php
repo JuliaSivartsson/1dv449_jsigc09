@@ -12,7 +12,7 @@ class HtmlView
                     <!-- Latest compiled and minified CSS -->
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
                         integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
-                    <link rel="stylesheet" href="src/src/style.css" />
+                    <link rel="stylesheet" href="src/content/style.css" />
                     <title>enterTAGment</title>
                 </head>
                 <body>
@@ -25,7 +25,7 @@ class HtmlView
                         </p>
                     </div>
 
-                <script src="src/src/app.js"></script>
+                <script src="src/content/app.js"></script>
 
 
                 </body>
