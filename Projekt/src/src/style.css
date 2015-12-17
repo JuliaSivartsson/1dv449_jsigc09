@@ -1,0 +1,51 @@
+#map {
+    height: 800px;
+    width: 700px;
+    margin: auto;
+    float: right;
+}
+
+ul {
+    list-style: none;
+}
+
+.form-control {
+    width: 30%;
+}
+
+#content {
+    width: 1400px;
+    margin: auto;
+    padding-top: 80px;
+}
+
+.incidentdetails, .incident {
+    border: 1px solid transparent;
+}
+
+.leaflet-map-pane {
+    z-index: 2 !important;
+}
+
+.leaflet-google-layer {
+    z-index: 1 !important;
+}
+
+.margin-top{
+    margin-top: 20px;
+}
+
+.incident-level{
+    width: 400px;
+    padding: 10px;
+    overflow: hidden;
+}
+
+.incident-level img {
+    margin-right: 15px;
+    float: left;
+}
+
+.incident-level p {
+    padding-top: 5px;
+}
