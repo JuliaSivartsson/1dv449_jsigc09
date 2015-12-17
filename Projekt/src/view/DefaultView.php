@@ -27,9 +27,19 @@ class DefaultView
                         <h1>enterTAGment</h1>
                     </div>
                     <div id="main" class="content">
-
+                        <div class="col-md-5 chart_div_overall pull-left">
+                            <h3 class="overall">Statistics overall</h3>
+                            <div id="chart_div_overall" class="pull-left"></div>
+                        </div>
+                        <div class="col-md-5 chart_div_overall pull-right">
+                            <h3 class="overall">Statistics last month</h3>
+                            <div id="chart_div_month" class="pull-right"></div>
+                        </div>
                     </div>
 
+                <!--Load the AJAX API-->
+                <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                 <script src="src/lib/jquery-1.11.3.min.js"></script>
                 <script src="src/content/app.js"></script>
 

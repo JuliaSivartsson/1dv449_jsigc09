@@ -8,5 +8,8 @@
  */
 class Settings
 {
-
+    public function getTags(){
+        return self::$tags;
+    }
+    public static $tags = ["supernatural", "doctorwho", "sherlock"];
 }

@@ -27,6 +27,18 @@ ul {
     z-index: 2 !important;
 }
 
+#chart_div_overall, #chart_div_month{
+    width: 600px;
+    height: 400px;
+}
+
+.chart_div_overall{
+    text-align: center;
+}
+
+.overall{
+}
+
 .leaflet-google-layer {
     z-index: 1 !important;
 }
