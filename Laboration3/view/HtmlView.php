@@ -18,6 +18,8 @@ class HtmlView
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
                         integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
                     <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css" />
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+                    <link rel="stylesheet" href="lib/css/leaflet.extra-markers.min.css">
                     <link rel="stylesheet" href="content/style.css" />
                     <title>Mashup</title>
                 </head>
@@ -68,7 +70,7 @@ class HtmlView
 
                 <script src="lib/leaflet.js"></script>
                 <script src="lib/jquery-1.11.3.min.js"></script>
-                <script src="lib/Leaflet.MakiMarkers.js"></script>
+                <script src="lib/js/leaflet.extra-markers.min.js"></script>
                 <script src="content/app.js"></script>
 
 
