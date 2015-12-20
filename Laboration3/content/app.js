@@ -39,7 +39,7 @@ var Traffic = {
             Traffic.resetMap();
             $("#selectList").val("Alla kategorier");
             Traffic.getTraffic();
-            $(".leaflet-popup-close-button")[0].click();
+            Traffic.map.closePopup();
             $('.incidentDetails').hide();
         });
     },
@@ -58,8 +58,8 @@ var Traffic = {
     ifSelectValueChanges: function(messages, option){
         if(option !== undefined && option !== 'Alla kategorier'){
             messages = jQuery.grep(messages, function(incident){
-                var categoryNumber = incident.category;
-                return Traffic.options[categoryNumber] === option;
+                var category = incident.category;
+                return Traffic.options[category] === option;
             });
         }
         return messages;
@@ -112,12 +112,11 @@ var Traffic = {
             });
 
             var getFormatDate = Traffic.formatDate(incident.createddate);
-            var popupText = incident.title + "<br />" + incident.exactlocation +
-                "<br /><b>Händelse inlagt kl " + getFormatDate + "</b><br />" + incident.description +
+            var popupText = incident.title +
+                "<br />" + incident.exactlocation +
+                "<br /><b>Händelse inlagt kl " + getFormatDate +
+                "</b><br />" + incident.description +
                 "<br /><b>Kategori:</b> " + incident.subcategory;
-
-
-
 
             marker.bindPopup(popupText);
         });
@@ -198,19 +197,23 @@ var Traffic = {
 
             //If user clicks on incident link then show details, zoom in and open popup
             messageLink.addEventListener("click", function(){
-                $('.incidentDetails').hide(this);
-                $(this).children().show();
-                console.log($(this).children());
-
-                Traffic.map.setView([incident.latitude, incident.longitude], 14);
-
-                //Open popup when user clicks incident
-                Traffic.markers.forEach(function(marker){
-                    if(marker._popup._content.split("<br />")[0] === title){
-                        marker.openPopup();
-                    }
-                });
+                Traffic.renderDetails(this, incident);
             });
+        });
+    },
+
+    renderDetails: function(link, incident){
+        //Hide details so not more than one detail can show at once
+        $('.incidentDetails').hide(link);
+        $(link).children().show();
+
+        Traffic.map.setView([incident.latitude, incident.longitude], 12);
+
+        //Open popup when user clicks incident
+        Traffic.markers.forEach(function(marker){
+            if(marker._popup._content.split("<br />")[0] === incident.title){
+                marker.openPopup();
+            }
         });
     },
 
