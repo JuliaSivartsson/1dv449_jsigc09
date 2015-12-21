@@ -38,8 +38,9 @@ class InstagramAPI
     public function getRecentTags($tag){
         $oneMonth = strtotime("-1 month");
 
+        var_dump($oneMonth);
         $result = "";
-        $result .= $this->connectionSetup("https://api.instagram.com/v1/tags/$tag/media/recent?access_token=10401453.a5a0e5b.1a8eed908b5b4150a53c682eaf1307d5&min_tag_id=$oneMonth");
+        $result .= $this->connectionSetup("https://api.instagram.com/v1/tags/$tag/media/recent?access_token=10401453.a5a0e5b.1a8eed908b5b4150a53c682eaf1307d5&max_tag_id=$oneMonth");
 
         var_dump(count($result));
         $fileName = $tag . self::$fileRootMonth;
