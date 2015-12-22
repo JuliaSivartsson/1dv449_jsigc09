@@ -28,17 +28,17 @@ var enterTAGment = {
         })
     },
 
-    /*getRecentResponse: function(){
-        enterTAGment.tags.forEach(function(tag){
+    getRecentResponse: function(title){
+        enterTAGment.tags.forEach(function(tag) {
             $.ajax(tag + 'responseMonth.json')
-                .done(function(data){
-                    enterTAGment.saveRecentResponeIntoArray(data.data);
+                .done(function (data) {
+                    enterTAGment.displayPictures(data.data, title);
                 })
-                .fail(function(){
+                .fail(function () {
                     console.log("Ajax failed loading");
                 });
-        })
-    },*/
+        });
+    },
 
     drawChart: function() {
 // Define the chart to be drawn.
@@ -80,7 +80,7 @@ var enterTAGment = {
                 fo.setAttribute('width', width);
                 var body = document.createElementNS("http://www.w3.org/1999/xhtml", "BODY");
                 var a = document.createElement("A");
-                a.href = "/" + el.textContent;
+                a.href = "#";
                 a.setAttribute("style", "color:black;");
                 a.innerHTML = el.textContent;
                 body.appendChild(a);
@@ -89,38 +89,84 @@ var enterTAGment = {
                 // Remove the original SVG text and replace it with the HTML.
                 g.removeChild(el);
                 g.appendChild(fo);
+
+                a.addEventListener('click', function(link){
+                    enterTAGment.getRecentResponse(el.textContent);
+
+                    var tagDetails = document.getElementById('tagDetails');
+                    tagDetails.innerHTML = el.textContent;
+                    tagDetails.setAttribute('class', 'tagDetails');
+
+                    var centerDiv = document.createElement('div');
+                    centerDiv.setAttribute('id', 'centerDiv');
+                    centerDiv.setAttribute('class', 'centerDiv');
+                    tagDetails.appendChild(centerDiv);
+
+                    var row = document.createElement('div');
+                    row.setAttribute('id', 'row');
+                    row.setAttribute('class', 'row');
+                    centerDiv.appendChild(row);
+                    $('#tagDetails').show();
+                });
             }
         });
 
         /*var recentData = new google.visualization.DataTable();
 
-        recentData.addColumn('string', 'fandoms');
-        recentData.addColumn('number', 'tag count');
-        recentData.addRows([
+recentData.addColumn('string', 'fandoms');
+recentData.addColumn('number', 'tag count');
+recentData.addRows([
 
-        ]);
-        enterTAGment.tagInfoArray.forEach(function(tagInfo){
-            recentData.addRows([
-                [tagInfo['name'], tagInfo['count'] ]
-            ]);
-        });
+]);
+enterTAGment.tagInfoArray.forEach(function(tagInfo){
+    recentData.addRows([
+        [tagInfo['name'], tagInfo['count'] ]
+    ]);
+});
 
-        // Instantiate and draw the chart.
-        var recenChart = new google.visualization.BarChart(document.getElementById('chart_div_month'));
-        recenChart.draw(recentData, null);*/
-    },
+// Instantiate and draw the chart.
+var recenChart = new google.visualization.BarChart(document.getElementById('chart_div_month'));
+recenChart.draw(recentData, null);*/
+},
 
     saveResponseIntoArray: function(data){
-        //document.body.appendChild(aLink);
         var object = {"name": data['name'], "count": data['media_count']};
         enterTAGment.tagInfoArray.push(object);
+    },
+
+    displayPictures: function(data, title){
+
+        var centerDiv = document.getElementById('centerDiv');
+        var row = document.getElementById('row');
+        //centerDiv.appendChild(row);
+
+        data.forEach(function(tag){
+            tag['tags'].forEach(function(imgTag){
+
+                if(imgTag == title){
+                    var same = document.getElementById(tag['id']);
+
+                    //Only display each image once
+                    if(same === null) {
+                        var thumbnail = document.createElement('div');
+                        thumbnail.setAttribute('class', 'col-xs-6 col-md-3');
+                        thumbnail.setAttribute('id', tag['id']);
+
+                        var aLink = document.createElement('a');
+                        aLink.href = '#';
+                        aLink.setAttribute('class', 'thumbnail');
+
+                        var img = document.createElement('img');
+                        img.src = tag['images']['thumbnail']['url'];
+
+                        aLink.appendChild(img);
+                        thumbnail.appendChild(aLink);
+                        row.appendChild(thumbnail);
+                    }
+                }
+
+            });
+        });
     }
-
-    /*saveRecentResponeIntoArray: function(data){
-        var object = {"name": data['name'], "count": data['media_count']};
-        enterTAGment.recentTagInfoArray.push(object);
-
-        console.log(enterTAGment.recentTagInfoArray);
-    }*/
 };
 window.onload = enterTAGment.init;

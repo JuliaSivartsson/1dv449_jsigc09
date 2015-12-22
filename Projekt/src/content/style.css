@@ -1,31 +1,10 @@
-#map {
-    height: 800px;
-    width: 700px;
-    margin: auto;
-    float: right;
+.content {
+    width: 100%;
+    position: relative;
+    display: block;
+    min-height: 500px;
 }
 
-ul {
-    list-style: none;
-}
-
-.form-control {
-    width: 30%;
-}
-
-#content {
-    width: 1400px;
-    margin: auto;
-    padding-top: 80px;
-}
-
-.incidentdetails, .incident {
-    border: 1px solid transparent;
-}
-
-.leaflet-map-pane {
-    z-index: 2 !important;
-}
 
 #chart_div_overall, #chart_div_month{
     width: 600px;
@@ -39,25 +18,18 @@ ul {
 .overall{
 }
 
-.leaflet-google-layer {
-    z-index: 1 !important;
-}
-
 .margin-top{
     margin-top: 20px;
 }
 
-.incident-level{
-    width: 400px;
-    padding: 10px;
-    overflow: hidden;
+.tagDetails{
+    position: relative;
+    height: 400px;
+    width: 100%;
+    display: block;
 }
 
-.incident-level img {
-    margin-right: 15px;
-    float: left;
-}
-
-.incident-level p {
-    padding-top: 5px;
+.centerDiv{
+    width: 80%;
+    margin: 0 auto;
 }

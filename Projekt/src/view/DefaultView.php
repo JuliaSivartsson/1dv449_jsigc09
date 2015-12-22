@@ -37,6 +37,9 @@ class DefaultView
                         </div>
                     </div>
 
+                    <div id="tagDetails">
+                    </div>
+
                 <!--Load the AJAX API-->
                 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
