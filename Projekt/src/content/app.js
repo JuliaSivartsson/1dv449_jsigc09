@@ -90,7 +90,8 @@ var enterTAGment = {
                 g.removeChild(el);
                 g.appendChild(fo);
 
-                a.addEventListener('click', function(link){
+                a.addEventListener('click', function(){
+                    event.preventDefault();
                     enterTAGment.getRecentResponse(el.textContent);
 
                     var tagDetails = document.getElementById('tagDetails');
@@ -162,11 +163,56 @@ recenChart.draw(recentData, null);*/
                         aLink.appendChild(img);
                         thumbnail.appendChild(aLink);
                         row.appendChild(thumbnail);
+
+                        aLink.addEventListener('click', function (){
+                            event.preventDefault();
+                            enterTAGment.showPopup(tag);
+                        });
                     }
                 }
 
             });
         });
+    },
+
+    showPopup: function(tag){
+
+        var imageHolder = document.createElement('div');
+        imageHolder.setAttribute('id', 'imageHolder');
+        imageHolder.setAttribute('class', 'imageHolder');
+
+        console.log(tag);
+        imageHolder.style.top = screen.height/2 + "px";
+        imageHolder.style.left = screen.width/3 + "px";
+
+        var thumbnail = document.createElement('div');
+        thumbnail.setAttribute('class', 'thumbnail');
+
+        var img = document.createElement('img');
+        img.src = tag['images']['standard_resolution']['url'];
+
+        var caption = document.createElement('div');
+        caption.innerHTML = "<h3>" + tag['caption']['text'] + "</h3>";
+
+        var close = document.createElement('a');
+        close.src = "#";
+        close.style.cursor = "pointer";
+        close.innerHTML = ' <i class="fa fa-times"></i>';
+
+        close.addEventListener('click', function(){
+            this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+            return false;
+        });
+
+        var p = document.createElement('p');
+        p.innerHTML = "Här kommer info att vara";
+
+        caption.appendChild(p);
+        thumbnail.appendChild(close);
+        thumbnail.appendChild(img);
+        thumbnail.appendChild(caption);
+        imageHolder.appendChild(thumbnail);
+        document.body.appendChild(imageHolder);
     }
 };
 window.onload = enterTAGment.init;

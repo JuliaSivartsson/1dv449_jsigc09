@@ -17,6 +17,7 @@ class DefaultView
                 <head>
                     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
                     <!-- Latest compiled and minified CSS -->
+                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
                         integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
                     <link rel="stylesheet" href="src/content/style.css" />
@@ -24,7 +25,7 @@ class DefaultView
                 </head>
                 <body>
                     <div class="page-header text-center">
-                        <h1>enterTAGment</h1>
+                        <h1>enterTAGment <i class="fa fa-hand-spock-o"></i></h1>
                     </div>
                     <div id="main" class="content">
                         <div class="col-md-5 chart_div_overall pull-left">
