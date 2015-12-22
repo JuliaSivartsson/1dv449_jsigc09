@@ -14,6 +14,17 @@ var enterTAGment = {
 
         enterTAGment.getResponse();
         //enterTAGment.getRecentResponse();
+
+        $(document).mouseup(function (e)
+        {
+            var container = $("#imageHolder");
+
+            if (!container.is(e.target) // if the target of the click isn't the container...
+                && container.has(e.target).length === 0) // ... nor a descendant of the container
+            {
+                container.remove();
+            }
+        });
     },
 
     getResponse: function(){
@@ -95,7 +106,12 @@ var enterTAGment = {
                     enterTAGment.getRecentResponse(el.textContent);
 
                     var tagDetails = document.getElementById('tagDetails');
-                    tagDetails.innerHTML = el.textContent;
+
+                    var p = document.createElement('p');
+                    p.innerHTML = "<h1>#"+ el.textContent +"</h1>";
+                    p.setAttribute('class', 'detailsTitle');
+
+                    tagDetails.appendChild(p);
                     tagDetails.setAttribute('class', 'tagDetails');
 
                     var centerDiv = document.createElement('div');
@@ -204,15 +220,48 @@ recenChart.draw(recentData, null);*/
             return false;
         });
 
-        var p = document.createElement('p');
-        p.innerHTML = "Här kommer info att vara";
+        var userP = document.createElement('p');
+        userP.innerHTML = "<p>user: "+ tag['user']['username'] +"</p>";
 
-        caption.appendChild(p);
+        var createdP = document.createElement('p');
+        createdP.innerHTML = "<p>created: "+ enterTAGment.formatDate(tag['created_time']) +"</p>";
+
+        caption.appendChild(userP);
+        caption.appendChild(createdP);
         thumbnail.appendChild(close);
         thumbnail.appendChild(img);
         thumbnail.appendChild(caption);
         imageHolder.appendChild(thumbnail);
         document.body.appendChild(imageHolder);
+    },
+
+    formatDate: function(datum){
+
+        //Thanks to https://gist.github.com/kmaida/6045266 for help with this
+        var d = new Date(datum * 1000),	// Convert the passed timestamp to milliseconds
+            yyyy = d.getFullYear(),
+            mm = ('0' + (d.getMonth() + 1)).slice(-2),	// Months are zero based. Add leading 0.
+            dd = ('0' + d.getDate()).slice(-2),			// Add leading 0.
+            hh = d.getHours(),
+            h = hh,
+            min = ('0' + d.getMinutes()).slice(-2),		// Add leading 0.
+            ampm = 'AM',
+            time;
+
+        if (hh > 12) {
+            h = hh - 12;
+            ampm = 'PM';
+        } else if (hh === 12) {
+            h = 12;
+            ampm = 'PM';
+        } else if (hh == 0) {
+            h = 12;
+        }
+
+        // ie: 2013-02-18, 8:35 AM
+        time = yyyy + '-' + mm + '-' + dd + ', ' + h + ':' + min + ' ' + ampm;
+
+        return time;
     }
 };
 window.onload = enterTAGment.init;

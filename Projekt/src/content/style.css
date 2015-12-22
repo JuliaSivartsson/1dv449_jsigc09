@@ -42,3 +42,10 @@
     position: absolute;
     background-color: #fff;
 }
+
+.detailsTitle{
+    text-align: center;
+    padding-bottom: 10px;
+    color: #333;
+    border-bottom: 1px solid #eee;
+}
