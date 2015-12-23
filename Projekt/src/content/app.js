@@ -6,6 +6,8 @@ var enterTAGment = {
     fileRoot: "response.json",
     tagInfoArray: [],
     recentTagInfoArray: [],
+    imageArray: [],
+    tagArray: [],
 
     init: function(){
         // Load the Visualization API and the piechart package.
@@ -107,6 +109,12 @@ var enterTAGment = {
 
                     var tagDetails = document.getElementById('tagDetails');
 
+                    //Clear div before rendering new info
+                    while (tagDetails.hasChildNodes()) {
+                        tagDetails.removeChild(tagDetails.lastChild);
+                    }
+                    enterTAGment.imageArray = [];
+
                     var p = document.createElement('p');
                     p.innerHTML = "<h1>#"+ el.textContent +"</h1>";
                     p.setAttribute('class', 'detailsTitle');
@@ -176,6 +184,8 @@ recenChart.draw(recentData, null);*/
                         var img = document.createElement('img');
                         img.src = tag['images']['thumbnail']['url'];
 
+                        enterTAGment.tagArray.push(tag);
+
                         aLink.appendChild(img);
                         thumbnail.appendChild(aLink);
                         row.appendChild(thumbnail);
@@ -197,7 +207,6 @@ recenChart.draw(recentData, null);*/
         imageHolder.setAttribute('id', 'imageHolder');
         imageHolder.setAttribute('class', 'imageHolder');
 
-        console.log(tag);
         imageHolder.style.top = screen.height/2 + "px";
         imageHolder.style.left = screen.width/3 + "px";
 
@@ -205,6 +214,7 @@ recenChart.draw(recentData, null);*/
         thumbnail.setAttribute('class', 'thumbnail');
 
         var img = document.createElement('img');
+        img.setAttribute('class', 'col-md-9 padding-bottom');
         img.src = tag['images']['standard_resolution']['url'];
 
         var caption = document.createElement('div');
@@ -213,11 +223,29 @@ recenChart.draw(recentData, null);*/
         var close = document.createElement('a');
         close.src = "#";
         close.style.cursor = "pointer";
-        close.innerHTML = ' <i class="fa fa-times"></i>';
+        close.innerHTML = ' <i class="fa fa-times fa-lx"></i>';
+
+        var previous = document.createElement('div');
+        previous.setAttribute('class', 'col-md-2 margin-top-left');
+        previous.style.cursor = "pointer";
+        previous.innerHTML = '<i class="fa fa-caret-left fa-2x"></i>';
+
+        var next = document.createElement('div');
+        next.setAttribute('class', 'col-md-1 margin-top-right');
+        next.style.cursor = "pointer";
+        next.innerHTML = '<i class="fa fa-caret-right fa-2x"></i>';
 
         close.addEventListener('click', function(){
             this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
             return false;
+        });
+
+        previous.addEventListener('click', function(){
+            enterTAGment.openPreviousImage(tag);
+        });
+
+        next.addEventListener('click', function(){
+           enterTAGment.openNextImage(tag);
         });
 
         var userP = document.createElement('p');
@@ -229,10 +257,45 @@ recenChart.draw(recentData, null);*/
         caption.appendChild(userP);
         caption.appendChild(createdP);
         thumbnail.appendChild(close);
+        thumbnail.appendChild(previous);
         thumbnail.appendChild(img);
+        thumbnail.appendChild(next);
         thumbnail.appendChild(caption);
         imageHolder.appendChild(thumbnail);
         document.body.appendChild(imageHolder);
+    },
+
+    openPreviousImage: function(tag){
+
+        var index = enterTAGment.tagArray.indexOf(tag);
+        var previousImage = enterTAGment.tagArray[index - 1];
+
+        var firstElement = enterTAGment.tagArray[0];
+        var indexOfFirstElement = enterTAGment.tagArray.indexOf(firstElement);
+        if(index == indexOfFirstElement){
+            console.log("first");
+        }
+        else{
+            document.getElementById("imageHolder").remove();
+            enterTAGment.showPopup(previousImage);
+        }
+    },
+
+    openNextImage: function(tag){
+
+        var index = enterTAGment.tagArray.indexOf(tag);
+        var nextImage = enterTAGment.tagArray[index + 1];
+
+        var lastElement = enterTAGment.tagArray[enterTAGment.tagArray.length -1];
+        var indexOfLastElement = enterTAGment.tagArray.indexOf(lastElement);
+
+        if(index == indexOfLastElement){
+            console.log("last");
+        }
+        else{
+            document.getElementById("imageHolder").remove();
+            enterTAGment.showPopup(nextImage);
+        }
     },
 
     formatDate: function(datum){
