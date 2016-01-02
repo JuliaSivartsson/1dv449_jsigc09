@@ -77,13 +77,33 @@ var enterTAGment = {
 
         var options = {
             backgroundColor: {fill: '#D0CCC5'},
-            hAxis: {gridlines: {color: '#333'}},
+            hAxis: {gridlines: {color: '#333'}, direction: 1},
             chartArea: {top:10, height: "60%"}
         };
         chart.draw(data, options);
 
+        //Draw chart for latest month
+        var recentData = new google.visualization.DataTable();
+
+        recentData.addColumn('string', 'fandoms');
+        recentData.addColumn('number', 'tag count');
+        recentData.addRows([
+
+        ]);
+        enterTAGment.recentTagInfoArray.forEach(function(tagInfo){
+            recentData.addRows([
+                [tagInfo['name'], tagInfo['count'] ]
+            ]);
+        });
+
+        // Instantiate and draw the chart.
+        var recentChart = new google.visualization.BarChart(document.getElementById('chart_div_month'));
+        recentChart.draw(recentData, options);
+
         //Found help with this solution here: http://stackoverflow.com/questions/12701772/insert-links-into-google-charts-api-data
         var xDelta = 75;
+        var xDelta1 = 175;
+        var yDelta1 = 13;
         var yDelta = 13;
         $('text').each(function(i, el) {
             if (enterTAGment.tags.indexOf(el.textContent) != -1) {
@@ -124,7 +144,7 @@ var enterTAGment = {
                     enterTAGment.imageArray = [];
 
                     var p = document.createElement('p');
-                    p.innerHTML = "<h1>#"+ el.textContent +"</h1>";
+                    p.innerHTML = "<h1 class='title'>#"+ el.textContent +"</h1>";
                     p.setAttribute('class', 'detailsTitle');
 
                     tagDetails.appendChild(p);
@@ -147,24 +167,6 @@ var enterTAGment = {
                 });
             }
         });
-
-        //Draw chart for latest month
-        var recentData = new google.visualization.DataTable();
-
-        recentData.addColumn('string', 'fandoms');
-        recentData.addColumn('number', 'tag count');
-        recentData.addRows([
-
-        ]);
-        enterTAGment.recentTagInfoArray.forEach(function(tagInfo){
-            recentData.addRows([
-                [tagInfo['name'], tagInfo['count'] ]
-            ]);
-        });
-
-        // Instantiate and draw the chart.
-        var recentChart = new google.visualization.BarChart(document.getElementById('chart_div_month'));
-        recentChart.draw(recentData, options);
 },
 
     saveRecentResponseIntoArray: function(tagName, data){
@@ -174,10 +176,6 @@ var enterTAGment = {
         });
         var object = {"name": tagName, "count": count};
         enterTAGment.recentTagInfoArray.push(object);
-
-        enterTAGment.recentTagInfoArray.forEach(function(tag){
-           console.log(tag);
-        });
     },
 
     saveResponseIntoArray: function(data){

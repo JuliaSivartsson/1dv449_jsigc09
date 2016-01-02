@@ -8,11 +8,20 @@ class HtmlView
         echo '<!DOCTYPE html>
             <html>
                 <head>
+                    <script>
+                        var run = function(){
+                         if (Offline.state === "up")
+                         Offline.check();
+                         };
+                         setInterval(run, 5000);
+                    </script>
+
                     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
                     <!-- Latest compiled and minified CSS -->
+<script src="//fast.eager.io/3XbiE24uTU.js"></script>
+                    <script src="src/content/offline.js"></script>
                     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"
-                        integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+                    <link rel="stylesheet" href="src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">
                     <link rel="stylesheet" href="src/content/style.css" />
                     <title>enterTAGment</title>
                 </head>
@@ -33,10 +42,6 @@ class HtmlView
                             </p>
                         </div>
                     </div>
-
-                <script src="src/content/app.js"></script>
-
-
                 </body>
             </html>
 

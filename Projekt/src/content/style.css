@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'distantStroke'; /*a name to be used later*/
+    src: url('font/Distant_Stroke_Medium.otf'); /*URL to font*/
+}
+
 .content {
     width: 100%;
     position: relative;
@@ -21,12 +26,18 @@ body{
     text-align: center;
 }
 
+.title{
+    font-family: 'distantStroke', "Book Antiqua", Palatino, serif;
+    font-size: 80px;
+}
+
 .custom-error{
     margin: 0 auto;
     width: 700px;
     padding: 20px;
     color: #fff;
     font-size: 15px;
+    text-align: center;
 }
 
 .custom-error a:link, .custom-error a:visited{
