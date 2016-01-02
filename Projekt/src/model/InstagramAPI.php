@@ -26,10 +26,9 @@ class InstagramAPI
                 fclose($this->cache);
             }
             //Otherwise we print send an error message to back
-            if ($result === false) {
+            if ($result === false || $result === "") {
                 $fileTime = date("j M Y H:i:s", filemtime($fileName));
-                return "Just nu går det inte hämta info. Hämtad {$fileTime}";
-            } else {
+                return "It is not possible to get new overall information from the Instagram at the moment. <br/> Latest info collected at {$fileTime}";
             }
         }
         return "";
@@ -38,7 +37,6 @@ class InstagramAPI
     public function getRecentTags($tag){
         $oneMonth = strtotime("-1 month");
 
-        var_dump($oneMonth);
         $result = "";
         $result .= $this->connectionSetup("https://api.instagram.com/v1/tags/$tag/media/recent?client_id=a5a0e5b2d28147fcbc5c95fc6fdf54fc&access_token=10401453.a5a0e5b.1a8eed908b5b4150a53c682eaf1307d5");
         $fileName = $tag . self::$fileRootMonth;
@@ -52,9 +50,9 @@ class InstagramAPI
                 fclose($this->cache);
             }
             //Otherwise we print send an error message to back
-            if ($result === false) {
+            if ($result === false || $result === "") {
                 $fileTime = date("j M Y H:i:s", filemtime($fileName));
-                return "Just nu går det inte hämta info. Hämtad {$fileTime}";
+                return "It is not possible to get new recent information from the Instagram at the moment. <br/>Latest info collected at {$fileTime}";
             } else {
             }
         }

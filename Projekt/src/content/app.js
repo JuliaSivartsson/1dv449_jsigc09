@@ -15,7 +15,7 @@ var enterTAGment = {
         google.charts.setOnLoadCallback(enterTAGment.drawChart);
 
         enterTAGment.getResponse();
-        //enterTAGment.getRecentResponse();
+        enterTAGment.getRecentResponse();
 
         $(document).mouseup(function (e)
         {
@@ -25,10 +25,12 @@ var enterTAGment = {
                 && container.has(e.target).length === 0) // ... nor a descendant of the container
             {
                 container.remove();
+                $("#darkBackground").remove();
             }
         });
     },
 
+    //Get overall statistics
     getResponse: function(){
         enterTAGment.tags.forEach(function(tag){
             $.ajax(tag + 'response.json')
@@ -41,10 +43,12 @@ var enterTAGment = {
         })
     },
 
+    //Get statistics for latest month
     getRecentResponse: function(title){
         enterTAGment.tags.forEach(function(tag) {
             $.ajax(tag + 'responseMonth.json')
                 .done(function (data) {
+                    enterTAGment.saveRecentResponseIntoArray(tag, data.data);
                     enterTAGment.displayPictures(data.data, title);
                 })
                 .fail(function () {
@@ -54,10 +58,8 @@ var enterTAGment = {
     },
 
     drawChart: function() {
-// Define the chart to be drawn.
+        //Define the chart to be drawn.
         var data = new google.visualization.DataTable();
-
-
 
         data.addColumn('string', 'fandoms');
         data.addColumn('number', 'tag count');
@@ -72,7 +74,13 @@ var enterTAGment = {
 
         // Instantiate and draw the chart.
         var chart = new google.visualization.BarChart(document.getElementById('chart_div_overall'));
-        chart.draw(data, null);
+
+        var options = {
+            backgroundColor: {fill: '#D0CCC5'},
+            hAxis: {gridlines: {color: '#333'}},
+            chartArea: {top:10, height: "60%"}
+        };
+        chart.draw(data, options);
 
         //Found help with this solution here: http://stackoverflow.com/questions/12701772/insert-links-into-google-charts-api-data
         var xDelta = 75;
@@ -132,27 +140,45 @@ var enterTAGment = {
                     row.setAttribute('class', 'row');
                     centerDiv.appendChild(row);
                     $('#tagDetails').show();
+
+                    $('html, body').animate({
+                        scrollTop: $("#centerDiv").offset().top
+                    }, 1000);
                 });
             }
         });
 
-        /*var recentData = new google.visualization.DataTable();
+        //Draw chart for latest month
+        var recentData = new google.visualization.DataTable();
 
-recentData.addColumn('string', 'fandoms');
-recentData.addColumn('number', 'tag count');
-recentData.addRows([
+        recentData.addColumn('string', 'fandoms');
+        recentData.addColumn('number', 'tag count');
+        recentData.addRows([
 
-]);
-enterTAGment.tagInfoArray.forEach(function(tagInfo){
-    recentData.addRows([
-        [tagInfo['name'], tagInfo['count'] ]
-    ]);
-});
+        ]);
+        enterTAGment.recentTagInfoArray.forEach(function(tagInfo){
+            recentData.addRows([
+                [tagInfo['name'], tagInfo['count'] ]
+            ]);
+        });
 
-// Instantiate and draw the chart.
-var recenChart = new google.visualization.BarChart(document.getElementById('chart_div_month'));
-recenChart.draw(recentData, null);*/
+        // Instantiate and draw the chart.
+        var recentChart = new google.visualization.BarChart(document.getElementById('chart_div_month'));
+        recentChart.draw(recentData, options);
 },
+
+    saveRecentResponseIntoArray: function(tagName, data){
+        var count = 0;
+        data.forEach(function(tag){
+            count++;
+        });
+        var object = {"name": tagName, "count": count};
+        enterTAGment.recentTagInfoArray.push(object);
+
+        enterTAGment.recentTagInfoArray.forEach(function(tag){
+           console.log(tag);
+        });
+    },
 
     saveResponseIntoArray: function(data){
         var object = {"name": data['name'], "count": data['media_count']};
@@ -162,8 +188,6 @@ recenChart.draw(recentData, null);*/
     displayPictures: function(data, title){
 
         var centerDiv = document.getElementById('centerDiv');
-        var row = document.getElementById('row');
-        //centerDiv.appendChild(row);
 
         data.forEach(function(tag){
             tag['tags'].forEach(function(imgTag){
@@ -203,6 +227,11 @@ recenChart.draw(recentData, null);*/
 
     showPopup: function(tag){
 
+
+        var darkBackground = document.createElement('div');
+        darkBackground.setAttribute('id', 'darkBackground');
+
+
         var imageHolder = document.createElement('div');
         imageHolder.setAttribute('id', 'imageHolder');
         imageHolder.setAttribute('class', 'imageHolder');
@@ -237,6 +266,7 @@ recenChart.draw(recentData, null);*/
 
         close.addEventListener('click', function(){
             this.parentNode.parentNode.parentNode.removeChild(this.parentNode.parentNode);
+            $("#darkBackground").remove();
             return false;
         });
 
@@ -262,6 +292,7 @@ recenChart.draw(recentData, null);*/
         thumbnail.appendChild(next);
         thumbnail.appendChild(caption);
         imageHolder.appendChild(thumbnail);
+        document.body.appendChild(darkBackground);
         document.body.appendChild(imageHolder);
     },
 
@@ -277,6 +308,7 @@ recenChart.draw(recentData, null);*/
         }
         else{
             document.getElementById("imageHolder").remove();
+            $("#darkBackground").remove();
             enterTAGment.showPopup(previousImage);
         }
     },
@@ -294,6 +326,7 @@ recenChart.draw(recentData, null);*/
         }
         else{
             document.getElementById("imageHolder").remove();
+            $("#darkBackground").remove();
             enterTAGment.showPopup(nextImage);
         }
     },

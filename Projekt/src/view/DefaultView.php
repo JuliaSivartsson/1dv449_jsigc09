@@ -11,7 +11,13 @@ namespace view;
 
 class DefaultView
 {
-    public function render(){
+    public function render($result){
+
+        $resultLabel = "";
+        if($result !== ""){
+            $resultLabel = '<p class="label-danger custom-error">'.$result.'</p>';
+        }
+
         echo '<!DOCTYPE html>
             <html>
                 <head>
@@ -24,15 +30,17 @@ class DefaultView
                     <title>enterTAGment</title>
                 </head>
                 <body>
+                <div class="overlay">
                     <div class="page-header text-center">
                         <h1>enterTAGment <i class="fa fa-hand-spock-o"></i></h1>
+                        '. $resultLabel .'
                     </div>
                     <div id="main" class="content">
-                        <div class="col-md-5 chart_div_overall pull-left">
+                        <div class="col-md-6 chart_div_overall pull-left">
                             <h3 class="overall">Statistics overall</h3>
                             <div id="chart_div_overall" class="pull-left"></div>
                         </div>
-                        <div class="col-md-5 chart_div_overall pull-right">
+                        <div class="col-md-6 chart_div_overall pull-right">
                             <h3 class="overall">Statistics last month</h3>
                             <div id="chart_div_month" class="pull-right"></div>
                         </div>
@@ -40,7 +48,7 @@ class DefaultView
 
                     <div id="tagDetails">
                     </div>
-
+                </div>
                 <!--Load the AJAX API-->
                 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
                 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
