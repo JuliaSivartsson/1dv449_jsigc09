@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
+
+        <link rel="stylesheet" href="src/lib/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="src/content/style.css" />
+        <link rel="stylesheet" href="src/offline/offline-style.css" />
+        <title>enterTAGment</title>
+    </head>
+    <body>
+        <div class="overlay">
+            <div class="page-header text-center">
+                <h1>enterTAGment <i class="fa fa-hand-spock-o"></i></h1>
+                <p class="label-danger custom-error">You are in offline mode. This site will not work correctly without an internet connection.<br/>
+                    But you can still view stuff, cool right <i class="fa fa-thumbs-o-up"></i></p>
+            </div>
+            <div id="main" class="content">
+                <noscript>
+                    <div class="label-danger custom-error">
+                        <p>
+                            JavaScript seems to be disabled, please enable it to enjoy the full potential of this site.
+                        </p>
+                        <p>
+                            <a href="http://www.enable-javascript.com" target="_blank">Here you can find instructions on how to enable JavaScript</a>
+                        </p>
+                    </div>
+                </noscript>
+
+                <div class="col-md-6 chart_div_overall pull-left">
+                    <h3 class="overall">Latest saved statistics overall</h3>
+                    <div id="info-overall" class="col-md-8"></div>
+                </div>
+                <div class="col-md-6 chart_div_overall pull-right">
+                    <h3 class="overall">Latest saved statistics for last month</h3>
+                    <div id="info-month" class=" col-md-8"></div>
+                </div>
+            </div>
+
+            <div id="tagDetails">
+            </div>
+        </div>
+        <script src="src/lib/jquery-1.11.3.min.js"></script>
+        <script src="src/content/offline-app.js"></script>
+    </body>
+</html>

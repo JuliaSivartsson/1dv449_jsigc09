@@ -123,3 +123,14 @@ body{
     left: 0;
     position: fixed;
 }
+
+
+.info-overall{
+    border: 1px solid #000;
+    min-height: 500px;
+}
+
+.info-month{
+    border: 1px solid #000;
+    min-height: 500px;
+}

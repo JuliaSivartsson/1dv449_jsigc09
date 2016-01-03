@@ -8,6 +8,7 @@ var enterTAGment = {
     recentTagInfoArray: [],
     imageArray: [],
     tagArray: [],
+    response: [],
 
     init: function(){
         // Load the Visualization API and the piechart package.
@@ -33,27 +34,74 @@ var enterTAGment = {
     //Get overall statistics
     getResponse: function(){
         enterTAGment.tags.forEach(function(tag){
-            $.ajax(tag + 'response.json')
-                .done(function(data){
-                    enterTAGment.saveResponseIntoArray(data.data);
+            /*$.ajax(tag + 'response.json')
+                .done(function(banan){
+                    console.log(banan.data);
+                    alert(banan);
+                    enterTAGment.saveResponseIntoArray(data);
                 })
                 .fail(function(){
                     console.log("Ajax failed loading");
-                });
+                });*/
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState === 4 && xhr.status === 200){
+                    var response = JSON.parse(xhr.responseText)
+                    enterTAGment.saveResponseIntoArray(response["data"]);
+                }
+            };
+            xhr.open("GET", tag + 'response.json', false);
+            xhr.send(null);
         })
     },
 
     //Get statistics for latest month
     getRecentResponse: function(title){
         enterTAGment.tags.forEach(function(tag) {
-            $.ajax(tag + 'responseMonth.json')
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState === 4 && xhr.status === 200){
+                    var response = JSON.parse(xhr.responseText)
+                    enterTAGment.saveRecentResponseIntoArray(tag, response["data"]);
+                    //enterTAGment.displayPictures(response["data"], title);
+                }
+            };
+            xhr.open("GET", tag + 'responseMonth.json', false);
+            xhr.send(null);
+
+            /*$.ajax(tag + 'responseMonth.json')
                 .done(function (data) {
                     enterTAGment.saveRecentResponseIntoArray(tag, data.data);
                     enterTAGment.displayPictures(data.data, title);
                 })
                 .fail(function () {
                     console.log("Ajax failed loading");
-                });
+                });*/
+        });
+    },
+
+    //Get statistics for latest month
+    getPictures: function(title){
+        enterTAGment.tags.forEach(function(tag) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function(){
+                if (xhr.readyState === 4 && xhr.status === 200){
+                    var response = JSON.parse(xhr.responseText)
+                    //enterTAGment.saveRecentResponseIntoArray(tag, response["data"]);
+                    enterTAGment.displayPictures(response["data"], title);
+                }
+            };
+            xhr.open("GET", tag + 'responseMonth.json', false);
+            xhr.send(null);
+
+            /*$.ajax(tag + 'responseMonth.json')
+             .done(function (data) {
+             enterTAGment.saveRecentResponseIntoArray(tag, data.data);
+             enterTAGment.displayPictures(data.data, title);
+             })
+             .fail(function () {
+             console.log("Ajax failed loading");
+             });*/
         });
     },
 
@@ -78,7 +126,7 @@ var enterTAGment = {
         var options = {
             backgroundColor: {fill: '#D0CCC5'},
             hAxis: {gridlines: {color: '#333'}, direction: 1},
-            chartArea: {top:10, height: "60%"}
+            'chartArea': {top: 10}
         };
         chart.draw(data, options);
 
@@ -102,8 +150,6 @@ var enterTAGment = {
 
         //Found help with this solution here: http://stackoverflow.com/questions/12701772/insert-links-into-google-charts-api-data
         var xDelta = 75;
-        var xDelta1 = 175;
-        var yDelta1 = 13;
         var yDelta = 13;
         $('text').each(function(i, el) {
             if (enterTAGment.tags.indexOf(el.textContent) != -1) {
@@ -133,7 +179,7 @@ var enterTAGment = {
 
                 a.addEventListener('click', function(){
                     event.preventDefault();
-                    enterTAGment.getRecentResponse(el.textContent);
+                    //enterTAGment.getRecentResponse(el.textContent);
 
                     var tagDetails = document.getElementById('tagDetails');
 
@@ -160,6 +206,7 @@ var enterTAGment = {
                     row.setAttribute('class', 'row');
                     centerDiv.appendChild(row);
                     $('#tagDetails').show();
+                    enterTAGment.getPictures(el.textContent);
 
                     $('html, body').animate({
                         scrollTop: $("#centerDiv").offset().top
@@ -171,7 +218,7 @@ var enterTAGment = {
 
     saveRecentResponseIntoArray: function(tagName, data){
         var count = 0;
-        data.forEach(function(tag){
+        data.forEach(function(){
             count++;
         });
         var object = {"name": tagName, "count": count};
@@ -204,12 +251,14 @@ var enterTAGment = {
                         aLink.setAttribute('class', 'thumbnail');
 
                         var img = document.createElement('img');
-                        img.src = tag['images']['thumbnail']['url'];
+                        console.log(tag);
+                        img.src = tag['images']['standard_resolution']['url'];
 
                         enterTAGment.tagArray.push(tag);
 
                         aLink.appendChild(img);
                         thumbnail.appendChild(aLink);
+                        var row = document.getElementById('row');
                         row.appendChild(thumbnail);
 
                         aLink.addEventListener('click', function (){

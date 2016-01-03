@@ -17,17 +17,17 @@ class HtmlView
                     </script>
 
                     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
-                    <!-- Latest compiled and minified CSS -->
-<script src="//fast.eager.io/3XbiE24uTU.js"></script>
-                    <script src="src/content/offline.js"></script>
-                    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+                    <link rel="icon" type="image/png" href="src/content/img/fav.png">
+                    <script src="//fast.eager.io/3XbiE24uTU.js"></script>
+                    <link rel="stylesheet" href="src/lib/font-awesome/css/font-awesome.min.css">
                     <link rel="stylesheet" href="src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">
                     <link rel="stylesheet" href="src/content/style.css" />
                     <title>enterTAGment</title>
                 </head>
                 <body>
                     <div class="page-header text-center">
-                        <h1>enterTAGment <i class="fa fa-hand-spock-o"></i></h1>
+                        <h1 class="title">enterTAGment <i class="fa fa-hand-spock-o"></i></h1>
                     </div>
                     <div class="content">
                         <div class="index-info">
@@ -42,6 +42,20 @@ class HtmlView
                             </p>
                         </div>
                     </div>
+
+                    <!-- Script for offline experience! - Using upup-->
+                    <script src="/upup.min.js"></script>
+                    <script>
+                        UpUp.start({
+                          "content-url": "src/offline/offline-index.html",
+                          "assets": ["src/lib/font-awesome/css/font-awesome.min.css",
+                          "src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css",
+                          "src/content/style.css",
+                          "src/lib/font-awesome/css/font-awesome.min.css",
+                          "src/content/img/fandom.jpg",
+                          "src/content/font/Distant_Stroke_Medium.otf"]
+                        });
+                    </script>
                 </body>
             </html>
 
