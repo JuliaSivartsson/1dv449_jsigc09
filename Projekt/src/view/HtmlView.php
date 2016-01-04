@@ -18,7 +18,7 @@ class HtmlView
 
                     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
 
-                    <link rel="icon" type="image/png" href="src/content/img/fav.png">
+                    <link rel="icon" type="image/png" href="src/content/img/favicon.ico">
                     <script src="//fast.eager.io/3XbiE24uTU.js"></script>
                     <link rel="stylesheet" href="src/lib/font-awesome/css/font-awesome.min.css">
                     <link rel="stylesheet" href="src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">

@@ -13,19 +13,6 @@ var enterTAGment = {
     init: function(){
         enterTAGment.drawInfo();
         enterTAGment.getResponse();
-        enterTAGment.getRecentResponse();
-
-        $(document).mouseup(function (e)
-        {
-            var container = $("#imageHolder");
-
-            if (!container.is(e.target) // if the target of the click isn't the container...
-                && container.has(e.target).length === 0) // ... nor a descendant of the container
-            {
-                container.remove();
-                $("#darkBackground").remove();
-            }
-        });
     },
 
     //Get overall statistics
@@ -38,7 +25,7 @@ var enterTAGment = {
                     enterTAGment.saveResponseIntoArray(response["data"]);
                 }
             };
-            xhr.open("GET", tag + 'response.json', false);
+            xhr.open("GET", 'supernaturalresponse.json', false);
             xhr.send(null);
         })
     },
@@ -94,6 +81,7 @@ var enterTAGment = {
     },
 
     drawInfo: function() {
+        console.log('hej');
         //Define the chart to be drawn.
         /*var data = new google.visualization.DataTable();
 
@@ -136,52 +124,51 @@ var enterTAGment = {
         //var recentChart = new google.visualization.BarChart(document.getElementById('chart_div_month'));
         //recentChart.draw(recentData, options);
 
-        var tableContainerOverall = document.getElementById('chart_div_overall');
-        var tableOverall = document.createElement('table');
-        var trOverall = [];
+        var tableContainerOverall = document.getElementById('info-overall');
+        var tbl = document.createElement('table');
+        tbl.setAttribute('class', 'tableContent');
 
-        var td1Overall = document.createElement('td');
-        var td2Overall = document.createElement('td');
-
-        var text1Overall = document.createTextNode('Text1');
-        var text2Overall = document.createTextNode('Text2');
-
-        for (var iOverall = 1; iOverall < 4; iOverall++){
-            trOverall[iOverall] = document.createElement('tr');
-            for (var jOverall = 1; jOverall < 4; jOverall++){
-                td1Overall.appendChild(text1Overall);
-                td2Overall.appendChild(text2Overall);
-                trOverall[iOverall].appendChild(td1Overall);
-                trOverall[iOverall].appendChild(td2Overall);
+        var tbdy = document.createElement('tbody');
+        for (var i = 0; i < 3; i++) {
+            var tr = document.createElement('tr');
+            for (var j = 0; j < 2; j++) {
+                if (i == 2 && j == 1) {
+                    break
+                } else {
+                    var td = document.createElement('td');
+                    td.appendChild(document.createTextNode('banan'))
+                    i == 1 && j == 1 ? td.setAttribute('rowSpan', '2') : null;
+                    tr.appendChild(td)
+                }
             }
-            tableOverall.appendChild(trOverall[iOverall]);
-
+            tbdy.appendChild(tr);
         }
-        tableContainerOverall.appendChild(tableOverall);
+        tbl.appendChild(tbdy);
+        tableContainerOverall.appendChild(tbl);
 
 
-        var tableContainerMonth = document.getElementById('chart_div_month');
-        var tableMonth = document.createElement('table');
-        var tr = [];
-
-        var td1 = document.createElement('td');
-        var td2 = document.createElement('td');
-
-        var text1 = document.createTextNode('Text1');
-        var text2 = document.createTextNode('Text2');
-
-        for (var i = 1; i < 4; i++){
-            tr[i] = document.createElement('tr');
-            for (var j = 1; j < 4; j++){
-                td1.appendChild(text1);
-                td2.appendChild(text2);
-                tr[i].appendChild(td1);
-                tr[i].appendChild(td2);
+        var tableContainerMonth = document.getElementById('info-month');
+        var tbl1 = document.createElement('table');
+        tbl1.style.width = '100%';
+        tbl1.setAttribute('border', '1');
+        var tbdy1 = document.createElement('tbody');
+        for (var i1 = 0; i1 < 3; i1++) {
+            var tr1 = document.createElement('tr');
+            for (var j1 = 0; j1 < 2; j1++) {
+                if (i1 == 2 && j1 == 1) {
+                    break
+                } else {
+                    var td1 = document.createElement('td');
+                    td.appendChild(document.createTextNode('banan'))
+                    i1 == 1 && j1 == 1 ? td1.setAttribute('rowSpan', '2') : null;
+                    tr1.appendChild(td1)
+                }
             }
-            tableMonth.appendChild(tr[i]);
-
+            tbdy1.appendChild(tr1);
         }
-        tableContainerMonth.appendChild(tableMonth);
+        tbl1.appendChild(tbdy1);
+        tableContainerMonth.appendChild(tbl1);
+
 
         //Found help with this solution here: http://stackoverflow.com/questions/12701772/insert-links-into-google-charts-api-data
         /*var xDelta = 75;

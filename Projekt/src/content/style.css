@@ -134,3 +134,7 @@ body{
     border: 1px solid #000;
     min-height: 500px;
 }
+
+.no-tags{
+    text-align: center;
+}

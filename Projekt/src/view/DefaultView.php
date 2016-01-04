@@ -30,7 +30,7 @@ class DefaultView
                     </script>
                     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
 
-                    <link rel="icon" type="image/png" href="src/content/img/fav.png">
+                    <link rel="icon" type="image/png" href="src/content/img/favicon.ico">
                     <script src="//fast.eager.io/3XbiE24uTU.js"></script>
                     <link rel="stylesheet" href="src/lib/font-awesome/css/font-awesome.min.css">
                     <link rel="stylesheet" href="src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css">
@@ -73,15 +73,23 @@ class DefaultView
                     <script>
                         UpUp.start({
                           "content-url": "src/offline/offline-content.html",
-                          "assets": ["src/lib/font-awesome/css/font-awesome.min.css",
-                          "src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css",
-                          "src/content/style.css",
-                          "src/lib/font-awesome/css/font-awesome.min.css",
-                          "src/content/img/fandom.jpg",
-                          "src/content/font/Distant_Stroke_Medium.otf",
-                          "src/offline/offline-app.js",
-                          "src/offline/offline-style.css"]
+                          "assets": [
+                              "src/lib/font-awesome/css/font-awesome.min.css",
+                              "src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css",
+                              "src/content/style.css",
+                              "src/lib/font-awesome/css/font-awesome.min.css",
+                              "src/content/font/Distant_Stroke_Medium.otf",
+                              "src/offline/offline-style.css",
+                              ]
                         });
+
+                        <!-- These are the files I want, but I cannot seem to cache .json files
+
+                            src/offline/offline-app.js,
+                            src/lib/jquery-1.11.3.min.js,
+                            supernaturalresponse.json,
+                            *.json
+                        -->
                     </script>
 
                     <script type="text/javascript" src="https://www.google.com/jsapi"></script>

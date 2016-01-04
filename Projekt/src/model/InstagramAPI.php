@@ -6,7 +6,6 @@ class InstagramAPI
 {
 
     private static $cacheLife = 5; //Minutes that cache should live
-    //private static $fileName = 'instagramResponse.json';
     private static $fileRootOverall = 'response.json';
     private static $fileRootMonth = 'responseMonth.json';
     private $cache;
@@ -35,13 +34,10 @@ class InstagramAPI
     }
 
     public function getRecentTags($tag){
-        $oneMonth = strtotime("-1 month");
-
         $result = "";
         $result .= $this->connectionSetup("https://api.instagram.com/v1/tags/$tag/media/recent?client_id=a5a0e5b2d28147fcbc5c95fc6fdf54fc&access_token=10401453.a5a0e5b.1a8eed908b5b4150a53c682eaf1307d5");
         $fileName = $tag . self::$fileRootMonth;
         if (time() - filemtime($fileName) > 10) {
-
             //If connection worked then we cache the information
             if ($result !== "" && $result !== false) {
 

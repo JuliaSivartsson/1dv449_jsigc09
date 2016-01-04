@@ -1,12 +1,12 @@
-#info-overall{
+#info-overall, #info-month{
     border: 1px solid #000;
-    min-height: 500px;
-    margin: 0 auto;
-}
-
-#info-month{
-    border: 1px solid #000;
+    width: 80%;
     min-height: 300px;
     margin: 0 auto;
     position: relative;
+}
+
+.table-content{
+    border: 1px solid #000;
+
 }

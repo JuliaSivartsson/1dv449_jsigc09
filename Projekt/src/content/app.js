@@ -34,15 +34,6 @@ var enterTAGment = {
     //Get overall statistics
     getResponse: function(){
         enterTAGment.tags.forEach(function(tag){
-            /*$.ajax(tag + 'response.json')
-                .done(function(banan){
-                    console.log(banan.data);
-                    alert(banan);
-                    enterTAGment.saveResponseIntoArray(data);
-                })
-                .fail(function(){
-                    console.log("Ajax failed loading");
-                });*/
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if (xhr.readyState === 4 && xhr.status === 200){
@@ -63,25 +54,15 @@ var enterTAGment = {
                 if (xhr.readyState === 4 && xhr.status === 200){
                     var response = JSON.parse(xhr.responseText)
                     enterTAGment.saveRecentResponseIntoArray(tag, response["data"]);
-                    //enterTAGment.displayPictures(response["data"], title);
                 }
             };
             xhr.open("GET", tag + 'responseMonth.json', false);
             xhr.send(null);
-
-            /*$.ajax(tag + 'responseMonth.json')
-                .done(function (data) {
-                    enterTAGment.saveRecentResponseIntoArray(tag, data.data);
-                    enterTAGment.displayPictures(data.data, title);
-                })
-                .fail(function () {
-                    console.log("Ajax failed loading");
-                });*/
         });
     },
 
     //Get statistics for latest month
-    getPictures: function(title){
+    /*getPictures: function(title){
         enterTAGment.tags.forEach(function(tag) {
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
@@ -89,21 +70,13 @@ var enterTAGment = {
                     var response = JSON.parse(xhr.responseText)
                     //enterTAGment.saveRecentResponseIntoArray(tag, response["data"]);
                     enterTAGment.displayPictures(response["data"], title);
+                    console.log(response["data"]);
                 }
             };
             xhr.open("GET", tag + 'responseMonth.json', false);
             xhr.send(null);
-
-            /*$.ajax(tag + 'responseMonth.json')
-             .done(function (data) {
-             enterTAGment.saveRecentResponseIntoArray(tag, data.data);
-             enterTAGment.displayPictures(data.data, title);
-             })
-             .fail(function () {
-             console.log("Ajax failed loading");
-             });*/
         });
-    },
+    },*/
 
     drawChart: function() {
         //Define the chart to be drawn.
@@ -138,10 +111,27 @@ var enterTAGment = {
         recentData.addRows([
 
         ]);
+
+        enterTAGment.tags.forEach(function(tag){
+            var found = enterTAGment.recentTagInfoArray.some(function (el) {
+                return el.name === tag;
+            });
+
+            //console.log(found);
+
+            if(!found){
+                var object = {"name": tag, "count": 0, "data": null};
+                enterTAGment.recentTagInfoArray.push(object);
+            }
+        });
+
         enterTAGment.recentTagInfoArray.forEach(function(tagInfo){
+            //console.log(tagInfo['name']);
             recentData.addRows([
                 [tagInfo['name'], tagInfo['count'] ]
             ]);
+
+
         });
 
         // Instantiate and draw the chart.
@@ -206,7 +196,11 @@ var enterTAGment = {
                     row.setAttribute('class', 'row');
                     centerDiv.appendChild(row);
                     $('#tagDetails').show();
-                    enterTAGment.getPictures(el.textContent);
+
+                    enterTAGment.recentTagInfoArray.forEach(function(tagInfo){
+                        console.log(tagInfo['name'], tagInfo['data']);
+                        enterTAGment.displayPictures(tagInfo['data'], el.textContent);
+                    });
 
                     $('html, body').animate({
                         scrollTop: $("#centerDiv").offset().top
@@ -217,12 +211,64 @@ var enterTAGment = {
 },
 
     saveRecentResponseIntoArray: function(tagName, data){
+        // Loop through the data and only add the images that match a certain user ID
+
         var count = 0;
-        data.forEach(function(){
+        var array = [];
+        var object = {};
+        data.forEach(function(result){
+            if (result["created_time"] > 1451347200) {
+
+                /*count++;
+                object = {"name": tagName, "count": count, "data": result};
+                enterTAGment.recentTagInfoArray.push(object);
+*/
+                var banan = $.grep(enterTAGment.recentTagInfoArray, function(e){ return e.name == tagName; });
+                if(banan == 0){
+                    count++;
+                    array.push(result);
+                    object = {"name": tagName, "count": count, "data": array};
+                    enterTAGment.recentTagInfoArray.push(object);
+                }
+                else{
+                    banan[0].count = banan[0].count + 1;
+                    array.push(result);
+                    banan[0].data = array;
+                    console.log(array);
+                }
+
+                /*var found = enterTAGment.recentTagInfoArray.some(function (el) {
+                    return el.name === tagName;
+                });
+
+                console.log(found);
+
+                if(!found){
+                    count++;
+                    object = {"name": tagName, "count": count, "data": result};
+                    enterTAGment.recentTagInfoArray.push(object);
+                }
+                if(found){
+
+                }*/
+
+            }
+        });
+
+        /*for (var i = 0; i < imgLimit; i++) {
+            var usertag = data.data[i].user.id;
+            if (usertag === "USER_ID_OF_CHOICE") {
+                // Add image to page
+                addImage(data.data[i]);
+            }
+        }*/
+        /*data.forEach(function(){
             count++;
         });
-        var object = {"name": tagName, "count": count};
+        var object = {"name": tagName, "count": count, "data": data};
         enterTAGment.recentTagInfoArray.push(object);
+
+        console.log(enterTAGment.recentTagInfoArray);*/
     },
 
     saveResponseIntoArray: function(data){
@@ -234,42 +280,68 @@ var enterTAGment = {
 
         var centerDiv = document.getElementById('centerDiv');
 
-        data.forEach(function(tag){
-            tag['tags'].forEach(function(imgTag){
+        if(data === null){
+            console.log(data);
 
-                if(imgTag == title){
-                    var same = document.getElementById(tag['id']);
+        }
+        else if(data !== null){
 
-                    //Only display each image once
-                    if(same === null) {
-                        var thumbnail = document.createElement('div');
-                        thumbnail.setAttribute('class', 'col-xs-6 col-md-3');
-                        thumbnail.setAttribute('id', tag['id']);
+            data.forEach(function(tag) {
+                tag['tags'].forEach(function (imgTag) {
 
-                        var aLink = document.createElement('a');
-                        aLink.href = '#';
-                        aLink.setAttribute('class', 'thumbnail');
+                    if (imgTag == title) {
+                        var same = document.getElementById(tag['id']);
 
-                        var img = document.createElement('img');
-                        console.log(tag);
-                        img.src = tag['images']['standard_resolution']['url'];
+                        var pExists = document.getElementById('tag-info');
+                        if(pExists){
+                           pExists.remove();
+                        }
+                        //Only display each image once
+                        if (same === null) {
+                            var thumbnail = document.createElement('div');
+                            thumbnail.setAttribute('class', 'col-xs-6 col-md-3');
+                            thumbnail.setAttribute('id', tag['id']);
 
-                        enterTAGment.tagArray.push(tag);
+                            var aLink = document.createElement('a');
+                            aLink.href = '#';
+                            aLink.setAttribute('class', 'thumbnail');
 
-                        aLink.appendChild(img);
-                        thumbnail.appendChild(aLink);
-                        var row = document.getElementById('row');
-                        row.appendChild(thumbnail);
+                            var img = document.createElement('img');
+                            img.src = tag['images']['standard_resolution']['url'];
 
-                        aLink.addEventListener('click', function (){
-                            event.preventDefault();
-                            enterTAGment.showPopup(tag);
-                        });
+                            enterTAGment.tagArray.push(tag);
+
+                            aLink.appendChild(img);
+                            thumbnail.appendChild(aLink);
+                            var row = document.getElementById('row');
+                            row.appendChild(thumbnail);
+
+                            aLink.addEventListener('click', function () {
+                                event.preventDefault();
+                                enterTAGment.showPopup(tag);
+                            });
+                        }
                     }
-                }
 
+                });
             });
-        });
+        }
+
+
+        var thumb = document.getElementsByClassName('thumbnail');
+        console.log(thumb.length === 0);
+        if(thumb.length === 0){
+            var row = document.getElementById('row');
+            var pExists = document.getElementById('tag-info');
+            if(!pExists){
+                var p = document.createElement('p');
+                p.setAttribute('id', 'tag-info');
+                p.setAttribute('class', 'alert alert-info text-center');
+                p.innerHTML = "No images with this tag has been posted in the last month!";
+                row.appendChild(p);
+            }
+        }
+
     },
 
     showPopup: function(tag){
