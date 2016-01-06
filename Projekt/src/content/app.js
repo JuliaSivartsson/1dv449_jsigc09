@@ -2,12 +2,12 @@
 
 var enterTAGment = {
 
-    tags: ["supernatural", "doctorwho", "sherlock"],
+    tags: tagArray,
     //fileRoot: "response.json",
     tagInfoArray: [],
     recentTagInfoArray: [],
     //imageArray: [],
-    tagArray: [],
+    //tagArray: [],
     //response: [],
 
     current_page: 1,
@@ -19,6 +19,7 @@ var enterTAGment = {
 
 init: function(){
 
+        console.log(enterTAGment.tags);
         // Load the Visualization API and the piechart package.
         google.charts.load('current', {packages: ['corechart']});
         google.charts.setOnLoadCallback(enterTAGment.drawChart);
@@ -356,20 +357,23 @@ init: function(){
 
         var thumb = document.getElementsByClassName('thumbnail');
         if(thumb.length === 0){
-            var row = document.getElementById('row');
+            var tagDetails = document.getElementById('tagDetails');
             var pExists = document.getElementById('tag-info');
             if(!pExists){
                 var p = document.createElement('p');
                 p.setAttribute('id', 'tag-info');
                 p.setAttribute('class', 'alert alert-info text-center');
                 p.innerHTML = "No images with this tag has been posted in the last month!";
-                row.appendChild(p);
+                tagDetails.appendChild(p);
             }
         }
 
     },
 
     showPopup: function(tag){
+
+
+        console.log("tag ", tag);
 
         var darkBackground = document.createElement('div');
         darkBackground.setAttribute('id', 'darkBackground');
@@ -392,6 +396,7 @@ init: function(){
         caption.innerHTML = "<h3>" + tag['caption']['text'] + "</h3>";
 
         var close = document.createElement('a');
+        close.setAttribute('class', 'height');
         close.src = "#";
         close.style.cursor = "pointer";
         close.innerHTML = ' <i class="fa fa-times fa-lx"></i>';
@@ -440,11 +445,11 @@ init: function(){
 
     openPreviousImage: function(tag){
 
-        var index = enterTAGment.tagArray.indexOf(tag);
-        var previousImage = enterTAGment.tagArray[index - 1];
+        var index = enterTAGment.array.indexOf(tag);
+        var previousImage = enterTAGment.array[index - 1];
 
-        var firstElement = enterTAGment.tagArray[0];
-        var indexOfFirstElement = enterTAGment.tagArray.indexOf(firstElement);
+        var firstElement = enterTAGment.array[0];
+        var indexOfFirstElement = enterTAGment.array.indexOf(firstElement);
         if(index == indexOfFirstElement){
             console.log("first");
         }
@@ -457,11 +462,11 @@ init: function(){
 
     openNextImage: function(tag){
 
-        var index = enterTAGment.tagArray.indexOf(tag);
-        var nextImage = enterTAGment.tagArray[index + 1];
+        var index = enterTAGment.array.indexOf(tag);
+        var nextImage = enterTAGment.array[index + 1];
 
-        var lastElement = enterTAGment.tagArray[enterTAGment.tagArray.length -1];
-        var indexOfLastElement = enterTAGment.tagArray.indexOf(lastElement);
+        var lastElement = enterTAGment.array[enterTAGment.array.length -1];
+        var indexOfLastElement = enterTAGment.array.indexOf(lastElement);
 
         if(index == indexOfLastElement){
             console.log("last");
@@ -620,7 +625,7 @@ init: function(){
         var img = document.createElement('img');
         img.src = image['images']['standard_resolution']['url'];
 
-        enterTAGment.tagArray.push(image);
+        //enterTAGment.tagArray.push(image);
 
         aLink.appendChild(img);
         thumbnail.appendChild(aLink);

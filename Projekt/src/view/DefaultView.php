@@ -12,6 +12,7 @@ namespace view;
 class DefaultView
 {
     public function render($result){
+
         $tagArray = \Settings::$tags;
 
         $resultLabel = "";
@@ -94,9 +95,9 @@ class DefaultView
 
                     <script type="text/javascript">
                         console.log("hej ");
-                        var tagArray = json_encode('.$tagArray.');
+                        var tagArray = '.json_encode($tagArray).';
 
-                        console.log(tagArray);
+                        console.log("här", tagArray);
                     </script>
 
                     <script type="text/javascript" src="https://www.google.com/jsapi"></script>

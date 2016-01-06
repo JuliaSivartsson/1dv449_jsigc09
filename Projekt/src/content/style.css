@@ -142,6 +142,10 @@ body{
     text-align: center;
 }
 
+.height{
+    min-height: 70px;
+}
+
 .btnContainer{
     margin: 0 auto;
     width: 80%;
@@ -149,6 +153,6 @@ body{
     padding-bottom: 20px;
 }
 
-#btn_prev{
+#btnPrev{
     padding-right: 10px;
 }
