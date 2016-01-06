@@ -124,6 +124,9 @@ body{
     position: fixed;
 }
 
+#paginationContainer{
+    width: 100%;
+}
 
 .info-overall{
     border: 1px solid #000;
@@ -137,4 +140,15 @@ body{
 
 .no-tags{
     text-align: center;
+}
+
+.btnContainer{
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+#btn_prev{
+    padding-right: 10px;
 }

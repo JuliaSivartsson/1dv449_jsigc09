@@ -12,6 +12,7 @@ namespace view;
 class DefaultView
 {
     public function render($result){
+        $tagArray = \Settings::$tags;
 
         $resultLabel = "";
         if($result !== ""){
@@ -39,7 +40,7 @@ class DefaultView
                 </head>
                 <body>
                     <div class="overlay">
-                        <div class="page-header text-center">
+                        <div id="page-header" class="page-header text-center">
                             <h1 class="title">enterTAGment <i class="fa fa-hand-spock-o"></i></h1>
                             '. $resultLabel .'
                         </div>
@@ -64,8 +65,7 @@ class DefaultView
                             </div>
                         </div>
 
-                        <div id="tagDetails">
-                        </div>
+                        <div id="tagDetails"></div>
                     </div>
 
                     <!-- Script for offline experience! - Using upup-->
@@ -90,6 +90,13 @@ class DefaultView
                             supernaturalresponse.json,
                             *.json
                         -->
+                    </script>
+
+                    <script type="text/javascript">
+                        console.log("hej ");
+                        var tagArray = json_encode('.$tagArray.');
+
+                        console.log(tagArray);
                     </script>
 
                     <script type="text/javascript" src="https://www.google.com/jsapi"></script>

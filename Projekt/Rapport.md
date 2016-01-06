@@ -1,4 +1,6 @@
 # Rapport
+Julia Sivartsson, jsigc09
+
 Projekt 1dv449 Webbteknik ||
 
 
@@ -42,6 +44,11 @@ upp gammal information om internet låg nere. Men jag lyckas inte få den att g�
 ##Risker med din applikation
 Då jag som sagt varken använder mig av inloggning eller databas så försvinner många säkerhetsaspekter, likaså då jag i nuläget inte har några input-fält heller.
 Det skulle vara ifall skadlig kod skickas in ifrån API:et då jag i nuläget inte filtrerar indata på något sätt.
+
+Jag har dock valt, eftersom JavaScript är nödvändigt för att applikationen ska fungera som den ska, att användaren meddelas om JavaScript inte är aktiverat.
+Dessutom meddelar jag användaren ifall data inte kunde hämtas från API:et och presenterar då istället gammal data.
+
+Jag har försökt få med så mycket felhantering som möjligt och försökt testa de scenarion jag kommer på så gott det går.
 
 
 ##Egen reflektion kring projektet
