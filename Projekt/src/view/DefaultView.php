@@ -78,10 +78,8 @@ class DefaultView
                               "src/lib/font-awesome/css/font-awesome.min.css",
                               "src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css",
                               "src/content/style.css",
-                              "src/lib/font-awesome/css/font-awesome.min.css",
                               "src/content/font/Distant_Stroke_Medium.otf",
-                              "src/offline/offline-style.css",
-                              ]
+                              "src/offline/offline-style.css"]
                         });
 
                         <!-- These are the files I want, but I cannot seem to cache .json files
@@ -94,10 +92,7 @@ class DefaultView
                     </script>
 
                     <script type="text/javascript">
-                        console.log("hej ");
-                        var tagArray = '.json_encode($tagArray).';
-
-                        console.log("här", tagArray);
+                        var tagArray = '.json_encode($tagArray).'
                     </script>
 
                     <script type="text/javascript" src="https://www.google.com/jsapi"></script>

@@ -11,5 +11,5 @@ class Settings
     public function getTags(){
         return self::$tags;
     }
-    public static $tags = ["supernatural", "doctorwho", "lotr", "anubis"];
+    public static $tags = ["supernatural", "doctorwho", "anubis", "harrypotter"];
 }

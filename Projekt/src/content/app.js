@@ -19,21 +19,19 @@ var enterTAGment = {
 
 init: function(){
 
-        console.log(enterTAGment.tags);
-        // Load the Visualization API and the piechart package.
+        // Load the Visualization API and the barchart package.
         google.charts.load('current', {packages: ['corechart']});
         google.charts.setOnLoadCallback(enterTAGment.drawChart);
 
         enterTAGment.getResponse("response.json");
         enterTAGment.getResponse("responseMonth.json");
-        //enterTAGment.getRecentResponse();
 
         $(document).mouseup(function (e)
         {
             var container = $("#imageHolder");
 
-            if (!container.is(e.target) // if the target of the click isn't the container...
-                && container.has(e.target).length === 0) // ... nor a descendant of the container
+            //Click isn't the container, descendant of container or scrollbar
+            if (!container.is(e.target) && container.has(e.target).length === 0 && e.target != $('html').get(0))
             {
                 container.remove();
                 $("#darkBackground").remove();
@@ -64,29 +62,6 @@ init: function(){
             xhr.send(null);
         })
     },
-
-    //Get statistics for latest month
-    /*getRecentResponse: function(){
-        enterTAGment.tags.forEach(function(tag) {
-            var xhr = new XMLHttpRequest();
-            xhr.onreadystatechange = function(){
-                if (xhr.readyState === 4 && xhr.status === 200){
-                    var response = JSON.parse(xhr.responseText)
-                    enterTAGment.saveRecentResponseIntoArray(tag, response["data"]);
-
-                    var divExists = document.getElementById("error");
-                    if(divExists) {
-                        divExists.remove();
-                    }
-                }
-                else{
-                    enterTAGment.handleError();
-                }
-            };
-            xhr.open("GET", tag + 'responseMonth.json', false);
-            xhr.send(null);
-        });
-    },*/
 
     handleError: function(){
         var divExists = document.getElementById("error");
@@ -226,49 +201,7 @@ init: function(){
                 });
             }
         });
-},
-
-    /*saveRecentResponseIntoArray: function(tagName, data){
-
-        var count = 0;
-        var array = [];
-        var object = {};
-
-        //Loop through array and save info about latest month
-        data.forEach(function(result){
-            if (result["created_time"] > 1451347200) {
-
-                var ifItAlreadyIsInArray = $.grep(enterTAGment.recentTagInfoArray, function(e){ return e.name == tagName; });
-                if(ifItAlreadyIsInArray == 0){
-                    count++;
-                    array.push(result);
-                    object = {"name": tagName, "count": count, "data": array};
-                    enterTAGment.recentTagInfoArray.push(object);
-                }
-                else{
-                    ifItAlreadyIsInArray[0].count = ifItAlreadyIsInArray[0].count + 1;
-                    array.push(result);
-                    ifItAlreadyIsInArray[0].data = array;
-                }
-            }
-        });
-
-        //Loop through array and save all images
-        data.forEach(function(image){
-            var ifItAlreadyIsInArray = $.grep(enterTAGment.imagesToShow, function(e){ return e.name == tagName; });
-            if(ifItAlreadyIsInArray == 0){
-                count++;
-                array.push(image);
-                object = {"name": tagName, "count": count, "data": array};
-                enterTAGment.imagesToShow.push(object);
-            }
-            else{
-                ifItAlreadyIsInArray[0].count = ifItAlreadyIsInArray[0].count + 1;
-                array.push(image);
-                ifItAlreadyIsInArray[0].data = array;
-            }
-        });
-    },*/
+    },
 
     saveResponseIntoArray: function(tagName, data){
         if(data['media_count']){
@@ -312,24 +245,7 @@ init: function(){
                     ifExistsInImageArray[0].data = array;
                 }
             });
-
-            //Loop through array and save all images
-            /*data.forEach(function(image){
-                var ifItAlreadyIsInArray = $.grep(enterTAGment.imagesToShow, function(e){ return e.name == tagName; });
-                if(ifItAlreadyIsInArray == 0){
-                    count++;
-                    array.push(image);
-                    object = {"name": tagName, "count": count, "data": array};
-                    enterTAGment.imagesToShow.push(object);
-                }
-                else{
-                    ifItAlreadyIsInArray[0].count = ifItAlreadyIsInArray[0].count + 1;
-                    array.push(image);
-                    ifItAlreadyIsInArray[0].data = array;
-                }
-            });*/
         }
-
     },
 
     saveImagesForPagination: function(data, title){
@@ -370,10 +286,17 @@ init: function(){
 
     },
 
+    center: function(){
+        this.css("position","absolute");
+        this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
+        $(window).scrollTop()) + "px");
+        this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
+        $(window).scrollLeft()) + "px");
+        return this;
+    },
+
+
     showPopup: function(tag){
-
-
-        console.log("tag ", tag);
 
         var darkBackground = document.createElement('div');
         darkBackground.setAttribute('id', 'darkBackground');
@@ -382,17 +305,18 @@ init: function(){
         imageHolder.setAttribute('id', 'imageHolder');
         imageHolder.setAttribute('class', 'imageHolder');
 
-        imageHolder.style.top = screen.height/2 + "px";
+        //imageHolder.style.top = screen.height/2 + "px";
         imageHolder.style.left = screen.width/3 + "px";
 
         var thumbnail = document.createElement('div');
         thumbnail.setAttribute('class', 'thumbnail');
 
         var img = document.createElement('img');
-        img.setAttribute('class', 'col-md-9 padding-bottom');
+        img.setAttribute('class', 'col-md-10 padding-bottom');
         img.src = tag['images']['standard_resolution']['url'];
 
         var caption = document.createElement('div');
+        caption.setAttribute('id', 'caption');
         caption.innerHTML = "<h3>" + tag['caption']['text'] + "</h3>";
 
         var close = document.createElement('a');
@@ -402,7 +326,7 @@ init: function(){
         close.innerHTML = ' <i class="fa fa-times fa-lx"></i>';
 
         var previous = document.createElement('div');
-        previous.setAttribute('class', 'col-md-2 margin-top-left');
+        previous.setAttribute('class', 'col-md-1 margin-top-left');
         previous.style.cursor = "pointer";
         previous.innerHTML = '<i class="fa fa-caret-left fa-2x"></i>';
 
@@ -426,13 +350,14 @@ init: function(){
         });
 
         var userP = document.createElement('p');
-        userP.innerHTML = "<p>user: "+ tag['user']['username'] +"</p>";
+        userP.innerHTML = "<p>"+tag['user']['username'] +", "+enterTAGment.formatDate(tag['created_time'])+"</p>";
 
-        var createdP = document.createElement('p');
-        createdP.innerHTML = "<p>created: "+ enterTAGment.formatDate(tag['created_time']) +"</p>";
+        //var createdP = document.createElement('p');
+        //createdP.innerHTML = "<p>created: "+ enterTAGment.formatDate(tag['created_time']) +"</p>";
+        console.log($('html').get(0));
 
         caption.appendChild(userP);
-        caption.appendChild(createdP);
+        //caption.appendChild(createdP);
         thumbnail.appendChild(close);
         thumbnail.appendChild(previous);
         thumbnail.appendChild(img);
@@ -441,6 +366,11 @@ init: function(){
         imageHolder.appendChild(thumbnail);
         document.body.appendChild(darkBackground);
         document.body.appendChild(imageHolder);
+
+
+        var imgHolder = document.getElementById('imageHolder');
+        var imgHolderHeight = $('#imageHolder').height();
+        imgHolder.style.marginTop = "-" + imgHolderHeight / 2 + "px";
     },
 
     openPreviousImage: function(tag){
@@ -624,8 +554,6 @@ init: function(){
 
         var img = document.createElement('img');
         img.src = image['images']['standard_resolution']['url'];
-
-        //enterTAGment.tagArray.push(image);
 
         aLink.appendChild(img);
         thumbnail.appendChild(aLink);

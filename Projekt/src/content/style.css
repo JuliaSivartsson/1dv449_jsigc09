@@ -77,12 +77,13 @@ body{
 }
 
 .imageHolder {
-    border: 3px solid #eee;
-    box-shadow: 10px 10px 5px #888888;
+    border: 1px solid #333;
+    box-shadow: 10px 10px 5px #333;
     border-radius: 10px;
     width: 500px;
-    position: absolute;
-    background-color: #fff;
+    position: fixed;
+    background-color: #eee;
+    top: 50%;
 }
 
 .detailsTitle{
@@ -155,4 +156,12 @@ body{
 
 #btnPrev{
     padding-right: 10px;
+}
+
+#caption{
+    margin-top: 400px;
+}
+
+.thumbnail{
+    background-color: #eee;
 }
