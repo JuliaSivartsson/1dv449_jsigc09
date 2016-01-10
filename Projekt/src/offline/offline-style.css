@@ -1,7 +1,7 @@
 #info-overall, #info-month{
     border: 1px solid #000;
     width: 80%;
-    min-height: 300px;
+    min-height: 200px;
     margin: 0 auto;
     position: relative;
 }

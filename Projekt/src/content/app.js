@@ -46,7 +46,7 @@ init: function(){
             var xhr = new XMLHttpRequest();
             xhr.onreadystatechange = function(){
                 if (xhr.readyState === 4 && xhr.status === 200){
-                    var response = JSON.parse(xhr.responseText)
+                    var response = JSON.parse(xhr.responseText);
                     enterTAGment.saveResponseIntoArray(tag, response["data"]);
 
                     var divExists = document.getElementById("error");
@@ -174,7 +174,6 @@ init: function(){
                     while (tagDetails.hasChildNodes()) {
                         tagDetails.removeChild(tagDetails.lastChild);
                     }
-                    //enterTAGment.imageArray = [];
                     enterTAGment.current_page = 1;
 
                     var p = document.createElement('p');
@@ -191,6 +190,7 @@ init: function(){
 
                     $('#tagDetails').show();
 
+                    console.log("imagesToShow: ", enterTAGment.imagesToShow);
                     enterTAGment.imagesToShow.forEach(function(tagInfo){
                         enterTAGment.saveImagesForPagination(tagInfo['data'], el.textContent);
                     });
@@ -204,6 +204,9 @@ init: function(){
     },
 
     saveResponseIntoArray: function(tagName, data){
+        var thirtyDaysAgo = new Date().setDate(new Date().getDate() - 30)/1000;
+        console.log("thirty: ", thirtyDaysAgo);
+
         if(data['media_count']){
             var object = {"name": data['name'], "count": data['media_count']};
             enterTAGment.tagInfoArray.push(object);
@@ -216,7 +219,7 @@ init: function(){
 
             //Loop through array and save info about latest month
             data.forEach(function(result){
-                if (result["created_time"] > 1451347200) {
+                if (result["created_time"] > thirtyDaysAgo) {
 
                     var ifItAlreadyIsInArray = $.grep(enterTAGment.recentTagInfoArray, function(e){ return e.name == tagName; });
                     if(ifItAlreadyIsInArray == 0){
@@ -255,14 +258,16 @@ init: function(){
                 tag['tags'].forEach(function (imgTag) {
                     if (imgTag == title) {
 
-                        var same = document.getElementById(tag['id']);
                         var pExists = document.getElementById('tag-info');
                         if(pExists){
                            pExists.remove();
                         }
 
                         //Only display each image once
-                        if (same === null) {
+                        var inArray = $.inArray(tag, enterTAGment.array);
+                        var same = document.getElementById(tag['id']);
+                        if(inArray === -1 && same === null){
+                            console.log('hej');
                             enterTAGment.array.push(tag);
                             enterTAGment.changePage(1);
                         }
@@ -286,16 +291,6 @@ init: function(){
 
     },
 
-    center: function(){
-        this.css("position","absolute");
-        this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) +
-        $(window).scrollTop()) + "px");
-        this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) +
-        $(window).scrollLeft()) + "px");
-        return this;
-    },
-
-
     showPopup: function(tag){
 
         var darkBackground = document.createElement('div');
@@ -305,7 +300,6 @@ init: function(){
         imageHolder.setAttribute('id', 'imageHolder');
         imageHolder.setAttribute('class', 'imageHolder');
 
-        //imageHolder.style.top = screen.height/2 + "px";
         imageHolder.style.left = screen.width/3 + "px";
 
         var thumbnail = document.createElement('div');
@@ -352,12 +346,7 @@ init: function(){
         var userP = document.createElement('p');
         userP.innerHTML = "<p>"+tag['user']['username'] +", "+enterTAGment.formatDate(tag['created_time'])+"</p>";
 
-        //var createdP = document.createElement('p');
-        //createdP.innerHTML = "<p>created: "+ enterTAGment.formatDate(tag['created_time']) +"</p>";
-        console.log($('html').get(0));
-
         caption.appendChild(userP);
-        //caption.appendChild(createdP);
         thumbnail.appendChild(close);
         thumbnail.appendChild(previous);
         thumbnail.appendChild(img);
@@ -508,6 +497,7 @@ init: function(){
             renderPage = document.getElementById("page");
         }
 
+
         // Validate page
         if (page < 1) page = 1;
         if (page > enterTAGment.numPages()) page = enterTAGment.numPages();
@@ -541,28 +531,31 @@ init: function(){
     },
 
     displayPictures: function(image){
+        var same = document.getElementById(image['id']);
+        if(same === null) {
 
-        var paginationContainer = document.getElementById("paginationContainer");
+            var paginationContainer = document.getElementById("paginationContainer");
 
-        var thumbnail = document.createElement('div');
-        thumbnail.setAttribute('class', 'col-xs-6 col-md-3');
-        thumbnail.setAttribute('id', image['id']);
+            var thumbnail = document.createElement('div');
+            thumbnail.setAttribute('class', 'col-xs-6 col-md-3 center-block');
+            thumbnail.setAttribute('id', image['id']);
 
-        var aLink = document.createElement('a');
-        aLink.href = '#';
-        aLink.setAttribute('class', 'thumbnail');
+            var aLink = document.createElement('a');
+            aLink.href = '#';
+            aLink.setAttribute('class', 'thumbnail');
 
-        var img = document.createElement('img');
-        img.src = image['images']['standard_resolution']['url'];
+            var img = document.createElement('img');
+            img.src = image['images']['standard_resolution']['url'];
 
-        aLink.appendChild(img);
-        thumbnail.appendChild(aLink);
-        paginationContainer.appendChild(thumbnail);
+            aLink.appendChild(img);
+            thumbnail.appendChild(aLink);
+            paginationContainer.appendChild(thumbnail);
 
-        aLink.addEventListener('click', function () {
-            event.preventDefault();
-            enterTAGment.showPopup(image);
-        });
+            aLink.addEventListener('click', function () {
+                event.preventDefault();
+                enterTAGment.showPopup(image);
+            });
+        }
     }
 
 };
