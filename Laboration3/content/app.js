@@ -10,6 +10,7 @@ var Traffic = {
     defaultZoom: 5,
     jsonUrl: 'response.json',
     markers: [],
+    map: {},
 
     init: function(){
 
@@ -29,11 +30,22 @@ var Traffic = {
         Traffic.getTraffic();
         Traffic.renderValues();
 
+        //If user presses the resetButton then reset application
         var resetButton = document.getElementById('reset');
         resetButton.addEventListener('click', function(){
            Traffic.resetMap();
             Traffic.getTraffic();
             Traffic.map.closePopup();
+
+            //Remove all "active" classes
+            $("a").each(function() {
+                if (this.classList.contains('active')) {
+                    this.className = "valueLink";
+                }
+            });
+
+            //Set "Se alla" as default value
+            $("span").children().last().removeClass("valueLink").addClass("active");
         });
 
     },
@@ -42,18 +54,29 @@ var Traffic = {
       var div = document.getElementById('values');
         var id = 0;
         Traffic.valuesArray.forEach(function(value){
-            var p = document.createElement('p');
+            var span = document.createElement('span');
+            span.setAttribute('class', 'spanClass');
             var a = document.createElement('a');
             a.href = "#";
             a.setAttribute('id', id++);
+            a.setAttribute('class', 'valueLink');
             a.innerHTML = value;
-            p.appendChild(a);
+            span.appendChild(a);
 
             a.addEventListener('click', function(){
+                $("a").each(function() {
+                    if(this.classList.contains('active')){
+                        this.className = "valueLink";
+                    }
+                });
+                a.setAttribute('class', 'active');
                Traffic.changeValue(a.innerHTML, a.id);
             });
-            div.appendChild(p);
+            div.appendChild(span);
         });
+
+        //Set "Se alla" as default value
+        $("span").children().last().removeClass("valueLink").addClass("active");
     },
 
     getTraffic: function(value, category){
@@ -62,10 +85,71 @@ var Traffic = {
             if (xhr.readyState === 4 && xhr.status === 200){
                 var response = JSON.parse(xhr.responseText);
                 Traffic.renderMarkers(Traffic.filterResponse(response['messages'], value, category));
+                Traffic.renderMessages(Traffic.filterResponse(response['messages'], value, category));
             }
         };
         xhr.open("GET", Traffic.jsonUrl, false);
         xhr.send(null);
+    },
+
+    renderMessages: function(messages){
+        //Sort list based on date
+        messages.sort(Traffic.sortIncidentsByDate);
+        messages.reverse();
+        var incidentListContainer = document.getElementById("incidentList");
+
+        //If list is rendered clear it
+        incidentListContainer.innerHTML = "";
+
+        //For each message render it under category
+        messages.forEach(function(incident){
+            var title = incident.title;
+            var incidentText = incident.exactlocation +
+                "<br /><b>Händelse inlagd kl " + Traffic.formatDate(incident.createddate) + "</b><br />" + incident.description + "<br />Kategori: " + incident.subcategory;
+
+            var messageLink = document.createElement("div");
+            messageLink.innerHTML = "<a href='#'>" + incident.title + "</a>";
+
+            var messageText = document.createElement("p");
+            messageText.setAttribute("class", "incidentDetails");
+            messageText.innerHTML = incidentText;
+
+            messageLink.appendChild(messageText);
+            incidentListContainer.appendChild(messageLink);
+
+            //Hide details
+            $(".incidentDetails").hide();
+
+            //If user clicks on incident then show details
+            messageLink.addEventListener('click', function(){
+               Traffic.renderDetails(this, incident);
+            });
+        });
+    },
+
+    renderDetails: function(link, incident){
+        //Hide other details so only one can show
+        $(".incidentDetails").hide(link);
+        $(link).children().show();
+
+        //Set view and open popup
+        Traffic.map.setView([incident.latitude, incident.longitude], 12);
+        Traffic.markers.forEach(function(marker){
+            //If first row of popup is same as the incident title then open it
+            if(marker._popup._content.split("<br />")[0] === incident.title){
+                marker.openPopup();
+            }
+        });
+    },
+
+    sortIncidentsByDate: function(incident1, incident2){
+        if(incident1['createddate'] < incident2['createddate']){
+            return -1;
+        }
+        if(incident1['createddate'] > incident2['createddate']){
+            return 1;
+        }
+        return 0;
     },
 
     filterResponse: function(messages, value, category){
@@ -135,14 +219,14 @@ var Traffic = {
         //Remove /
         date = date.replace(")/", "");
 
-        //For some reason it comes one day ahead if I don't add "" before the other days
+        //For some reason it needs two of the same before the other days
         var days = [
-            "", "mån", "tis", "ons", "tors", "fre", "lör", "sön"
+            "mån", "mån", "tis", "ons", "tors", "fre", "lör", "sön"
         ];
 
         //Same problem here as above
         var months = [
-            "", "Januari", "februari", "mars", "april", "juni", "juli", "augusti", "september", "oktober", "november", "december"
+            "Januari", "Januari", "februari", "mars", "april", "juni", "juli", "augusti", "september", "oktober", "november", "december"
         ];
 
         //Make it into an integer and format it nicely

@@ -9,7 +9,7 @@
 }
 
 .margin-top{
-    margin-top: 20px;
+    margin-top: 100px;
 }
 
 .custom-error{
@@ -23,4 +23,36 @@
 .custom-error a:link, .custom-error a:visited{
     color: #fff;
     text-decoration: underline;
+}
+
+.active{
+    padding: 10px;
+    background-color: #333;
+    border: 1px solid #333;
+    border-radius: 10px;
+    color: #fff;
+
+}
+
+a.active:link, a.active:visited{
+    color: #fff;
+}
+
+.valueLink{
+    padding: 10px;
+    background-color: #eee;
+    border: 1px solid #333;
+    border-radius: 10px;
+}
+
+a.valueLink:link, a.valueLink:visited{
+    color: #000;
+}
+
+.valueContainer{
+    padding-bottom: 20px;
+}
+
+.spanClass{
+    margin-left: 10px;
 }

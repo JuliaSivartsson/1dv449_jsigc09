@@ -4,9 +4,6 @@ class HtmlView
 {
 
     public function render($result){
-
-        $values = \Settings::$values;
-
         $resultLabel = "";
         if($result !== ""){
             $resultLabel = '<p class="label-danger custom-error">'.$result.'</p>';
@@ -42,11 +39,12 @@ class HtmlView
                     </div>
                     <div id="content">
                         <div id="map" class="pull-left"></div>
-                        <div class="col-md-3 pull-right margin-right">
-                                <div id="values">
+                        <div class="col-md-4 pull-right margin-right">
+                                <div class="valueContainer">
+                                    <div id="values"></div>
                                 </div>
                                 <ul class="form-group" id="incidentList"></ul>
-                            <div>
+                            <div class="resetButton col-md-5">
                                 <button class="btn btn-primary form-control" id="reset">Återställ</button>
                             </div>
 
@@ -70,14 +68,11 @@ class HtmlView
 
 
 
-                <script src="lib/leaflet.js"></script>
-                <script src="lib/jquery-1.11.3.min.js"></script>
-                <script src="lib/js/leaflet.extra-markers.min.js"></script>
-                <script src="content/app.js"></script>
+                    <script src="lib/leaflet.js"></script>
+                    <script src="lib/jquery-1.11.3.min.js"></script>
+                    <script src="lib/js/leaflet.extra-markers.min.js"></script>
+                    <script src="content/app.js"></script>
 
-                <script type="text/javascript">
-                    var valuesArray = '.json_encode($values).'
-                </script>
                 </body>
             </html>
 
