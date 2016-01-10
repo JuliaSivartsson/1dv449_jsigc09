@@ -5,21 +5,15 @@
  * Date: 2015-12-16
  * Time: 17:19
  */
-
 namespace view;
-
-
 class DefaultView
 {
     public function render($result){
-
         $tagArray = \Settings::$tags;
-
         $resultLabel = "";
         if($result !== ""){
             $resultLabel = '<p class="label-danger custom-error">'.$result.'</p>';
         }
-
         echo '<!DOCTYPE html>
             <html>
                 <head>
@@ -31,7 +25,6 @@ class DefaultView
                          setInterval(run, 5000);
                     </script>
                     <meta http-equiv="content-type" content="text/html; charset=ISO-8859-1" />
-
                     <link rel="icon" type="image/png" href="src/content/img/favicon.ico">
                     <script src="//fast.eager.io/3XbiE24uTU.js"></script>
                     <link rel="stylesheet" href="src/lib/font-awesome/css/font-awesome.min.css">
@@ -61,14 +54,12 @@ class DefaultView
                                 <div id="chart_div_overall" class="pull-left"></div>
                             </div>
                             <div class="col-md-6 chart_div_overall pull-right">
-                                <h3 class="overall">Statistics last month</h3>
+                                <h3 class="overall">Statistics for latest 30 days</h3>
                                 <div id="chart_div_month" class="pull-right"></div>
                             </div>
                         </div>
-
                         <div id="tagDetails"></div>
                     </div>
-
                     <!-- Script for offline experience! - Using upup-->
                     <script src="/upup.min.js"></script>
                     <script>
@@ -76,33 +67,34 @@ class DefaultView
                           "content-url": "src/offline/offline-content.html",
                           "assets": [
                               "src/lib/font-awesome/css/font-awesome.min.css",
+                              "src/lib/jquery-1.11.3.min.js",
                               "src/lib/bootstrap-3.3.6-dist/css/bootstrap.min.css",
                               "src/content/style.css",
+                              "src/content/img/error.jpg",
                               "src/content/font/Distant_Stroke_Medium.otf",
-                              "src/offline/offline-style.css"]
+                              "src/offline/offline-style.css",
+                              "src/offline/offline-app.js",
+                              "supernaturalresponse.json",
+                              "doctorwhoresponse.json",
+                              "sherlockresponse.json",
+                              "lotrresponse.json",
+                              "harrypotterresponse.json",
+                              "supernaturalresponseMonth.json",
+                              "doctorwhoresponseMonth.json",
+                              "sherlockresponseMonth.json",
+                              "lotrresponseMonth.json",
+                              "harrypotterresponseMonth.json"]
                         });
-
-                        <!-- These are the files I want, but I cannot seem to cache .json files
-
-                            src/offline/offline-app.js,
-                            src/lib/jquery-1.11.3.min.js,
-                            supernaturalresponse.json,
-                            *.json
-                        -->
                     </script>
-
                     <script type="text/javascript">
                         var tagArray = '.json_encode($tagArray).'
                     </script>
-
                     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
                     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
                     <script src="src/lib/jquery-1.11.3.min.js"></script>
                     <script src="src/content/app.js"></script>
                 </body>
             </html>
-
         ';
-
     }
 }
