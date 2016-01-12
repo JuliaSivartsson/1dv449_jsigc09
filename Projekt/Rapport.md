@@ -8,6 +8,7 @@ Då applikationen för tillfället befinner sig i Sandbox-läge (utvecklingsläg
 Använd därför följande uppgifter:
 
 Användarnamn: **entertagment**
+
 Lösenord: **entertagment123**
 
 ##Inledning 
