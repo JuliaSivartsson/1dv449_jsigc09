@@ -32,6 +32,7 @@ Jag har valt att göra en enkel applikation som inte har inloggning (i alla fall
 ##Prestandaoptimering
 
 **Cachning**
+
 Jag har valt att cacha informationen från Instagram i 15 minuter. Det är inte superviktig information i sig så 15 minuter kändes rimligt att spara informationen.
 Man skulle kunna höja cachningstiden ännu mer för att undvika ytterligare requests men jag ville hålla informationen någorlunda ny.
 
