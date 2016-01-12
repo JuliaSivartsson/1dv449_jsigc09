@@ -39,7 +39,7 @@ class HtmlView
                     </div>
                     <div id="content">
                         <div id="map" class="pull-left"></div>
-                        <div class="col-md-4 pull-right margin-right">
+                        <div class="col-md-4 pull-right">
                                 <div class="valueContainer">
                                     <div id="values"></div>
                                 </div>
