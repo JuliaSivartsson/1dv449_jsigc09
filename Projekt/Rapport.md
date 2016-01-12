@@ -9,25 +9,49 @@ Som projekt har jag valt att skapa en applikation för att visa upp information 
  och filmer så valde jag att just det skulle vara temat för applikation. Namnet enterTAGment kom sig av at det är information om taggar som jag plockar ut ifrån
   instagram och entertainment är ju innehållet.
   
- En exakt likadan applikation har jag inte sett tidigare men det finns många som använder sig av Instagrams API där ute på oliak sätt.
+ En exakt likadan applikation har jag inte sett tidigare men det finns många som använder sig av Instagrams API där ute på olika sätt.
  Anledningen till att jag valde att bygga en sådan här applikation är främst för personligt bruk. Jag vill kunna hålla koll på de serier och filmer som jag själv
  följer och se om ny information dyker upp på Instagram.
 
+ ##Tekniker
+ 
+ ###APIer
+ **Google Charts API**
  För att visa upp statistiken har jag valt att använda mig av Google Charts API. Det fungerar väldigt bra, fast det tog en hel del tid att hitta hur jag skulle 
  få in två diagram på samma sida samt hur jag fick texten länkbar.
  
- Förutom API:erna har jag använt mig av JavaScript och PHP. PHP därför att det är det språk jag är mest bekväm med så för att balansera min okunskap i JavaScript 
+ **Instagram API**
+ Jag valde att hämta information ifrån Instagrams API. Detta för att jag gillar deras applikation och det kändes som en rolig uppgift att få det att fungera 
+ då jag inte hade någon erfarenhet av det api:et.
+ 
+ ###Språk
+ Förutom API:erna har jag använt mig av **JavaScript** och **PHP**. PHP därför att det är det språk jag är mest bekväm med så för att balansera min okunskap i JavaScript 
  så var det skönt att ha något som jag kände mig lite hemma i. JavaScript är ett fantastiskt verktyg med så många möjligheter men det tog lite tid för mig att 
  komma in i det igen då jag inte använt det på länge så kodstrukturen är inte optimal.
  
-##Bilder
+##Schematisk bild
+![Schematisk bild](example-img/beståndsdelar.jpg)
 
 
-##Säkerhet och prestandaoptimering
-Jag har valt att göra en enkel applikation som inte har inloggning (i alla fall inte i nuläget) och jag använder heller ingen databas vilket tar bort många 
-säkerhetsaspekter. Men jag har kollat en del på OWASP TOP 10 för att se om det är något jag kunde anpassa mig efter.
-Jag har även valt att cacha informationen från Instagram i 15 minuter. Det är inte superviktig information i sig så 15 minuter kändes rimigt att spara informationen.
+##Säkerhet
+Jag har valt att göra en enkel applikation som inte har inloggning (i alla fall inte i nuläget) så försvinner risker med CSRF-attacker och jag använder heller 
+ingen databas vilket tar bort många säkerhetsaspekter så som SQL-injections. Jag har kollat en del på OWASP TOP 10 för att se om det är något jag kunde anpassa mig efter.
+
+##Prestandaoptimering
+
+**Cachning**
+Jag har valt att cacha informationen från Instagram i 15 minuter. Det är inte superviktig information i sig så 15 minuter kändes rimligt att spara informationen.
 Man skulle kunna höja cachningstiden ännu mer för att undvika ytterligare requests men jag ville hålla informationen någorlunda ny.
+
+**Placering av filer**
+* Stylesheets så som CSS är placerade inom HEAD-taggen för snabbare inläsning.
+* JavaScript-filer är placerade precis innan avslutande BODY-tagg för snabbare inläsning av sidan.
+* JS- och CSS-filer som används är minifierade för att minska belastningen på applikationen.
+
+
+**CDN**
+Jag ville använt mig av CDN för font-awesome, jQuery och bootstrap men det uppstod ett flertal fel som jag inte lyckades lösa så jag valde att lägga dem på servern istället,
+ det kanske belastar lite mer men jag hann inte hitta en lösning på problemet tyvärr.
 
 ##Offline-first
 Begreppet offline-first var helt nytt för mig innan den här kursen och jag kände mig väldigt vilsen hur jag skulle implementera det. Men efter mycket sökande 
