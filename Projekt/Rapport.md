@@ -3,6 +3,12 @@ Julia Sivartsson, jsigc09
 
 Projekt 1dv449 Webbteknik ||
 
+##Behörighet
+Då applikationen för tillfället befinner sig i Sandbox-läge (utvecklingsläge hos Instagram) så går det inte att logga in med vilken användare som helst mot Instagram.
+Använd därför följande uppgifter:
+
+Användarnamn: **entertagment**
+Lösenord: **entertagment123**
 
 ##Inledning 
 Som projekt har jag valt att skapa en applikation för att visa upp information ifrån Instagram. Då jag personligen är en stor nörd när det kommer till tv-serier och filmer så valde jag att just det skulle vara temat för applikation. Namnet enterTAGment kom sig av att det är information om taggar som jag plockar ut ifrån instagram och entertainment är ju innehållet.
