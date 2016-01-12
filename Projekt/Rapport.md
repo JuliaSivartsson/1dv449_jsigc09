@@ -38,10 +38,14 @@ Man skulle kunna höja cachningstiden ännu mer för att undvika ytterligare req
 **Placering av filer**
 * Stylesheets så som CSS är placerade inom HEAD-taggen för snabbare inläsning.
 * JavaScript-filer är placerade precis innan avslutande BODY-tagg för snabbare inläsning av sidan.
-* JS- och CSS-filer som används är minifierade för att minska belastningen på applikationen.
+
+**Minifiering**
+
+JS- och CSS-filer som används är minifierade för att minska belastningen på applikationen.
 
 
 **CDN**
+
 Jag ville använt mig av CDN för font-awesome, jQuery och bootstrap men det uppstod ett flertal fel som jag inte lyckades lösa så jag valde att lägga dem på servern istället, det kanske belastar lite mer men jag hann inte hitta en lösning på problemet tyvärr.
 
 ##Offline-first
