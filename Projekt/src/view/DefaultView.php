@@ -50,7 +50,7 @@ class DefaultView
                                 </div>
                             </noscript>
                             <div class="col-md-6 chart_div_overall pull-left">
-                                <h3 class="overall">Statistics overall</h3>
+                                <h3 class="overall">Statistics overall</h3>s
                                 <div id="chart_div_overall" class="pull-left"></div>
                             </div>
                             <div class="col-md-6 chart_div_overall pull-right">

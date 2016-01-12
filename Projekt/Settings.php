@@ -8,8 +8,18 @@
  */
 class Settings
 {
+    public static $tags = ["supernatural", "doctorwho", "sherlock", "harrypotter", "lotr"];
+    public static $clientId = "CLIENTID";
+    public static $accessToken = "ACCESSTOKEN";
+    
     public function getTags(){
         return self::$tags;
     }
-    public static $tags = ["supernatural", "doctorwho", "anubis", "harrypotter"];
+    public function getClientId(){
+        return self::$clientId;
+    }
+
+    public function getAccessToken(){
+        return self::$accessToken;
+    }
 }

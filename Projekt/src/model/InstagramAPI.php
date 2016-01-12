@@ -9,17 +9,25 @@ class InstagramAPI
     private static $fileRootOverall = 'response.json';
     private static $fileRootMonth = 'responseMonth.json';
     private $cache;
+    private $clientId;
+    private $accessToken;
+
+    public function __construct(){
+        $this->settings = new \Settings();
+        $this->clientId = $this->settings->getClientId();
+        $this->accessToken = $this->settings->getAccessToken();
+    }
 
     public function getNumberOfTimesTagIsUsed($tag)
     {
-        $url = "https://api.instagram.com/v1/tags/$tag?access_token=10401453.a5a0e5b.1a8eed908b5b4150a53c682eaf1307d5";
+        $url = "https://api.instagram.com/v1/tags/$tag?access_token$this->accessToken";
         $result = $this->prepareForConnection($tag, $url, self::$fileRootOverall);
         return $result;
     }
 
     public function getRecentTags($tag){
 
-        $url = "https://api.instagram.com/v1/tags/$tag/media/recent?client_id=a5a0e5b2d28147fcbc5c95fc6fdf54fc&access_token=10401453.a5a0e5b.1a8eed908b5b4150a53c682eaf1307d5";
+        $url = "https://api.instagram.com/v1/tags/$tag/media/recent?client_id=$this->clientId&access_token=$this->accessToken";
         $result = $this->prepareForConnection($tag, $url, self::$fileRootMonth);
         return $result;
     }
@@ -28,8 +36,7 @@ class InstagramAPI
         $result = "";
         $fileName = $tag . $rootUrl;
         if(file_exists($fileName)){
-            if (time() - filemtime($fileName) > 10 * self::$cacheLife) {
-                var_dump("new info presented");
+            if (time() - filemtime($fileName) > 60 * self::$cacheLife) {
 
                 $result .= $this->connectionSetup($apiUrl);
 
@@ -44,13 +51,8 @@ class InstagramAPI
                     return "It is not possible to get new recent information from the Instagram at the moment. <br/>Latest info collected at {$fileTime}";
                 }
             }
-            else{
-                var_dump("cache is used");
-            }
         }
         else{
-            var_dump("new info presented");
-
             $result .= $this->connectionSetup($apiUrl);
 
             //If connection worked then we cache the information

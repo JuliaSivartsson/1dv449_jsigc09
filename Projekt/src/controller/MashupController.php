@@ -9,7 +9,6 @@ class MashupController
     private $settings;
 
     private $instagram;
-    private static $authenticationUrl = "https://api.instagram.com/oauth/authorize/?client_id=a5a0e5b2d28147fcbc5c95fc6fdf54fc&redirect_uri=https://juliasivartsson.one/authenticated.php&response_type=token&scope=basic+public_content";
 
     public function __construct()
     {
@@ -20,7 +19,9 @@ class MashupController
 
     public function getAuthentication()
     {
-        return self::$authenticationUrl;
+        $clientId = $this->settings->getClientId();
+        $authenticationUrl = "https://api.instagram.com/oauth/authorize/?client_id=$clientId&redirect_uri=https://juliasivartsson.one/authenticated.php&response_type=token&scope=basic+public_content";
+        return $authenticationUrl;
     }
 
     public function doMashup()
