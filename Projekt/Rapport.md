@@ -50,6 +50,7 @@ Man skulle kunna höja cachningstiden ännu mer för att undvika ytterligare req
 **Minifiering**
 
 JS- och CSS-filer som används är minifierade för att minska belastningen på applikationen.
+Detta är något som dock inte verkar fungera i offline-läget så där har jag fått länka in de vanliga scripten istället för de minifierade. Vad det är som gör att det inte fungerar vet jag inte utan det är något jag får försöka ta reda på.
 
 
 **CDN**
