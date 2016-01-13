@@ -5,7 +5,7 @@ Webbteknik ||
 
 **URL till applikationen**
 
-(Körbar version av enterTAGment)[https://juliasivartsson.one/]
+[Körbar version av enterTAGment](https://juliasivartsson.one/)
 
 **Inspelning**
 
