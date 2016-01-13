@@ -1,6 +1,21 @@
 # 1dv449_jsigc09
 Webbteknik ||
 
+#Slutresultat
+
+**URL till applikationen**
+
+(Körbar version av enterTAGment)[https://juliasivartsson.one/]
+
+**Inspelning**
+
+[Muntlig redovisning av enterTAGment](https://youtu.be/QE4RaxGpf5c)
+
+**Rapport**
+
+[Skriftlig redovisning av enterTAGment](rapport.md)
+
+
 #Projektbeskrivning
 
 Mitt projekt kommer att gå ut på att presentera statistik för mina top fem taggar inom fandoms från Instagram. Målet är att kunna presentera statistik för senaste 24 timmarna för att hålla koll på om något
