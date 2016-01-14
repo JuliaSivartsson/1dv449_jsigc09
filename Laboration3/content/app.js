@@ -70,7 +70,7 @@ var Traffic = {
                     }
                 });
                 a.setAttribute('class', 'active');
-               Traffic.changeValue(a.innerHTML, a.id);
+               Traffic.changeValue(a.innerHTML);
             });
             div.appendChild(span);
         });
@@ -84,8 +84,8 @@ var Traffic = {
         xhr.onreadystatechange = function(){
             if (xhr.readyState === 4 && xhr.status === 200){
                 var response = JSON.parse(xhr.responseText);
-                Traffic.renderMarkers(Traffic.filterResponse(response['messages'], value, category));
-                Traffic.renderMessages(Traffic.filterResponse(response['messages'], value, category));
+                Traffic.renderMarkers(Traffic.filterResponse(response['messages'], value));
+                Traffic.renderMessages(Traffic.filterResponse(response['messages'], value));
             }
         };
         xhr.open("GET", Traffic.jsonUrl, false);
@@ -103,7 +103,6 @@ var Traffic = {
 
         //For each message render it under category
         messages.forEach(function(incident){
-            var title = incident.title;
             var incidentText = incident.exactlocation +
                 "<br /><b>Händelse inlagd kl " + Traffic.formatDate(incident.createddate) + "</b><br />" + incident.description + "<br />Kategori: " + incident.subcategory;
 
@@ -152,7 +151,8 @@ var Traffic = {
         return 0;
     },
 
-    filterResponse: function(messages, value, category){
+    //Sort messages based on category
+    filterResponse: function(messages, value){
         if(value !== undefined && value !== 'Se alla'){
             messages = jQuery.grep(messages, function(incident){
                 var incidentCategory = incident.category;
@@ -162,8 +162,8 @@ var Traffic = {
         return messages;
     },
 
-    changeValue: function(value, category){
-        Traffic.getTraffic(value, category);
+    changeValue: function(value){
+        Traffic.getTraffic(value);
     },
 
     renderMarkers: function(messages){
@@ -189,15 +189,14 @@ var Traffic = {
 
             //If user clicks on a marker
             marker.addEventListener('click', function(mark){
-                console.log(mark);
-                Traffic.map.setView([mark.latlng.lat, mark.latlng.lng], 14);
+                Traffic.map.setView([mark.latlng.lat, mark.latlng.lng], 12);
 
                 //Open info in list
                 $("a").each(function() {
-                    console.log($(this).text());
-                    console.log(incident.title);
                     if($(this).text() === incident.title){
-                      console.log(incident.title);
+                        var details = this.parentNode.children[1];
+                        $(".incidentDetails").hide();
+                        details.style.display = "block";
                     }
                 });
             });
