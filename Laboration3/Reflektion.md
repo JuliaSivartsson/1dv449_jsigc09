@@ -33,14 +33,14 @@ Kanske skulle komprimering av mina filer göra applikationen något snabbare men
 Dessutom optimerar min cachning då onödiga anrop undviks.
 
 ###Vad är websockets?
-Websocket implementeras främst i webbläsaren och på webbservrar. Det är en teknik som gör det möjligt att använda tvåvägskommunikationer över TCP (Transmission Control Protocol). Websocket är ett självständigt protokoll och gör det möjligt att ha fler interaktion mellan webbläsare och applikation.
+Websocket implementeras främst i webbläsaren och på webbservrar. Det är en teknik som gör det möjligt att använda tvåvägskommunikationer över TCP (Transmission Control Protocol). Websocket är ett självständigt protokoll och gör det möjligt att ha flera interaktioner mellan webbläsare och applikation.
 
 ###Vad är webstorage
 Webstorage är möjligt med hjälp av HTML5 och det gör att data kan sparas lokalt i användarens webbläsare. Tidigare kunde man bara använda sig av cookies, men webstorage är ett alternativ till det och är säkrare samt att större mängder data kan sparas, utan att påverka prestandan.
 Används med attributet "localStorage".
 
 ###Varför HTTP/2
-Applikationen som använder HTTP 1.1 behöver inte ändra något för att fungera i och med att HTTP/2 introducerades, men nya applikationer kan använda sig av fler funktioner och högre hastigheter.
+Applikationer som använder HTTP 1.1 behöver inte ändra något för att fungera i och med att HTTP/2 introducerades, men nya applikationer kan använda sig av fler funktioner och högre hastigheter.
 Det mesta från HTTP 1.1 finns kvar så som metoder, header fields osv. men det som skiljer sig är hur data transporteras mellan klient och server.
 
 HTTP/2 kan innan webbläsaren frågar efter filer, skicka dem då den vet att de kommer att behövas för att rendera ut sidan. Tanken är att det även ska förhindra så kallade "head-of-line-blocking" (paket hindras från att skickas då ett paket före i listan tar lång tid) problem som uppstod i HTTP 1.
