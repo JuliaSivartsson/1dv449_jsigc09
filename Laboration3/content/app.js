@@ -3,7 +3,7 @@
 var Traffic = {
 
 
-    valuesArray: ["Vägtrafik", "Kollektivtrafik", "Planerad störning", "Övrigt", "Se alla"],
+    valuesArray: ["VÃ¤gtrafik", "Kollektivtrafik", "Planerad stÃ¶rning", "Ã–vrigt", "Se alla"],
     openStreetMapUrl: 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     defaultLat: 63.0,
     defaultLong: 13.0,
@@ -20,7 +20,7 @@ var Traffic = {
         });
 
         //Create tile layer with attribution
-        var osmAttribute = 'Map data © <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | <a href="http://www.openstreetmap.org/copyright/en">CC BY-SA</a>';
+        var osmAttribute = 'Map data Â© <a href="http://openstreetmap.org">OpenStreetMap</a> contributors | <a href="http://www.openstreetmap.org/copyright/en">CC BY-SA</a>';
         var openStreetMap = new L.TileLayer(Traffic.openStreetMapUrl, {attribution: osmAttribute});
 
         //Set it to Sweden
@@ -79,7 +79,7 @@ var Traffic = {
         $("span").children().last().removeClass("valueLink").addClass("active");
     },
 
-    getTraffic: function(value, category){
+    getTraffic: function(value){
         var xhr = new XMLHttpRequest();
         xhr.onreadystatechange = function(){
             if (xhr.readyState === 4 && xhr.status === 200){
@@ -104,7 +104,7 @@ var Traffic = {
         //For each message render it under category
         messages.forEach(function(incident){
             var incidentText = incident.exactlocation +
-                "<br /><b>Händelse inlagd kl " + Traffic.formatDate(incident.createddate) + "</b><br />" + incident.description + "<br />Kategori: " + incident.subcategory;
+                "<br /><b>HÃ¤ndelse inlagd kl " + Traffic.formatDate(incident.createddate) + "</b><br />" + incident.description + "<br />Kategori: " + incident.subcategory;
 
             var messageLink = document.createElement("div");
             messageLink.innerHTML = "<a href='#'>" + incident.title + "</a>";
@@ -204,7 +204,7 @@ var Traffic = {
             var getFormatDate = Traffic.formatDate(incident.createddate);
             var popupText = incident.title +
                 "<br />" + incident.exactlocation +
-                "<br /><b>Händelse inlagt kl " + getFormatDate +
+                "<br /><b>HÃ¤ndelse inlagt kl " + getFormatDate +
                 "</b><br />" + incident.description +
                 "<br /><b>Kategori:</b> " + incident.subcategory;
 
@@ -220,7 +220,7 @@ var Traffic = {
 
         //For some reason it needs two of the same before the other days
         var days = [
-            "mån", "mån", "tis", "ons", "tors", "fre", "lör", "sön"
+            "mÃ¥n", "mÃ¥n", "tis", "ons", "tors", "fre", "lÃ¶r", "sÃ¶n"
         ];
 
         //Same problem here as above
