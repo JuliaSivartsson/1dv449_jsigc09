@@ -31,3 +31,20 @@ Vad jag har märkt så går min applikation relativt snabbt att ladda även om d
 Jag har tänkt på en del saker gällande optimeringen och det är att CSS-filer länkas in i headern och JavaScript-filer precis innan `</body>`.
 Kanske skulle komprimering av mina filer göra applikationen något snabbare men det är inget jag hann ge mig in på.
 Dessutom optimerar min cachning då onödiga anrop undviks.
+
+###Vad är websockets?
+Websocket implementeras främst i webbläsaren och på webbservrar. Det är en teknik som gör det möjligt att använda tvåvägskommunikationer över TCP (Transmission Control Protocol). Websocket är ett självständigt protokoll och gör det möjligt att ha fler interaktion mellan webbläsare och applikation.
+
+###Vad är webstorage
+Webstorage är möjligt med hjälp av HTML5 och det gör att data kan sparas lokalt i användarens webbläsare. Tidigare kunde man bara använda sig av cookies, men webstorage är ett alternativ till det och är säkrare samt att större mängder data kan sparas, utan att påverka prestandan.
+Används med attributet "localStorage".
+
+###Varför HTTP/2
+Applikationen som använder HTTP 1.1 behöver inte ändra något för att fungera i och med att HTTP/2 introducerades, men nya applikationer kan använda sig av fler funktioner och högre hastigheter.
+Det mesta från HTTP 1.1 finns kvar så som metoder, header fields osv. men det som skiljer sig är hur data transporteras mellan klient och server.
+
+HTTP/2 kan innan webbläsaren frågar efter filer, skicka dem då den vet att de kommer att behövas för att rendera ut sidan. Tanken är att det även ska förhindra så kallade "head-of-line-blocking" (paket hindras från att skickas då ett paket före i listan tar lång tid) problem som uppstod i HTTP 1.
+
+###Service Workers
+Service workers är skript som körs i bakgrunden av webbläsaren. Man kan se det som en proxyserver som sitter på klienten, och den kan kontrollera flera sidor.
+Service worker är enklare att använda och förstå än sin granne App Cache som kan vara svår att hitta varför problem uppstår. Service worker är tydligare och har många funktioner och användsningsområden som offline-first och push notifications.
