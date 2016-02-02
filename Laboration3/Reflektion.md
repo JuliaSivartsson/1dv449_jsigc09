@@ -33,7 +33,11 @@ Kanske skulle komprimering av mina filer göra applikationen något snabbare men
 Dessutom optimerar min cachning då onödiga anrop undviks.
 
 ###Vad är websockets?
-Websocket implementeras främst i webbläsaren och på webbservrar. Det är en teknik som gör det möjligt att använda tvåvägskommunikationer över TCP (Transmission Control Protocol). Websocket är ett självständigt protokoll och gör det möjligt att ha flera interaktioner mellan webbläsare och applikation.
+Websocket implementeras främst i webbläsaren och på webbservrar. Det är en teknik som gör det möjligt att använda tvåvägskommunikationer över TCP (Transmission Control Protocol). Websocket är ett självständigt protokoll men är främst skapat att implementeras i webbläsare och webbservrar.
+
+Vad jag förstår det som är websockets att föredra framför HTTP när det kommer till applikationer på webben (så som chatt tjänster eller spel med flera spelare). Både HTTP och Websockets har ungefär samma "handshake" vid initiering men vid Websockets sker detta bara en gång och därefter blir svarstiden kortare med Websockets då de inte har alls lika stora HTTP headers. 
+Medan HTTP använder sig av "hacks" för att kunna köra tvåvägskommunikation, så som att öppna flera anslutning (t.ex. med hjälp av iframe) så är det standard i Websockets att det ska vara tvåvägskommunikation. Alltså att det kan skickas meddelanden i båda riktningar samtidigt (du kan både ta emot och skicka samtidigt). Det är det här som kallas för full-duplex mode. 
+När jag skrev att websockets innebar att det kunde vara flera interaktioner mellan webbläsare och applikation, så var slarvigt utryckt. Jag menade att det mer eller mindre går att göra flera saker samtidigt, alltså via tvåvägskommunikation då man både kan ta emot och skicka samtidigt. Detta gör svarstider kortare och i många fall blir applikationer snabbare.
 
 ###Vad är webstorage
 Webstorage är möjligt med hjälp av HTML5 och det gör att data kan sparas lokalt i användarens webbläsare. Tidigare kunde man bara använda sig av cookies, men webstorage är ett alternativ till det och är säkrare samt att större mängder data kan sparas, utan att påverka prestandan.
